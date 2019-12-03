@@ -1,3 +1,4 @@
+#WARNING: THIS SOLUTION IS VEEEEEEERY SLOW. AND BY VERY I MEAN VERY.
 tooLongSoHereItIsInASeperateFile = open('frenchHens.txt')
 #tooLongSoHereItIsInASeperateFile = open('test.txt')
 for v, line in enumerate(tooLongSoHereItIsInASeperateFile):

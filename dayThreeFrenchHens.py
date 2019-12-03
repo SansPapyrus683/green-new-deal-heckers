@@ -1,4 +1,4 @@
-#WARNING: THIS SOLUTION IS VEEEEEEERY SLOW. AND BY VERY I MEAN VERY.
+#WARNING: THIS SOLUTION IS VEEEEEEERY SLOW. AND BY VERY I MEAN VERY. IT ALSO ONLY DOES PART ONE
 tooLongSoHereItIsInASeperateFile = open('frenchHens.txt')
 #tooLongSoHereItIsInASeperateFile = open('test.txt')
 for v, line in enumerate(tooLongSoHereItIsInASeperateFile):

@@ -26,13 +26,30 @@ def genLines(data, resultList):
 
 genLines(firstData, firstWireLines); genLines(secondData, secondWireLines)
 print(firstWireLines, secondWireLines)
+goodLines = [] #the set of intersection points
 for prod in product(firstWireLines, secondWireLines):
     if prod[0][0][1] == prod[0][1][1] and prod[1][0][1] == prod[1][1][1]:
-        pass
-        #two vertical lines
-    elif prod[0][0][0] == prod[0][1][0] and prod[1][0][0] == prod[1][1][0]:
-        pass
+        if prod[0][0][1] == prod[0][1][1] == prod[1][0][1] == prod[1][1][1]:
+            firstRange = range(prod[0][0][0], prod[0][1][0])
+            secondRange = range(prod[1][0][0], prod[1][1][0])
+            setFirstRange = set(firstRange)
+            for x in setFirstRange.intersection(secondRange):
+                goodLines.append([x, prod[0][0][1]]) #you could use any prod[][][] or something
         #two horizontal lines
+    elif prod[0][0][0] == prod[0][1][0] and prod[1][0][0] == prod[1][1][0]:
+        if prod[0][0][0] == prod[0][1][0] == prod[1][0][0] == prod[1][1][0]:
+            firstRange = range(prod[0][0][1], prod[0][1][1])
+            secondRange = range(prod[1][0][1], prod[1][1][1])
+            setFirstRange = set(firstRange)
+            for x in setFirstRange.intersection(secondRange):
+                goodLines.append([prod[0][0][0], x])
+        #two vertical lines
     else:
-        pass #a vertical and a horizonal
-    print(prod)
+        if (prod[0][0][0]-prod[1][0][0])*(prod[0][1][0]-prod[1][1][0]) <= 0 and (prod[0][0][1]-prod[1][0][1])*(prod[0][1][1]-prod[1][1][1]) <= 0:
+            print('yeet')
+            print(prod)
+        #a vertical and a horizonal
+print(goodLines)
+#If you want to know if vertical and horizontal line segments cross, 
+# you can do something like: 
+# (point1_start_x - point2_start_x) * (point1_end_x - point2_end_x) <= 0 and (point1_start_y - point2_start_y) * (point1_end_y - point2_end_y) <= 0.

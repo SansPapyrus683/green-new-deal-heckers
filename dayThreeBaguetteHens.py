@@ -75,7 +75,7 @@ for v, thing in enumerate(goodPoints): #calculates manhattan distance of smth
 #print(lowestScore)
 
 #PART 2
-lowestScore = 10000000000000000000000 #someone tell me if theres a better way to do this
+lowestScore = float("inf")
 print(associatedLines)
 for v, point in enumerate(goodPoints):
     lines = associatedLines[v]

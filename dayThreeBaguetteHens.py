@@ -1,7 +1,7 @@
 #a better one that only calculates line segments
 from itertools import product
 tooLongSoHereItIsInASeperateFile = open('frenchHens.txt')
-tooLongSoHereItIsInASeperateFile = open('test.txt')
+#tooLongSoHereItIsInASeperateFile = open('test.txt')
 for v, line in enumerate(tooLongSoHereItIsInASeperateFile):
     if v == 0:
         firstData = [s for s in line.rstrip().split(sep = ',')]
@@ -30,35 +30,36 @@ print(firstWireLines, secondWireLines)
 goodPoints = [] #the set of intersection points
 associatedLines = [] #for part 2
 for prod in product(firstWireLines, secondWireLines):
-    for thing in prod: thing.sort()
-    if prod[0][0][1] == prod[0][1][1] and prod[1][0][1] == prod[1][1][1]:
-        if prod[0][0][1] == prod[0][1][1] == prod[1][0][1] == prod[1][1][1]:
-            firstRange = range(prod[0][0][0], prod[0][1][0])
-            secondRange = range(prod[1][0][0], prod[1][1][0])
+    copied = prod[:]
+    for thing in copied: thing.sort()
+    if copied[0][0][1] == copied[0][1][1] and copied[1][0][1] == copied[1][1][1]:
+        if copied[0][0][1] == copied[0][1][1] == copied[1][0][1] == copied[1][1][1]:
+            firstRange = range(copied[0][0][0], copied[0][1][0])
+            secondRange = range(copied[1][0][0], copied[1][1][0])
             setFirstRange = set(firstRange)
             for x in setFirstRange.intersection(secondRange):
-                goodPoints.append([x, prod[0][0][1]]) #you could use any prod[][][] or something
-                associatedLines.append(prod)
+                goodPoints.append([x, copied[0][0][1]]) #you could use any copied[][][] or something
+                associatedLines.append(copied)
         #two horizontal lines
-    elif prod[0][0][0] == prod[0][1][0] and prod[1][0][0] == prod[1][1][0]:
-        if prod[0][0][0] == prod[0][1][0] == prod[1][0][0] == prod[1][1][0]:
-            firstRange = range(prod[0][0][1], prod[0][1][1])
-            secondRange = range(prod[1][0][1], prod[1][1][1])
+    elif copied[0][0][0] == copied[0][1][0] and copied[1][0][0] == copied[1][1][0]:
+        if copied[0][0][0] == copied[0][1][0] == copied[1][0][0] == copied[1][1][0]:
+            firstRange = range(copied[0][0][1], copied[0][1][1])
+            secondRange = range(copied[1][0][1], copied[1][1][1])
             setFirstRange = set(firstRange)
             for x in setFirstRange.intersection(secondRange):
-                goodPoints.append([prod[0][0][0], x])
-                associatedLines.append(prod)
+                goodPoints.append([copied[0][0][0], x])
+                associatedLines.append(copied)
         #two vertical lines
     else:
-        if (prod[0][0][0]-prod[1][0][0])*(prod[0][1][0]-prod[1][1][0]) <= 0 and (prod[0][0][1]-prod[1][0][1])*(prod[0][1][1]-prod[1][1][1]) <= 0:
+        if (copied[0][0][0]-copied[1][0][0])*(copied[0][1][0]-copied[1][1][0]) <= 0 and (copied[0][0][1]-copied[1][0][1])*(copied[0][1][1]-copied[1][1][1]) <= 0:
             # (point1_start_x - point2_start_x) * (point1_end_x - point2_end_x) <= 0 and (point1_start_y - point2_start_y) * (point1_end_y - point2_end_y) <= 0.
-            if prod[0][0][1] == prod[0][1][1]:
-                goodPoints.append([prod[1][0][0], prod[0][0][1]])
-                associatedLines.append(prod)
+            if copied[0][0][1] == copied[0][1][1]:
+                goodPoints.append([copied[1][0][0], copied[0][0][1]])
+                associatedLines.append(copied)
             else:
-                goodPoints.append([prod[0][0][0], prod[1][0][1]])
-                associatedLines.append(prod)
-            #print(prod)
+                goodPoints.append([copied[0][0][0], copied[1][0][1]])
+                associatedLines.append(copied)
+            #print(copied)
         #a vertical and a horizonal
 #print(goodPoints)
 if [0,0] in goodPoints: 
@@ -74,19 +75,21 @@ for v, thing in enumerate(goodPoints): #calculates manhattan distance of smth
 #print(lowestScore)
 
 #PART 2
-lowestScore = 10000000000000000000000
+lowestScore = 10000000000000000000000 #someone tell me if theres a better way to do this
 print(associatedLines)
 for v, point in enumerate(goodPoints):
     lines = associatedLines[v]
-    print(point)
+    print(point, lines)
     #print(lines[0])
     firstCount, secondCount = 0, 0
     for x in firstWireLines:
         if x == lines[0]:
             if x[0][0] == x[1][0]:
-                firstCount += abs(point[1] - x[1][1])
+                firstCount += abs(point[1] - x[0][1])
+                #print(abs(point[1] - x[1][1]))
             else:
-                firstCount += abs(point[0] - x[1][0])
+                firstCount += abs(point[0] - x[0][0])
+                #print(abs(point[0] - x[1][0]))
             break
         else:
             if x[0][0] == x[1][0]:
@@ -96,9 +99,11 @@ for v, point in enumerate(goodPoints):
     for x in secondWireLines:
         if x == lines[1]:
             if x[0][0] == x[1][0]:
-                secondCount += abs(point[1] - x[1][1])
+                secondCount += abs(point[1] - x[0][1])
+                #print(abs(point[1] - x[1][1]))
             else:
-                secondCount += abs(point[0] - x[1][0])
+                secondCount += abs(point[0] - x[0][0])
+                #print(abs(point[0] - x[1][0]))
             break
         else:
             if x[0][0] == x[1][0]:

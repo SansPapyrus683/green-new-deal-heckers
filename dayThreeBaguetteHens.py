@@ -7,6 +7,7 @@ for v, line in enumerate(tooLongSoHereItIsInASeperateFile):
         firstData = [s for s in line.rstrip().split(sep = ',')]
     elif v == 1:
         secondData = [s for s in line.rstrip().split(sep = ',')]
+#PART 1 PEOPLE
 firstWireLines, secondWireLines = [], []
 def genLines(data, resultList):
     currPos = [0,0]
@@ -26,15 +27,18 @@ def genLines(data, resultList):
 
 genLines(firstData, firstWireLines); genLines(secondData, secondWireLines)
 print(firstWireLines, secondWireLines)
-goodLines = [] #the set of intersection points
+goodPoints = [] #the set of intersection points
+associatedLines = [] #for part 2
 for prod in product(firstWireLines, secondWireLines):
+    for thing in prod: thing.sort()
     if prod[0][0][1] == prod[0][1][1] and prod[1][0][1] == prod[1][1][1]:
         if prod[0][0][1] == prod[0][1][1] == prod[1][0][1] == prod[1][1][1]:
             firstRange = range(prod[0][0][0], prod[0][1][0])
             secondRange = range(prod[1][0][0], prod[1][1][0])
             setFirstRange = set(firstRange)
             for x in setFirstRange.intersection(secondRange):
-                goodLines.append([x, prod[0][0][1]]) #you could use any prod[][][] or something
+                goodPoints.append([x, prod[0][0][1]]) #you could use any prod[][][] or something
+                associatedLines.append(prod)
         #two horizontal lines
     elif prod[0][0][0] == prod[0][1][0] and prod[1][0][0] == prod[1][1][0]:
         if prod[0][0][0] == prod[0][1][0] == prod[1][0][0] == prod[1][1][0]:
@@ -42,14 +46,64 @@ for prod in product(firstWireLines, secondWireLines):
             secondRange = range(prod[1][0][1], prod[1][1][1])
             setFirstRange = set(firstRange)
             for x in setFirstRange.intersection(secondRange):
-                goodLines.append([prod[0][0][0], x])
+                goodPoints.append([prod[0][0][0], x])
+                associatedLines.append(prod)
         #two vertical lines
     else:
         if (prod[0][0][0]-prod[1][0][0])*(prod[0][1][0]-prod[1][1][0]) <= 0 and (prod[0][0][1]-prod[1][0][1])*(prod[0][1][1]-prod[1][1][1]) <= 0:
-            print('yeet')
-            print(prod)
+            # (point1_start_x - point2_start_x) * (point1_end_x - point2_end_x) <= 0 and (point1_start_y - point2_start_y) * (point1_end_y - point2_end_y) <= 0.
+            if prod[0][0][1] == prod[0][1][1]:
+                goodPoints.append([prod[1][0][0], prod[0][0][1]])
+                associatedLines.append(prod)
+            else:
+                goodPoints.append([prod[0][0][0], prod[1][0][1]])
+                associatedLines.append(prod)
+            #print(prod)
         #a vertical and a horizonal
-print(goodLines)
-#If you want to know if vertical and horizontal line segments cross, 
-# you can do something like: 
-# (point1_start_x - point2_start_x) * (point1_end_x - point2_end_x) <= 0 and (point1_start_y - point2_start_y) * (point1_end_y - point2_end_y) <= 0.
+#print(goodPoints)
+if [0,0] in goodPoints: 
+    del associatedLines[goodPoints.index([0,0])]
+    del goodPoints[goodPoints.index([0,0])]
+
+for v, thing in enumerate(goodPoints): #calculates manhattan distance of smth
+    if v == 0:
+        lowestScore = abs(thing[0]) + abs(thing[1])
+    else:
+        if abs(thing[0]) + abs(thing[1]) < lowestScore:
+            lowestScore = abs(thing[0]) + abs(thing[1])
+#print(lowestScore)
+
+#PART 2
+lowestScore = 10000000000000000000000
+print(associatedLines)
+for v, point in enumerate(goodPoints):
+    lines = associatedLines[v]
+    print(point)
+    #print(lines[0])
+    firstCount, secondCount = 0, 0
+    for x in firstWireLines:
+        if x == lines[0]:
+            if x[0][0] == x[1][0]:
+                firstCount += abs(point[1] - x[1][1])
+            else:
+                firstCount += abs(point[0] - x[1][0])
+            break
+        else:
+            if x[0][0] == x[1][0]:
+                firstCount += abs(x[0][1] - x[1][1])
+            else:
+                firstCount += abs(x[0][0] - x[1][0])
+    for x in secondWireLines:
+        if x == lines[1]:
+            if x[0][0] == x[1][0]:
+                secondCount += abs(point[1] - x[1][1])
+            else:
+                secondCount += abs(point[0] - x[1][0])
+            break
+        else:
+            if x[0][0] == x[1][0]:
+                secondCount += abs(x[0][1] - x[1][1])
+            else:
+                secondCount += abs(x[0][0] - x[1][0])
+    if firstCount + secondCount < lowestScore: lowestScore = firstCount + secondCount
+print(lowestScore)

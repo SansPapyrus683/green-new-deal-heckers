@@ -1,6 +1,6 @@
 #WARNING: THIS SOLUTION IS VEEEEEEERY SLOW. AND BY VERY I MEAN VERY. IT ALSO ONLY DOES PART ONE
 tooLongSoHereItIsInASeperateFile = open('frenchHens.txt')
-#tooLongSoHereItIsInASeperateFile = open('test.txt')
+tooLongSoHereItIsInASeperateFile = open('test.txt')
 for v, line in enumerate(tooLongSoHereItIsInASeperateFile):
     if v == 0:
         firstData = [s for s in line.rstrip().split(sep = ',')]

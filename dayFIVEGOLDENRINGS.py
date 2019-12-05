@@ -45,6 +45,7 @@ for v, i in enumerate(Data):
                     Data[argList[2]] = argList[0] + argList[1]
                 else:
                     Data[argList[2]] = argList[0] * argList[1]
+                waitUntilVal += 4
                 #print(i)
             else:
                 i = [int(x) for x in list(f'{i:3}')] #if the opcode was 3 or 4
@@ -57,5 +58,6 @@ for v, i in enumerate(Data):
                     else:
                         print(Data[v+1])
                         assert Data[v+1] == 0
-    print(Data[:v+1], len(Data[:v+1]))
+                waitUntilVal += 2
+    #print(Data[:v+1], len(Data[:v+1]))
 #print(Data)

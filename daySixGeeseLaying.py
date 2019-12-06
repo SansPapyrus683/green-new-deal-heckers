@@ -36,9 +36,18 @@ for v, o in enumerate(orbits):
     if len(temporaryOrbitList) > 1:
         newOrbits.append(temporaryOrbitList)
 
-#print(newOrbits)
+print(newOrbits)
 realCount = 0
 orbited = set(ob[0] for ob in newOrbits)
+"""
 for ob in orbited:
     realCount += len(calculateOrbits(ob, newOrbits))
+    """
 print(realCount)
+#PART 2
+for v, thing in enumerate(newOrbits):
+    if 'YOU' in thing:
+        whereUAt = v, thing.index('YOU')
+    if 'SAN' in thing:
+        whereHeAt = v, thing.index('SAN')
+print(whereHeAt, whereUAt)

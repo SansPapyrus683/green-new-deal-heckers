@@ -1,4 +1,10 @@
-#absolutely meaningless .py file, only for me lol
+"""
+ok so i guess ill have to explain this one cuz its so long
+so the way i did this is that i put two conditionals- 
+one for normal and another for immediate and positional args
+then for each i split them into their respective "genres", as
+you will see in the program
+"""
 rings = open('goldenRings.txt')
 #rings = open('test.txt')
 with rings as data:

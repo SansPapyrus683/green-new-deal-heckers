@@ -39,15 +39,38 @@ for v, o in enumerate(orbits):
 print(newOrbits)
 realCount = 0
 orbited = set(ob[0] for ob in newOrbits)
-"""
+
 for ob in orbited:
     realCount += len(calculateOrbits(ob, newOrbits))
-    """
+
 print(realCount)
+
 #PART 2
+def findPath(planet, orbitList):
+    path = []
+    for o in orbitList:
+        if planet in o[1:]:
+            path.append(o[0])
+        if not path:
+            continue
+        if not 'COM' in path:
+            path.extend(findPath(path[-1], orbitList))
+        if 'COM' in path:
+            return path
+
 for v, thing in enumerate(newOrbits):
     if 'YOU' in thing:
-        whereUAt = v, thing.index('YOU')
+        #print(thing)
+        whereUAt = thing[0]
     if 'SAN' in thing:
-        whereHeAt = v, thing.index('SAN')
-print(whereHeAt, whereUAt)
+        #print(thing)
+        whereHeAt = thing[0]
+yourPath = findPath(whereUAt, newOrbits)
+santaPath = findPath(whereHeAt, newOrbits)
+lowestScore = float('inf')
+for v, pl in enumerate(yourPath):
+    for x, pla in enumerate(santaPath):
+        if pl == pla:
+            if v+x+2 < lowestScore:
+                lowestScore = v+x+2
+print(lowestScore)

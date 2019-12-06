@@ -1,6 +1,6 @@
 #absolutely meaningless .py file, only for me lol
 rings = open('goldenRings.txt')
-#rings = open('test.txt')
+rings = open('test.txt')
 with rings as data:
     for v, s in enumerate(data):
         Data = [int(x) for x in s.split(sep = ',')]
@@ -42,7 +42,7 @@ while v <= len(Data):
                 break
         elif str(i)[-2:] in ['01', '02', '03', '04','05','06','07','08', '99']: #0 is position, 1 is immediate
             saved = int(str(i)[-1])
-            if str(i)[-2:] == '99':
+            if saved == 99:
                 break
             elif saved in [1,2]:
                 i = [int(x) for x in list(f'{str(i).zfill(5)}')]

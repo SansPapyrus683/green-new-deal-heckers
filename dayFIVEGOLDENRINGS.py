@@ -1,12 +1,11 @@
 #absolutely meaningless .py file, only for me lol
 rings = open('goldenRings.txt')
-rings = open('test.txt')
+#rings = open('test.txt')
 with rings as data:
     for v, s in enumerate(data):
         Data = [int(x) for x in s.split(sep = ',')]
 print(Data)
 #PART 1 and 2 lol- for part 1, put in 5
-waitUntilVal = 0
 v = 0
 while v <= len(Data):
     i = Data[v]
@@ -78,7 +77,7 @@ while v <= len(Data):
                 v += 2
             elif saved in [5,6]:
                 i = [int(x) for x in list(f'{str(i).zfill(4)}')]
-                i = i[:-2]; i.reverse
+                i = i[:-2]; i.reverse()
                 argList = [] #immediate, positional jump to
                 if i[0] == 0: #test
                     argList.append(Data[Data[v+1]])
@@ -90,8 +89,11 @@ while v <= len(Data):
                     argList.append(Data[v+2])
                 if saved == 5 and argList[0] != 0:
                     v = argList[1]
-                elif argList[0] == 0:
+                    continue
+                elif saved == 6 and argList[0] == 0:
                     v = argList[1]
+                    continue
+                v += 3
             elif saved in [7,8]:
                 i = [int(x) for x in list(f'{str(i).zfill(5)}')]
                 i = i[:3]; i.reverse()

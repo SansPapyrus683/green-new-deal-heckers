@@ -43,10 +43,12 @@ while v <= len(Data):
             Data[Data[v+3]] = 1 if Data[Data[v+1]] == Data[Data[v+2]] else 0
             v += 4
         elif i == 99:
+            print('99 detected')
             break
     elif str(i)[-2:] in ['01', '02', '03', '04','05','06','07','08', '99']: #0 is position, 1 is immediate
         saved = int(str(i)[-1])
         if saved == 99:
+            print('99 detected')
             break
         elif saved in [1,2]:
             i = [int(x) for x in list(f'{str(i).zfill(5)}')]

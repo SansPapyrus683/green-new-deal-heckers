@@ -1,5 +1,5 @@
 from itertools import permutations
-with open('swanLake.txt') as data:
+with open('test.txt') as data:
     for line in data.readlines():
         Data = [int(x) for x in line.rstrip().split(sep = ',')]
 #print(Data)
@@ -128,7 +128,7 @@ def intCodeRunPtTwo(settings, code):
                         count += 1
                         if count == 2: code[code[v+1]] = output
                         else: code[code[v+1]] = settings[o]
-                        print(settings[o], o)
+                        #print(settings[o], o)
                         v += 2
                     elif i == 1:
                         #print(code[code[v+1]], code[code[v+2]])
@@ -153,11 +153,15 @@ def intCodeRunPtTwo(settings, code):
                     elif i == 8:
                         code[code[v+3]] = 1 if code[code[v+1]] == code[code[v+2]] else 0
                         v += 4
+                    elif i == 99 and o == 4:
+                        return output
                     elif i == 99:
                         break
                 elif str(i)[-2:] in ['01', '02', '03', '04','05','06','07','08', '99']: #0 is position, 1 is immediate
                     saved = int(str(i)[-1])
-                    if saved == 99:
+                    if saved == 99 and o == 4:
+                        return output
+                    elif saved == 99:
                         break
                     elif saved in [1,2]:
                         i = [int(x) for x in list(f'{str(i).zfill(5)}')]
@@ -222,4 +226,4 @@ for v, p in enumerate(possibilites):
     assoscitasdf.append(p)
 print(max(outputs))
 print(assoscitasdf[max(outputs)[1]])"""
-print(intCodeRunPtTwo([6,9,8,7,5], Data))
+print(intCodeRunPtTwo([9,8,7,6,5], Data))

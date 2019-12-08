@@ -9,7 +9,7 @@ class intCode:
         self.v = 0
         self.reference = self.data.copy()
         self.amp = False
-        if self.ampSettings:
+        if self.ampSettings: #for ampsettings
             self.count = 0
             self.output = 0
             self.amp = True
@@ -18,7 +18,7 @@ class intCode:
             self.i = self.data[self.v]
             #print(self.i, self.v)
             if self.i in [1,2,3,4,5,6,7,8,99]:
-                if self.i == 99:
+                if self.i == 99: #way too simple so i just included it in here
                     break
                 opCode = self.i
                 if opCode == 1: self.opOne(int(self.data[self.data[self.v+1]]), self.data[self.data[self.v+2]], self.data[self.v+3])
@@ -29,15 +29,15 @@ class intCode:
                 elif opCode == 6: self.opSix(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]])
                 elif opCode == 7: self.opSeself.ven(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]], self.data[self.v+3])
                 elif opCode == 8: self.opEight(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]], self.data[self.v+3])
-                elif opCode == 3 and self.amp: self.opThreeAmps(self.data[self.v+1])
-                elif opCode == 4 and self.amp: self.opFourAmps(self.data[self.v+1])
+                elif opCode == 3 and self.amp: self.opThreeAmps(self.data[self.v+1]) #for amps
+                elif opCode == 4 and self.amp: self.opFourAmps(self.data[self.v+1]) #for amps
             if str(self.i)[-2:] in ['01', '02', '05', '06', '07', '08', '99']:
-                if str(self.i)[-2:] == '99':
+                if str(self.i)[-2:] == '99': #if the parameter mode 99 happened
                     break
                 self.stupidImmediate(self.i)
-        self.data = self.reference.copy()
+        self.data = self.reference.copy() #to change it back to the original
     def stupidImmediate(self, opCode):
-        if str(opCode)[-1] in ['1', '2', '7', '8']:
+        if str(opCode)[-1] in ['1', '2', '7', '8']: #these have 4 arguments
             opCode = str(opCode).zfill(5)
             argList = []
             opCodeArgs = list(opCode[:3]); opCodeArgs.reverse()
@@ -55,7 +55,7 @@ class intCode:
             elif read == 2: self.opTwo(argList[0], argList[1], argList[2])
             elif read == 7: self.opSeven(argList[0], argList[1], argList[2])
             elif read == 8: self.opEight(argList[0], argList[1], argList[2])
-        else: #stupid 5 and 6
+        else: #stupid 5 and 6, which only have 2 arguments
             opCode = str(opCode).zfill(4)
             argList = [] #the arg to test, the immediate value to jump to
             opCode = list(opCode[:2]); opCode.reverse()

@@ -1,4 +1,5 @@
 from itertools import permutations
+from stupidIntcode import intCode
 with open('swanLake.txt') as data:
     for line in data.readlines():
         Data = [int(x) for x in line.rstrip().split(sep = ',')]
@@ -106,6 +107,8 @@ def intCodeRunPtOne(settings, code):
                     v += 4
     return output
 
+for v, p in enumerate(possibilites):
+    code = intCode(Data, amps = p)
 outputs = []
 for v, p in enumerate(possibilites):
     outputs.append(intCodeRunPtOne(p, Data))

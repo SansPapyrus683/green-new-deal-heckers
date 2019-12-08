@@ -46,7 +46,7 @@ class intCode:
                     argList.append(self.data[self.v + v + 1])
                 elif x == '0': #positional
                     if v == 2:
-                        argList.append(self.data[v+3+1]) #its always written to
+                        argList.append(self.data[v+3]) #its always written to
                     else:
                         argList.append(self.data[self.data[self.v + v + 1]])
             argList = [int(x) for x in argList]
@@ -83,7 +83,7 @@ class intCode:
             self.v = arg2
         else:
             self.v += 3
-    def opSix(self, arg1, arg2, arg3): 
+    def opSix(self, arg1, arg2): 
         if arg1 == 0:
             self.v = arg2
         else:
@@ -111,7 +111,7 @@ class intCode:
         self.v += 2
 
 if __name__ == '__main__':
-    rings = open('goldenRings.txt')
+    rings = open('test.txt')
     with rings as data:
         for v, s in enumerate(data):
             Data = [int(x) for x in s.split(sep = ',')]

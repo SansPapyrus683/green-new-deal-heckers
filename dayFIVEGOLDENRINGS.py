@@ -6,7 +6,7 @@ then for each i split them into their respective "genres", as
 you will see in the program
 """
 rings = open('goldenRings.txt')
-#rings = open('test.txt')
+rings = open('test.txt')
 with rings as data:
     for v, s in enumerate(data):
         Data = [int(x) for x in s.split(sep = ',')]

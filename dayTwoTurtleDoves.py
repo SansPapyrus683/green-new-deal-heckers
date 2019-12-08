@@ -16,4 +16,5 @@ for testee in values:
 	newIntCode.interpret()
 	if newIntCode.changed[0] == 19690720:
 		print(testee)
+		break
 	

@@ -7,7 +7,6 @@ class intCode:
         self.ampSettings = amps
         self.data = [int(x) for x in self.data]
         if self.ampSettings: #for ampsettings
-            self.count = 0
             self.output = 0
             self.amp = True
             self.currSetting = 0
@@ -15,27 +14,17 @@ class intCode:
     def interpret(self):
         self.v = 0
         self.reference = self.data.copy()
+        if self.amp: self.count = 0 #this has to reset every time
         while self.v <= len(self.data):
+            #print(self.v, self.data[self.v])
             self.i = self.data[self.v]
-            #print(self.i, self.v)
-            if self.i in [1,2,3,4,5,6,7,8,99]:
-                if self.i == 99: #way too simple so i just included it in here
-                    break
-                opCode = self.i
-                if opCode == 1: self.opOne(int(self.data[self.data[self.v+1]]), self.data[self.data[self.v+2]], self.data[self.v+3])
-                elif opCode == 2: self.opTwo(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]], self.data[self.v+3])
-                elif opCode == 3 and not self.amp: self.opThree(self.data[self.v+1])
-                elif opCode == 4 and not self.amp: self.opFour(self.data[self.data[self.v+1]])
-                elif opCode == 5: self.opFive(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]])
-                elif opCode == 6: self.opSix(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]])
-                elif opCode == 7: self.opSeven(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]], self.data[self.v+3])
-                elif opCode == 8: self.opEight(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]], self.data[self.v+3])
-                elif opCode == 3 and self.amp: self.opThreeAmps(self.data[self.v+1]) #for amps
-                elif opCode == 4 and self.amp: self.opFourAmps(self.data[self.v+1]) #for amps
-            if str(self.i)[-2:] in ['01', '02','04', '05', '06', '07', '08', '99']:
-                if str(self.i)[-2:] == '99': #if the parameter mode 99 happened
-                    break
-                self.stupidImmediate(self.i)
+            if str(self.i)[-2:] == '99': #way too simple so i just included it in here
+                break
+            if self.i == 3: 
+                self.opThree(self.data[self.v + 1])
+                continue
+            self.stupidImmediate(self.i)
+
         self.changed = self.data
         self.data = self.reference.copy() #to change it back to the original
     def stupidImmediate(self, opCode):
@@ -71,6 +60,7 @@ class intCode:
             if read == 5: self.opFive(argList[0], argList[1])
             elif read == 6: self.opSix(argList[0], argList[1])
         elif str(opCode)[-1] == '4': #opcode 4 only has 1 argument
+            opCode = str(opCode).zfill(3)
             opCodeArg = int(str(opCode)[0])
             if opCodeArg == 1:
                 self.opFour(self.data[self.v + 1])
@@ -117,7 +107,7 @@ class intCode:
         self.v += 2
 
 if __name__ == '__main__':
-    rings = open('goldenRings.txt')
+    rings = open('test.txt')
     with rings as data:
         for v, s in enumerate(data):
             Data = [int(x) for x in s.split(sep = ',')]

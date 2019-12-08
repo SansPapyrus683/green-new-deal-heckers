@@ -8,7 +8,7 @@ class intCode:
     def interpret(self):
         self.v = 0
         self.reference = self.data.copy()
-        self.amp = False
+        self.amp = False #if the intcode takes in the amp settings
         if self.ampSettings: #for ampsettings
             self.count = 0
             self.output = 0
@@ -25,9 +25,9 @@ class intCode:
                 elif opCode == 2: self.opTwo(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]], self.data[self.v+3])
                 elif opCode == 3 and not self.amp: self.opThree(self.data[self.v+1])
                 elif opCode == 4 and not self.amp: self.opFour(self.data[self.v+1])
-                elif opCode == 5: self.opFiself.ve(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]])
+                elif opCode == 5: self.opFive(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]])
                 elif opCode == 6: self.opSix(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]])
-                elif opCode == 7: self.opSeself.ven(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]], self.data[self.v+3])
+                elif opCode == 7: self.opSeven(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]], self.data[self.v+3])
                 elif opCode == 8: self.opEight(self.data[self.data[self.v+1]], self.data[self.data[self.v+2]], self.data[self.v+3])
                 elif opCode == 3 and self.amp: self.opThreeAmps(self.data[self.v+1]) #for amps
                 elif opCode == 4 and self.amp: self.opFourAmps(self.data[self.v+1]) #for amps

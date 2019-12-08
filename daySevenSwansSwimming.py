@@ -6,7 +6,7 @@ with open('test.txt') as data:
 
 #PART 2
 class Amplifier(intCode):
-    """an entirely seperate class for the amplifier
+    """an entirely seperate class just for the amplifier
     i seriously need to see a therapist"""
     def __init__(self, code, setting):
         self.data = code
@@ -17,7 +17,7 @@ class Amplifier(intCode):
         self.v = self.returnIndex
         self.count = 0
         while self.v <= len(self.data):
-            #print(self.v, self.data[self.v])
+            print(self.v, self.data[self.v], self.count)
             self.i = self.data[self.v]
             if str(self.i)[-2:] == '99': #way too simple so i just included it in here
                 self.stopped = True
@@ -25,6 +25,8 @@ class Amplifier(intCode):
             if self.i in [3, 4, 104]:
                 if self.i == 3:
                     self.opThreeAmps(self.data[self.v+1])
+                    if self.count == 3:
+                        break
                     continue
                 elif self.i % 10 == 4:
                     self.opFourAmps(self.data[self.data[self.v+1]])
@@ -42,7 +44,7 @@ class Amplifier(intCode):
         elif self.count == 3:
             self.returnIndex = self.v
             self.v == len(self.data) + 1
-            return #this shows that the amplifier needs another input, so i stop it
+            return None#this shows that the amplifier needs another input, so i stop it
         self.v += 2
 
     def opFourAmps(self, arg1):
@@ -74,6 +76,7 @@ while True:
     for amp in ampList:
         amp.output = output
         amp.interpret()
+        print('done inerprasdf', amp)
         output = amp.output
     if ampList[-1].stopped == True:
         print(output)

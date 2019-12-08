@@ -114,20 +114,22 @@ print(max(outputs))
 #PART 2
 possibilites = permutations([5,6,7,8,9])
 def intCodeRunPtTwo(settings, code):
+    copy = code[:]
     output = 0
     while True:
         for o in range(5):
-            print(o)
+            #print('here',o, output)
             v = 0
             count = 0
+            code = copy[:]
             while v <= len(code):
+                #print(v, code[v])
                 i = code[v]
                 if i in [1,2,3,4,5,6,7,8,99]: #standard protocol
                     if i == 3:
-                        #code[code[v+1]] = int(input('input settings or smth')) <- this wont be necessary
                         count += 1
                         if count == 2: code[code[v+1]] = output
-                        else: code[code[v+1]] = settings[o]
+                        elif count == 1: code[code[v+1]] = settings[o]
                         #print(settings[o], o)
                         v += 2
                     elif i == 1:
@@ -225,5 +227,4 @@ for v, p in enumerate(possibilites):
     outputs.append([intCodeRunPtTwo(p, Data), v])
     assoscitasdf.append(p)
 print(max(outputs))
-print(assoscitasdf[max(outputs)[1]])"""
-print(intCodeRunPtTwo([9,8,7,6,5], Data))
+"""

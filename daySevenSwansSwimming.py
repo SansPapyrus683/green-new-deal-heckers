@@ -1,5 +1,5 @@
 from itertools import permutations
-with open('test.txt') as data:
+with open('swanLake.txt') as data:
     for line in data.readlines():
         Data = [int(x) for x in line.rstrip().split(sep = ',')]
 #print(Data)
@@ -109,9 +109,10 @@ def intCodeRunPtOne(settings, code):
 outputs = []
 for v, p in enumerate(possibilites):
     outputs.append(intCodeRunPtOne(p, Data))
-print(max(outputs))
+#print(max(outputs))
 
 #PART 2
+from stupidIntcode import intCode
 possibilites = permutations([5,6,7,8,9])
 def intCodeRunPtTwo(settings, code):
     copy = code[:]
@@ -228,3 +229,4 @@ for v, p in enumerate(possibilites):
     assoscitasdf.append(p)
 print(max(outputs))
 """
+print(intCodeRunPtTwo([9,8,7,6,5], Data))

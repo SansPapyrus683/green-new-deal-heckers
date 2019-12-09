@@ -1,16 +1,16 @@
-with open('milkFlashback.txt') as data:
+with open("milkFlashback.txt") as data:
     for line in data.readlines():
-        #PART 1
+        # PART 1
         line = line.rstrip()
         width = 25
         height = 6
         puzzle = [int(x) for x in list(line)]
         currIndex = 0
         layers = []
-        for i in range(len(puzzle)//(width * height)):
-            layers.append(puzzle[currIndex:width*height+currIndex])
+        for i in range(len(puzzle) // (width * height)):
+            layers.append(puzzle[currIndex : width * height + currIndex])
             currIndex += width * height
-        lowestZeroes = float('inf')
+        lowestZeroes = float("inf")
         for layer in layers:
             count = 0
             for i in layer:
@@ -27,12 +27,14 @@ with open('milkFlashback.txt') as data:
                 twoCount += 1
         print(oneCount * twoCount)
 
-#PART 2
+# PART 2
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst. shamless copied from
     stack overflow lol"""
     for i in range(0, len(lst), n):
-        yield lst[i:i + n]
+        yield lst[i : i + n]
+
+
 final = []
 layerCopy = layers.copy()
 zippedLayers = zip(*layerCopy)
@@ -46,11 +48,11 @@ for i in zippedLayers:
             final.append(0)
             break
 print(final)
-written = open('test.txt', 'w')
+written = open("test.txt", "w")
 for l in chunks(final, 25):
     for i in l:
         if i == 1:
-            print('||', end = '')
+            print("||", end="")
         else:
-            print('  ', end = '')
-    print('\n', end = '')
+            print("  ", end="")
+    print("\n", end="")

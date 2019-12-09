@@ -18,16 +18,12 @@ class intCode:
     def interpret(self):
         self.v = 0
         self.reference = self.data.copy()
-        self.count = 0  # this has to reset every time and is only for amps
         self.currSetting = 0
         while self.v <= len(self.data):
             #print(self.v, self.data[self.v])
             self.i = self.data[self.v]
             if str(self.i)[-2:] == "99":  # way too simple so i just included it in here
                 break
-            if self.i == 3:
-                self.opThree(self.data[self.v + 1])
-                continue
             self.stupidImmediate(self.i)
 
         self.changed = self.data
@@ -126,7 +122,7 @@ class intCode:
         self.v += 2
 
     def opFour(self, arg1):
-        print(arg1)
+        print(arg1, self.relBase)
         self.v += 2
 
     def opFive(self, arg1, arg2):

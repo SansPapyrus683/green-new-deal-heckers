@@ -59,15 +59,15 @@ class Amplifier(intCode):
 print(Data)
 possibilites = permutations([0,1,2,3,4])
 outputs = []
-'''for a,b,c,d,e in possibilites:
-    ampList = [Amplifier(Dat[:], a), Amplifier(Data[:], b), Amplifier(Data[:], c), Amplifier(Data[:], d), Amplifier(Data[:], e)]
+for a,b,c,d,e in possibilites:
+    ampList = [Amplifier(Data[:], a), Amplifier(Data[:], b), Amplifier(Data[:], c), Amplifier(Data[:], d), Amplifier(Data[:], e)]
     output = 0
     for amp in ampList:
         amp.output = output
         amp.interpret()
         output = amp.output
     outputs.append(output)
-print('answer to pt 1:', max(outputs))'''
+print('answer to pt 1:', max(outputs))
 
 #PART 2
 possibilites = permutations([5,6,7,8,9])
@@ -96,4 +96,4 @@ for a, b, c, d, e in possibilites:
             outputs.append(output)
             break
 
-print(max(outputs))
+print('part 2 ans:',max(outputs))

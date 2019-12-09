@@ -4,9 +4,7 @@ from collections import defaultdict
 class intCode:
     """if you wanna kno what the frick this does,
     just go on advent of code 2019 im too lazy to explain it myself
-    also i kno this doesnt follow pep 8 but whatever"""
-
-    amplifierNumber = 5  # for day 7
+    im gonna have nightmares about 203"""
 
     def __init__(self, code):
         self.data = code
@@ -20,18 +18,18 @@ class intCode:
         self.reference = self.data.copy()
         self.currSetting = 0
         while self.v <= len(self.data):
-            #print(self.v, self.data[self.v])
+            # print(self.v, self.data[self.v])
             self.i = self.data[self.v]
             if str(self.i)[-2:] == "99":  # way too simple so i just included it in here
                 break
-            self.stupidImmediate(self.i)
+            self.translator(self.i)
 
         self.changed = self.data
-        # print(self.changed)
         self.data = self.reference.copy()  # to change it back to the original
 
-    def stupidImmediate(self, opCode):  # NO OPCODE SHALL NOT PASS THIS FUNC
-        """tanslates opcode with args into good stuff"""
+    def translator(self, opCode):
+        """tanslates opcode with args into good stuff
+        im just putting all opcodes with their arguments into this lol"""
         if str(opCode)[-1] in ["1", "2", "7", "8"]:  # these have 4 arguments
             opCode = str(opCode).zfill(5)
             argList = []
@@ -46,10 +44,10 @@ class intCode:
                         argList.append(self.data[self.v + 3])  # its always written to
                     else:
                         argList.append(self.data[self.data[self.v + v + 1]])
-                elif x == "2":
+                elif x == "2":  # relative
                     if v == 2:
-                        argList.append(self.data[self.data[self.v + v + 1] + self.relBase])
-                    argList.append(self.data[self.v + v + 1] + self.relBase)
+                        argList.append(self.data[self.v + 3] + self.relBase)
+                    argList.append(self.data[self.data[self.v + v + 1] + self.relBase])
 
             read = int(str(opCode)[-1])
             if read == 1:
@@ -76,7 +74,7 @@ class intCode:
                 if x == "0":
                     argList.append(self.data[self.data[self.v + v + 1]])
                 if x == "2":
-                    argList.append(self.data[self.v + v + 1] + self.relBase)
+                    argList.append(self.data[self.data[self.v + v + 1] + self.relBase])
 
             read = int(str(opCode)[-1])
             if read == 5:
@@ -84,29 +82,29 @@ class intCode:
             elif read == 6:
                 self.opSix(argList[0], argList[1])
 
-        elif str(opCode)[-1] in ["4", "9", '3']:  # opcode 4 and 9 only has 1 argument
+        elif str(opCode)[-1] in ["4", "9", "3"]:  # opcode 4 and 9 only has 1 argument
             opCode = str(opCode).zfill(3)
             opCodeArg = int(str(opCode)[0])
-            read = opCode[-1]
+            read = int(opCode[-1])
 
             if opCodeArg == 1:
-                if read == "4":
+                if read == 4:
                     self.opFour(self.data[self.v + 1])
-                elif read == "9":
+                elif read == 9:
                     self.opNine(self.data[self.v + 1])
             elif opCodeArg == 0:
-                if read == "4":
+                if read == 4:
                     self.opFour(self.data[self.data[self.v + 1]])
-                elif read == "9":
+                elif read == 9:
                     self.opNine(self.data[self.data[self.v + 1]])
-                elif read == '3':
+                elif read == 3:
                     self.opThree(self.data[self.v + 1])
             elif opCodeArg == 2:
-                if read == "4":
+                if read == 4:
                     self.opFour(self.data[self.data[self.v + 1] + self.relBase])
-                elif read == "3":
-                    self.opThree(self.data[self.v + 1] + self.relBase)
-                elif read == "9":
+                elif read == 3:
+                    self.opThree(arg1 = (self.data[self.v + 1] + self.relBase))
+                elif read == 9:
                     self.opNine(self.data[self.v + 1] + self.relBase)
 
     def opOne(self, arg1, arg2, arg3):
@@ -122,7 +120,7 @@ class intCode:
         self.v += 2
 
     def opFour(self, arg1):
-        print(arg1, self.relBase)
+        print(arg1)
         self.v += 2
 
     def opFive(self, arg1, arg2):

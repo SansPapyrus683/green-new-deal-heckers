@@ -1,6 +1,6 @@
 from itertools import permutations
 from justStupidIntcode import intCode
-with open('test.txt') as data:
+with open('swanLake.txt') as data:
     for line in data.readlines():
         Data = [int(x) for x in line.rstrip().split(sep = ',')]
 
@@ -20,7 +20,6 @@ class Amplifier(intCode):
         while self.v <= len(self.data):
             #print(self.v, self.data[self.v], self.count)
             self.i = self.data[self.v]
-            print(str(self.i)[-2:])
             if str(self.i)[-2:] == '99': #way too simple so i just included it in here
                 self.stopped = True
                 break
@@ -61,7 +60,7 @@ print(Data)
 possibilites = permutations([0,1,2,3,4])
 outputs = []
 '''for a,b,c,d,e in possibilites:
-    ampList = [Amplifier(Data, a), Amplifier(Data, b), Amplifier(Data, c), Amplifier(Data, d), Amplifier(Data, e)]
+    ampList = [Amplifier(Dat[:], a), Amplifier(Data[:], b), Amplifier(Data[:], c), Amplifier(Data[:], d), Amplifier(Data[:], e)]
     output = 0
     for amp in ampList:
         amp.output = output
@@ -73,28 +72,28 @@ print('answer to pt 1:', max(outputs))'''
 #PART 2
 possibilites = permutations([5,6,7,8,9])
 outputs = []
-ampList  = [Amplifier(Data, 9), Amplifier(Data, 8), Amplifier(Data, 7), Amplifier(Data, 6), Amplifier(Data, 5)]
-output = 0
-firstTime= True
-while True:
+for a, b, c, d, e in possibilites:
+    ampList  = [Amplifier(Data[:], a), Amplifier(Data[:], b), Amplifier(Data[:], c), Amplifier(Data[:], d), Amplifier(Data[:], e)]
+    output = 0
     for amp in ampList:
-        if firstTime:
-            amp.output = output
-            amp.interpret()
-            output = amp.output
-            firstTime = False
-            print('')
-        else:
-            print('second timee for setting', amp.setting)
+        amp.output = output
+        amp.interpret()
+        output = amp.output
+        #print(ampList[-1].stopped)
+        #print('')
+    if ampList[-1].stopped:
+        #print(output)
+        outputs.append(output)
+    while True:
+        for amp in ampList:
+            #print('NOT FIRST TIME for timee for setting', amp.setting)
             amp.output = output
             amp.count = 1
             amp.interpret()
             output = amp.output
-            print('')
-    print(ampList[-1].stopped)
-    if ampList[-1].stopped:
-        print(output)
-        outputs.append(output)
-        break
+            #print('')
+        if ampList[-1].stopped:
+            outputs.append(output)
+            break
 
 print(max(outputs))

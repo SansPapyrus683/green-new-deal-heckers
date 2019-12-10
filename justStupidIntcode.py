@@ -4,7 +4,8 @@ from collections import defaultdict
 class intCode:
     """if you wanna kno what the frick this does,
     just go on advent of code 2019 im too lazy to explain it myself
-    im gonna have nightmares about 203"""
+    im gonna have nightmares about 203
+    but it just interprets intcode thats all ill tall you"""
 
     def __init__(self, code):
         self.data = code
@@ -47,7 +48,8 @@ class intCode:
                 elif x == "2":  # relative
                     if v == 2:
                         argList.append(self.data[self.v + 3] + self.relBase)
-                    argList.append(self.data[self.data[self.v + v + 1] + self.relBase])
+                    else:
+                        argList.append(self.data[self.data[self.v + v + 1] + self.relBase])
 
             read = int(str(opCode)[-1])
             if read == 1:
@@ -82,7 +84,7 @@ class intCode:
             elif read == 6:
                 self.opSix(argList[0], argList[1])
 
-        elif str(opCode)[-1] in ["4", "9", "3"]:  # opcode 4 and 9 only has 1 argument
+        elif str(opCode)[-1] in ["4", "3", "9"]:  # opcode 4 and 9 only has 1 argument
             opCode = str(opCode).zfill(3)
             opCodeArg = int(str(opCode)[0])
             read = int(opCode[-1])
@@ -105,7 +107,7 @@ class intCode:
                 elif read == 3:
                     self.opThree(arg1 = (self.data[self.v + 1] + self.relBase))
                 elif read == 9:
-                    self.opNine(self.data[self.v + 1] + self.relBase)
+                    self.opNine(self.data[self.data[self.v + 1] + self.relBase])
 
     def opOne(self, arg1, arg2, arg3):
         self.data[arg3] = arg1 + arg2
@@ -116,6 +118,7 @@ class intCode:
         self.v += 4
 
     def opThree(self, arg1):
+        print('setting data at %s index' % arg1)
         self.data[arg1] = int(input("idk just put something "))
         self.v += 2
 

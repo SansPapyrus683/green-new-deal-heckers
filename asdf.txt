@@ -1,0 +1,41 @@
+while allOthers:
+    while x < len(allSlopes):
+        s = allSlopes[x]
+        print('checking slope %s' % s)
+        for v, p in enumerate(allOthers):
+            if orientationMarker == 0:
+                if slope(good, p) == float('inf') and firstInf:
+                    ZapCount += 1
+                    del allOthers[v]
+                    print('asteroid deletus %s' %p)
+                    firstInf = False
+                    x += 1
+                    break
+                if slope(good, p) == float('inf') and not firstInf and good[1] <= p[1]:
+                    ZapCount += 1
+                    del allOthers[v]
+                    print('asteroid deletus %s' %p)
+                    orientationMarker = 1
+                    x += 1
+                    break
+                elif slope(good, p) == s and good[0] <= p[0]:
+                    ZapCount += 1
+                    del allOthers[v]
+                    x += 1
+                    print('asteroid deletus %s' %p)
+                    break
+                if p[0] <= good[0]:
+                    orientationMarker = 1
+            if orientationMarker == 1:
+                if slope(good, p) == s and True:
+                    pass
+                elif slope(good, p) == s and p[0] <= good[0]:
+                    print('asteroid deletus %s' %p)
+                    ZapCount += 1
+                    del allOthers[v]
+                    x += 1
+                    break
+        else:
+            x += 1
+    orientationMarker = 0
+    x = 0

@@ -19,7 +19,7 @@ class intCode:
         self.reference = self.data.copy()
         self.currSetting = 0
         while self.v <= len(self.data):
-            # print(self.v, self.data[self.v])
+            #print(self.v, self.data[self.v])
             self.i = self.data[self.v]
             if str(self.i)[-2:] == "99":  # way too simple so i just included it in here
                 break
@@ -118,7 +118,7 @@ class intCode:
         self.v += 4
 
     def opThree(self, arg1):
-        print('setting data at %s index' % arg1)
+        #print('setting data at %s index' % arg1)
         self.data[arg1] = int(input("idk just put something "))
         self.v += 2
 
@@ -158,7 +158,7 @@ class intCode:
 
 
 if __name__ == "__main__":
-    with open("test.txt") as data:
+    with open("data stuff/peterPiper.txt") as data:
         Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
         code = intCode(Data)
         code.interpret()

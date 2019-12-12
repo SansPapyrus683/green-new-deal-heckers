@@ -1,4 +1,4 @@
-rings = open("goldenRings.txt")
+rings = open("data stuff/goldenRings.txt")
 # rings = open("test.txt")
 with rings as data:
     for v, s in enumerate(data):

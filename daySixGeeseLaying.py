@@ -1,5 +1,5 @@
 orbits = []
-with open("geeseEggs.txt") as eggs:
+with open("datat stuff/geeseEggs.txt") as eggs:
     for line in eggs.readlines():
         orbits.append(
             [s for s in line.rstrip().split(sep=")")]

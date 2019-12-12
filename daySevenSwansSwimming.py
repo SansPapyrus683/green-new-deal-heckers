@@ -34,7 +34,7 @@ class Amplifier(intCode):
                 elif self.i % 10 == 4:
                     self.opFourAmps(self.data[self.data[self.v + 1]])
                     continue
-            self.stupidImmediate(self.i)
+            self.translator(self.i)
         self.count = 0
         # we dont change it back
 

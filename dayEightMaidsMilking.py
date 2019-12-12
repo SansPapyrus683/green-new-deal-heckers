@@ -1,4 +1,4 @@
-with open("milkFlashback.txt") as data:
+with open("data stuff/milkFlashback.txt") as data:
     for line in data.readlines():
         # PART 1
         line = line.rstrip()

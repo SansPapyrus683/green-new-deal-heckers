@@ -101,7 +101,7 @@ for y in yVals:
 for chungus in chunks(goodCanvs, max(xVals) - min(xVals) + 1):
     for c in chungus:
         if c[-1]:
-            print('#', end = '')
+            print(' M ', end = '')
         else:
-            print('.', end = '')
+            print('   ', end = '')
     print('')

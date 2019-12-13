@@ -50,14 +50,14 @@ for y in yVals:
     for c in canvas:
         if c[1] == y:
             goodCanvs.append(c)
-print(code.outputs)
+#print(code.outputs)
 for p in code.outputs:
     # print('pt: %s' % p)
     for pt in goodCanvs:
         if p[:2] == pt[:2]:
             # print(pt)
             goodCanvs[goodCanvs.index(pt)] = p
-print(goodCanvs)
+#print(goodCanvs)
 
 for chungus in chunks(goodCanvs, max(xVals) - min(xVals) + 1):
     for pt in chungus:

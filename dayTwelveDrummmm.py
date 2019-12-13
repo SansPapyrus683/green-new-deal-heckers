@@ -62,12 +62,11 @@ asoVelocities = [
 def lcm(a, b):
     """shamelessly copied from stackoverlofw"""
     return abs(a * b) // gcd(a, b)
-deathX = [[a["x"] for a in deathMoons]]
-deathY = [[a["y"] for a in deathMoons]]
-deathZ = [[a["z"] for a in deathMoons]]
-deathX[0].extend([a["x"] for a in asoVelocities])
-deathY[0].extend([a["y"] for a in asoVelocities])
-deathZ[0].extend([a["z"] for a in asoVelocities])
+deathX, deathY, deathZ = [a["x"] for a in deathMoons], [a["y"] for a in deathMoons], [a["z"] for a in deathMoons]
+deathX.extend([a["x"] for a in asoVelocities])
+deathY.extend([a["y"] for a in asoVelocities])
+deathZ.extend([a["z"] for a in asoVelocities])
+reference = [deathX, deathY, deathZ]
 def oneStep() -> list: #these two args specify the things needed
     for pair, pairAsoV in zip(
         combinations(deathMoons, 2), combinations(asoVelocities, 2)
@@ -92,21 +91,22 @@ for i in range(1008):
 exit()
 """
 cycles = []
-axees = [deathX, deathY, deathZ]
+axees = [[a[c] for a in deathMoons] + [a[c] for a in asoVelocities] for c in ['x', 'y', 'z']]
 mark = 0
 for a in axees:
     found = False
+    count = 0
     while not found:
         ax = oneStep()[mark]
-        if ax not in a:
-            a.append(ax)
-        else:
+        if ax == reference[mark]:
             #print('found one at %s' % ax)
             #print(len(a), a.index(ax))
             found = True
-            cycles.append(len(a)-a.index(ax))
+            cycles.append(count + 1)
             #print(a)
             #print(ax)
+        else:
+            count += 1
     mark += 1
     deathMoons = [
     {"x": 17, "y": -12, "z": 13},

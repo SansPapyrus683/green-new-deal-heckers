@@ -159,8 +159,15 @@ class intCode:
         self.v += 2
 
 
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst. shamless copied from
+    stack overflow lol"""
+    for i in range(0, len(lst), n):
+        yield lst[i : i + n]
+
+
 if __name__ == "__main__":
-    with open("data stuff/peterPiper.txt") as data:
+    with open("data stuff/javaBad.txt") as data:
         Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
         code = intCode(Data)
         code.interpret()

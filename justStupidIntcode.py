@@ -165,6 +165,13 @@ def chunks(lst, n):
     for i in range(0, len(lst), n):
         yield lst[i : i + n]
 
+def sign(n):
+    if n < 0:
+        return -1
+    elif n > 0:
+        return 1
+    else:
+        return 0
 
 if __name__ == "__main__":
     with open("data stuff/javaBad.txt") as data:

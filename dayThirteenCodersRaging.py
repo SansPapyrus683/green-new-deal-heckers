@@ -1,6 +1,5 @@
 from justStupidIntcode import *
 from collections import defaultdict
-from math import copysign
 
 
 class Arcade(intCode):
@@ -17,14 +16,11 @@ class Arcade(intCode):
     def opThree(self, arg1):
         # self.data[arg1] = int(input("*atari intensifies* "))
         x = showBoard()
-        self.ballPos, self.boardPos = x[0][:2], x[1][:2]
+        self.ballPos, self.boardPos = x[1][:2], x[2][:2]
+        self.score = x[-1]
         self.v += 2
-        print(
-            "ball position and board position are %s and %s"
-            % (self.ballPos, self.boardPos)
-        )
-        self.data[arg1] = copysign(1, self.ballPos[0] - self.boardPos[0])
-        print(copysign(1, self.ballPos[0] - self.boardPos[0]))
+        self.data[arg1] = sign(self.ballPos[0] - self.boardPos[0])
+        #print(sign(self.ballPos[0] - self.boardPos[0]))
 
     def opFour(self, arg1):
         # print(arg1)
@@ -55,27 +51,32 @@ def showBoard():
             if p[:2] == pt[:2]:  # to see if it should be anything else
                 goodCanvs[goodCanvs.index(pt)] = p
     result = []
-    for l in goodCanvs:
+    procsessed.reverse()
+    for l in procsessed:
         if l[:2] == [-1, 0]:
-            print("Score: %s" % l[-1])
-            goodCanvs.remove(l)
+            result.append(l[-1])
+            #print("Score: %s" % l[-1])
+            break
     for chungus in chunks(goodCanvs, max(xVals) + 1):
         #print(chungus)
         for pt in chungus:
             if pt[-1]:
+                """
                 if pt[-1] == 1:
                     print(" W ", end="")  # wall or smth
                 elif pt[-1] == 2:
                     print(" B ", end="")  # block
-                elif pt[-1] == 3:
-                    print("___", end="")  # the paddle
+                """
+                if pt[-1] == 3:
+                    #print("___", end="")  # the paddle
                     result.append(pt)
-                elif pt[-1] == 4:
-                    print(" * ", end="")  # the one ball
+                if pt[-1] == 4:
+                    #print(" * ", end="")  # the one ball
                     result.append(pt)
             else:
-                print("   ", end="")
-        print("")
+                pass
+                #print("   ", end="")
+        #print("")
     return result
 
 
@@ -94,3 +95,4 @@ with open("data stuff/javaBad.txt") as stuff:
 code = Arcade(Data)
 code.data[0] = 2
 code.interpret()
+print(code.score)

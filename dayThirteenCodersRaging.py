@@ -29,7 +29,6 @@ class Arcade(intCode):
     def opFour(self, arg1):
         # print(arg1)
         self.outputs.append(arg1)
-        
         self.v += 2
 
 
@@ -37,7 +36,6 @@ def showBoard():
     procsessed = []
     for chungus in chunks(code.outputs, 3):
         procsessed.append(chungus)
-    # print(code.outputs)
     xVals = list({a[0] for a in procsessed})
     yVals = list({a[1] for a in procsessed})
     xVals.sort()
@@ -47,27 +45,21 @@ def showBoard():
         for x in range(max(xVals) + 1)  # making a raw canvas
         for y in range(max(yVals) + 1)  # just consists of all the points
     ]
-    print(xVals)
-    print(yVals)
     goodCanvs = []
-    for y in yVals:
+    for y in range(max(yVals) + 1):
         for c in canvas:
             if c[1] == y:
                 goodCanvs.append(c)  # makes the points in the order i want
-    # print(canvas)
     for p in procsessed:
         for pt in goodCanvs:  # compares it with the outputs
             if p[:2] == pt[:2]:  # to see if it should be anything else
-                # print(pt)
                 goodCanvs[goodCanvs.index(pt)] = p
-    goodCanvs.reverse()
     result = []
     for l in goodCanvs:
-        if l[:2] == [0, 1]:
+        if l[:2] == [-1, 0]:
             print("Score: %s" % l[-1])
             goodCanvs.remove(l)
-    for chungus in chunks(goodCanvs, max(xVals) - min(xVals) + 1):
-        chungus.reverse()
+    for chungus in chunks(goodCanvs, max(xVals) + 1):
         #print(chungus)
         for pt in chungus:
             if pt[-1]:
@@ -77,12 +69,10 @@ def showBoard():
                     print(" B ", end="")  # block
                 elif pt[-1] == 3:
                     print("___", end="")  # the paddle
-                    # print('got a board', pt)
                     result.append(pt)
                 elif pt[-1] == 4:
                     print(" * ", end="")  # the one ball
                     result.append(pt)
-                    # print('got a bal', pt)
             else:
                 print("   ", end="")
         print("")
@@ -95,11 +85,10 @@ with open("data stuff/javaBad.txt") as stuff:
     code = Arcade(Data)
     code.interpret()
     blockCount = 0
-    for v, i in enumerate(code.outputs):
-        if (v - 2) % 3 == 0:
-            if i == 2:
-                blockCount += 1
-    print("block count: %s" % blockCount)
+    for chungus in chunks(code.outputs, 3):
+        if chungus[-1] == 2:
+            blockCount += 1
+    print('Block count: %s' % blockCount)
 
 # PART 2
 code = Arcade(Data)

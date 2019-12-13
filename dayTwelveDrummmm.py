@@ -3,10 +3,10 @@ from math import gcd
 from sys import exit #for debugging
 
 deathMoons = [
-    {"x": -1, "y": 0, "z": 2},
-    {"x": 2, "y": -10, "z": -7},
-    {"x": 4, "y": -8, "z": 8},
-    {"x": 3, "y": 5, "z": -1},
+    {"x": 17, "y": -12, "z": 13},
+    {"x": 2, "y": 1, "z": 1},
+    {"x": -1, "y": -17, "z": 7},
+    {"x": 12, "y": -14, "z": 18},
 ]
 asoVelocities = [
     {"x": 0, "y": 0, "z": 0},
@@ -48,10 +48,10 @@ print("the energy sum is %s" % energySum)
 
 # PART 2
 deathMoons = [
-    {"x": -1, "y": 0, "z": 2},
-    {"x": 2, "y": -10, "z": -7},
-    {"x": 4, "y": -8, "z": 8},
-    {"x": 3, "y": 5, "z": -1},
+    {"x": 17, "y": -12, "z": 13},
+    {"x": 2, "y": 1, "z": 1},
+    {"x": -1, "y": -17, "z": 7},
+    {"x": 12, "y": -14, "z": 18},
 ]
 asoVelocities = [
     {"x": 0, "y": 0, "z": 0},
@@ -62,8 +62,6 @@ asoVelocities = [
 def lcm(a, b):
     """shamelessly copied from stackoverlofw"""
     return abs(a * b) // gcd(a, b)
-
-
 deathX = [[a["x"] for a in deathMoons]]
 deathY = [[a["y"] for a in deathMoons]]
 deathZ = [[a["z"] for a in deathMoons]]
@@ -87,21 +85,42 @@ def oneStep() -> list: #these two args specify the things needed
     return [[a['x'] for a in deathMoons] + [a['x'] for a in asoVelocities],
             [a['y'] for a in deathMoons] + [a['y'] for a in asoVelocities],
             [a['z'] for a in deathMoons] + [a['z'] for a in asoVelocities]]
-
-for i in range(50):
-    print(i, oneStep()[0])
-
+"""
+for i in range(1008):
+    x = oneStep()
+    print(i, x[0], x[1], x[2])
 exit()
+"""
 cycles = []
 axees = [deathX, deathY, deathZ]
-while len(cycles) < 3:
-    mark = 0
-    for ax, l in zip(oneStep(), axees):
-        if ax in l:
-            print('found one for value %s' % l)
-            cycles.append([len(l) - l.index(ax), [l.index(ax), len(l)]])
-            axees.remove(l)
-            break
-        l.append(ax)
-        mark += 1
+mark = 0
+for a in axees:
+    found = False
+    while not found:
+        ax = oneStep()[mark]
+        if ax not in a:
+            a.append(ax)
+        else:
+            #print('found one at %s' % ax)
+            #print(len(a), a.index(ax))
+            found = True
+            cycles.append(len(a)-a.index(ax))
+            #print(a)
+            #print(ax)
+    mark += 1
+    deathMoons = [
+    {"x": 17, "y": -12, "z": 13},
+    {"x": 2, "y": 1, "z": 1},
+    {"x": -1, "y": -17, "z": 7},
+    {"x": 12, "y": -14, "z": 18},
+    ]
+    asoVelocities = [
+        {"x": 0, "y": 0, "z": 0},
+        {"x": 0, "y": 0, "z": 0},
+        {"x": 0, "y": 0, "z": 0},
+        {"x": 0, "y": 0, "z": 0},
+    ]
 print(cycles)
+x = lcm(cycles[0], cycles[1])
+x = lcm(cycles[2], x)
+print(x)

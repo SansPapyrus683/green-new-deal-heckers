@@ -19,7 +19,7 @@ class intCode:
         self.reference = self.data.copy()
         self.currSetting = 0
         while self.v <= len(self.data):
-            #print(self.v, self.data[self.v])
+            # print(self.v, self.data[self.v])
             self.i = self.data[self.v]
             if str(self.i)[-2:] == "99":  # way too simple so i just included it in here
                 break
@@ -49,7 +49,9 @@ class intCode:
                     if v == 2:
                         argList.append(self.data[self.v + 3] + self.relBase)
                     else:
-                        argList.append(self.data[self.data[self.v + v + 1] + self.relBase])
+                        argList.append(
+                            self.data[self.data[self.v + v + 1] + self.relBase]
+                        )
 
             read = int(str(opCode)[-1])
             if read == 1:
@@ -105,7 +107,7 @@ class intCode:
                 if read == 4:
                     self.opFour(self.data[self.data[self.v + 1] + self.relBase])
                 elif read == 3:
-                    self.opThree(arg1 = (self.data[self.v + 1] + self.relBase))
+                    self.opThree(arg1=(self.data[self.v + 1] + self.relBase))
                 elif read == 9:
                     self.opNine(self.data[self.data[self.v + 1] + self.relBase])
 
@@ -118,7 +120,7 @@ class intCode:
         self.v += 4
 
     def opThree(self, arg1):
-        #print('setting data at %s index' % arg1)
+        # print('setting data at %s index' % arg1)
         self.data[arg1] = int(input("idk just put something "))
         self.v += 2
 

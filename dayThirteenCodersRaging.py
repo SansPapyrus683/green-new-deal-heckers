@@ -11,14 +11,14 @@ class Arcade(intCode):
             self.data[v] = i
         self.relBase = 0
         self.outputs = []
-        self.scoreCount = 0
+        self.score = 0
         self.calcScore = False
 
     def opThree(self, arg1):
         # self.data[arg1] = int(input("*atari intensifies* "))
         x = showBoard()
         self.ballPos, self.boardPos = x[1][:2], x[2][:2]
-        self.score = x[-1]
+        self.score = x[0]
         self.v += 2
         self.data[arg1] = sign(self.ballPos[0] - self.boardPos[0])
         #print(sign(self.ballPos[0] - self.boardPos[0]))
@@ -40,7 +40,7 @@ def showBoard():
         if l[:2] == [-1, 0]:
             result.append(l[-1])
             procsessed.remove(l)
-            #print("Score: %s" % l[-1])
+            print("Score: %s" % l[-1])
             break
     for chungus in chunks(procsessed, max(a[0] for a in procsessed) + 1):
         #print(chungus)
@@ -68,4 +68,4 @@ with open("data stuff/javaBad.txt") as stuff:
 code = Arcade(Data)
 code.data[0] = 2
 code.interpret()
-print(code.score)
+print('Total score: %s' % code.score)

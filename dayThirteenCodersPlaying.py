@@ -15,41 +15,63 @@ class Arcade(intCode):
         self.calcScore = False
 
     def opThree(self, arg1):
-        # self.data[arg1] = int(input("*atari intensifies* "))
         x = showBoard()
+        self.data[arg1] = int(input("*atari intensifies* "))
         self.ballPos, self.boardPos = x[1][:2], x[2][:2]
         self.score = x[-1]
         self.v += 2
-        self.data[arg1] = sign(self.ballPos[0] - self.boardPos[0])
-        #print(sign(self.ballPos[0] - self.boardPos[0]))
+        #self.data[arg1] = sign(self.ballPos[0] - self.boardPos[0])
 
     def opFour(self, arg1):
-        # print(arg1)
         self.outputs.append(arg1)
         self.v += 2
 
 
 def showBoard():
     procsessed = []
-    result = []
     for chungus in chunks(code.outputs, 3):
         procsessed.append(chungus)
+    xVals = list({a[0] for a in procsessed})
+    yVals = list({a[1] for a in procsessed})
+    xVals.sort()
+    yVals.sort(reverse=True)
+    canvas = [
+        [x, y, False]
+        for x in range(max(xVals) + 1)  # making a raw canvas
+        for y in range(max(yVals) + 1)  # just consists of all the points
+    ]
+    goodCanvs = []
+    for y in range(max(yVals) + 1):
+        for c in canvas:
+            if c[1] == y:
+                goodCanvs.append(c)  # makes the points in the order i want
+    for p in procsessed:
+        for pt in goodCanvs:  # compares it with the outputs
+            if p[:2] == pt[:2]:  # to see if it should be anything else
+                goodCanvs[goodCanvs.index(pt)] = p
+    result = []
     procsessed.reverse()
-    #print(procsessed)
     for l in procsessed:
         if l[:2] == [-1, 0]:
             result.append(l[-1])
-            procsessed.remove(l)
-            #print("Score: %s" % l[-1])
+            print("Score: %s" % l[-1])
             break
-    for chungus in chunks(procsessed, max(a[0] for a in procsessed) + 1):
-        #print(chungus)
+    for chungus in chunks(goodCanvs, max(xVals) + 1):
         for pt in chungus:
             if pt[-1]:
-                if pt[-1] == 3: #paddle detected
+                if pt[-1] == 1:
+                    print(" W ", end="")  # wall or smth
+                elif pt[-1] == 2:
+                    print(" B ", end="")  # block
+                if pt[-1] == 3:
+                    print("___", end="")  # the paddle
                     result.append(pt)
-                elif pt[-1] == 4: #ball detected
+                if pt[-1] == 4:
+                    print(" * ", end="")  # the one ball
                     result.append(pt)
+            else:
+                print("   ", end="")
+        print("")
     return result
 
 

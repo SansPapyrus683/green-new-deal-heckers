@@ -13,24 +13,32 @@ with data as Data:
         conversion.append(temp)
 
 print(conversion)
-def findRawReactants(reactionList, element = 'FUEL', amtNeeded = 1):
+def findRawReactants(reactionList, element = 'FUEL', alreadyHave = 0, amt = 1):
     """break everything down into ore components"""
     oreCount = 0
+    leftOverOre = 0
     for v, reaction in enumerate(reactionList):
         if reaction[0][1] == element:
             increment = reaction[0][0]
             #print(increment)
             if reaction[1][1] == 'ORE': #its only ore when its used
-                oreCount += reaction[1][0]
+                production = amt//reaction[1][0] + 1
+                for i in range(production):
+                    while reaction[1][0] <= alreadyHave:
+                        alreadyHave -= reaction[1][0]
+                    else:
+                        oreCount += reaction[1][0]                                                                      
                 #print('current orecount',oreCount)
-                return increment, oreCount, oreCount - amtNeeded
+                return increment, oreCount, alreadyHave
             else:
                 print(reaction)
                 for el in reaction[1:]:
-                    x = findRawReactants(reactionList[:v] + reactionList[v + 1:], el[1], el[0])
+                    x = findRawReactants(reactionList[:v] + reactionList[v + 1:], el[1], alreadyHave)
                     oreCount += x[1]
-                    print(x)
+                    print('asdf',x)
                     print('Orecount for element %s: %s but it left over %s' %(el, x[1], x[2]))
-    return increment, oreCount, oreCount - increment
+                    leftOverOre = x[2]
+                    print('storage: %s' % leftOverOre)
+    return increment, oreCount, oreCount - leftOverOre
 
-print(findRawReactants(conversion, 'FUEL'))
+print('horrible output ->',findRawReactants(conversion, 'C'))

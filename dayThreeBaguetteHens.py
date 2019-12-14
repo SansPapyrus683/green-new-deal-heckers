@@ -31,7 +31,7 @@ def genLines(data, resultList):
 
 genLines(firstData, firstWireLines)
 genLines(secondData, secondWireLines)
-print(firstWireLines, secondWireLines)
+
 goodPoints = []  # the set of intersection points
 associatedLines = []  # for part 2
 for prod in product(firstWireLines, secondWireLines):
@@ -86,14 +86,14 @@ for v, thing in enumerate(goodPoints):  # calculates manhattan distance of smth
     else:
         if abs(thing[0]) + abs(thing[1]) < lowestScore:
             lowestScore = abs(thing[0]) + abs(thing[1])
-# print(lowestScore)
+print(lowestScore)
 
 # PART 2
 lowestScore = float("inf")
-print(associatedLines)
+#print(associatedLines)
 for v, point in enumerate(goodPoints):
     lines = associatedLines[v]
-    print(point, lines)
+    #print(point, lines)
     # print(lines[0])
     firstCount, secondCount = 0, 0
     for x in firstWireLines:

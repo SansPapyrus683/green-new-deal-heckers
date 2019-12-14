@@ -40,7 +40,7 @@ def processOutputs():
         if l[:2] == [-1, 0]:
             result.append(l[-1])
             procsessed.remove(l)
-            #print("Score: %s" % l[-1])
+            print("Score: %s" % l[-1])
             break
     for chungus in chunks(procsessed, max(a[0] for a in procsessed) + 1):
         #print(chungus)

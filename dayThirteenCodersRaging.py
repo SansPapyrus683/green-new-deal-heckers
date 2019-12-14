@@ -16,7 +16,7 @@ class Arcade(intCode):
 
     def opThree(self, arg1):
         # self.data[arg1] = int(input("*atari intensifies* "))
-        x = showBoard()
+        x = processOutputs()
         self.ballPos, self.boardPos = x[1][:2], x[2][:2]
         self.score = x[0]
         self.v += 2
@@ -29,7 +29,7 @@ class Arcade(intCode):
         self.v += 2
 
 
-def showBoard():
+def processOutputs():
     procsessed = []
     result = []
     for chungus in chunks(code.outputs, 3):
@@ -40,7 +40,7 @@ def showBoard():
         if l[:2] == [-1, 0]:
             result.append(l[-1])
             procsessed.remove(l)
-            print("Score: %s" % l[-1])
+            #print("Score: %s" % l[-1])
             break
     for chungus in chunks(procsessed, max(a[0] for a in procsessed) + 1):
         #print(chungus)

@@ -22,18 +22,30 @@ print(leftovers)
 
 def findRawReactants(reactionList, element = 'FUEL', amt = 1):
     """break everything down into ore components
-    amt is the amt produced"""
+    amt is the amt that we want produced"""
     oreCount = 0
     for v, reaction in enumerate(reactionList):
         if reaction[0][-1] == element:
             increment = reaction[0][0]
             for e in reaction[1:]:
-                for el in reaction[:v] + reaction[v+1:]:
-                    if e[1] == el[1] == 'ORE':
-                        pass
-                    else:
+                if e[-1] == 'ORE':
+                    productionTimes = ceil(amt/e[0])
+                    amtProduced = 0
+                    for i in range(productionTimes):
+                        oreCount += e[0]
+                        amtProduced += increment
+                    leftovers[element] += amtProduced - amt
+                else:
+                    print(e)
+                    for r in reactionList:
+                        if r[0][1] == e[1] and r[-1][1] == 'ORE':
+                            print('%s is a primitive element' % e)
+                            oreCount += findRawReactants(conversion, e[1], amt = e[0])[1]
+                    for el in reactionList:
+                        
                         pass
     print(increment, oreCount)
     return increment, oreCount
 
-findRawReactants(conversion, element = 'C')
+findRawReactants(conversion, element = 'D', amt = 13)
+print(leftovers)

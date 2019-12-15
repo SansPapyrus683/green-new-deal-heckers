@@ -20,13 +20,20 @@ elements = list(set(elements))
 leftovers = {s: 0 for s in elements}
 print(leftovers)
 
-def findRawReactants(reactionList, element = 'FUEL', alreadyHave = 0, amt = 1):
+def findRawReactants(reactionList, element = 'FUEL', amt = 1):
     """break everything down into ore components
-    amt is the amt produced, and alreadyHave is kinda misleading:
-    its just if any components (not of ores)"""
+    amt is the amt produced"""
     oreCount = 0
     for v, reaction in enumerate(reactionList):
         if reaction[0][-1] == element:
+            increment = reaction[0][0]
+            for e in reaction[1:]:
+                for el in reaction[:v] + reaction[v+1:]:
+                    if e[1] == el[1] == 'ORE':
+                        pass
+                    else:
+                        pass
+    print(increment, oreCount)
+    return increment, oreCount
 
-            pass
-    return increment, oreCount, alreadyHave
+findRawReactants(conversion, element = 'C')

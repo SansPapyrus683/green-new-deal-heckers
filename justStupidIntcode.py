@@ -166,6 +166,7 @@ def chunks(lst, n):
         yield lst[i : i + n]
 
 def sign(n):
+    """need i say more?"""
     if n < 0:
         return -1
     elif n > 0:
@@ -174,7 +175,7 @@ def sign(n):
         return 0
 
 if __name__ == "__main__":
-    with open("data stuff/javaBad.txt") as data:
+    with open("data stuff/amazonElves.txt") as data:
         Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
         code = intCode(Data)
         code.interpret()

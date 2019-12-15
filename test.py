@@ -24,10 +24,10 @@ print(leftovers)
 def findRawReactants(reactionList, element = 'FUEL', amt = 1):
     """break everything down into ore components
     amt is the amt that we want produced
-    oh and primitive elements are ones that can be directly
+    oh and primitive elements are ones that can be directlybn
     made from just ore"""
     oreCount = 0
-    for v, reaction in enumerate(reactionList):
+    for v, reaction in enumerate(reactionList): #searches for the reaction that makes it
         if reaction[0][-1] == element:
             increment = reaction[0][0]
             alreadyHave = leftovers[element]
@@ -39,19 +39,10 @@ def findRawReactants(reactionList, element = 'FUEL', amt = 1):
                 alreadyHave -= amt
                 continue
             productionTimes = ceil(amt/increment)
-            for i in range(productionTimes):
-                for e in reaction[1:]:
+            amtProduced = 0
+            for i in range(productionTimes): #produces it the amt of times required
+                for e in reaction[1:]: #goes through the reactants
                     if e[-1] == 'ORE':
-                        alreadyHave = leftovers[element]
-                        if amt >= alreadyHave:
-                            amt -= alreadyHave
-                            leftovers[element] = 0
-                        elif amt < alreadyHave:
-                            leftovers[element] = alreadyHave - amt
-                            alreadyHave -= amt
-                            continue
-                        productionTimes = ceil(amt/increment)
-                        print(productionTimes)
                         amtProduced = 0
                         for i in range(productionTimes):
                             oreCount += e[0]
@@ -68,10 +59,13 @@ def findRawReactants(reactionList, element = 'FUEL', amt = 1):
                             elif r[0][1] == e[1]:
                                 print('finding the ore needed to produce %s of %s' %(e[0], e[1]))
                                 oreCount += findRawReactants(conversion, e[1], amt = e[0])[1]
-                                print(leftovers)
-                                print(oreCount)
+                                print(e, 'asdf')
+                                leftovers[e[1]] += 1
+                                #print(leftovers)
+                                #print(oreCount)
+                amtProduced += increment
     print(increment, oreCount)
-    return increment, oreCount
+    return increment, oreCount, amtProduced - increment
 
-findRawReactants(conversion, element = 'FUEL', amt = 1)
+findRawReactants(conversion, element = 'B', amt = 3)
 print(leftovers)

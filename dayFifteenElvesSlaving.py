@@ -32,7 +32,7 @@ class Droid(intCode):
     
     def opFour(self, arg1):
         if arg1 == 0:
-            self.coordinates.append(self.wallHit + [0])
+            self.coordinates.append(self.wallHit() + [0])
         elif arg1 == 1:
             self.move()
             self.coordinates.append(self.currPos + [1])
@@ -41,6 +41,7 @@ class Droid(intCode):
             self.coordinates.append(self.currPos + [2])
             self.foundOx = True
         print(self.coordinates)
+        self.v += 2
             
     def move(self):
         if self.orientation == 1:
@@ -64,7 +65,7 @@ class Droid(intCode):
             self.copy[1] -= 1
         return copy
 
-with open('amazonElves.txt') as stuff:
+with open('data stuff/amazonElves.txt') as stuff:
     Data = [int(x) for x in stuff.readline().rstrip().split(sep = ',')]
 
 code = Droid(Data)

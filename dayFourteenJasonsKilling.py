@@ -1,4 +1,5 @@
 from math import ceil
+from sys import exit
 
 data = open("data stuff/jason.txt")
 conversion = []  # each element: [product, reactants]
@@ -68,4 +69,13 @@ def findRawReactants(reactionList, element="FUEL", amt=1):
 print(findRawReactants(conversion, element="FUEL", amt=1)[1])
 
 #PART 2
+leftovers = {s: 0 for s in elements}
 totalOre = 10 ** 12
+fuelCount = 0
+while True:
+    fuelCount += 1 
+    reference = findRawReactants(conversion)
+    totalOre -= reference[1]
+    if totalOre < 0:
+        fuelCount  -= 1
+        break

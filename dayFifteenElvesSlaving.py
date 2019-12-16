@@ -14,7 +14,7 @@ class Droid(intCode):
         self.reference = self.data.copy()
         self.currSetting = 0
         while self.v <= len(self.data):
-            print(self.v, self.data[self.v])
+            #print(self.v, self.data[self.v])
             self.i = self.data[self.v]
             if str(self.i)[-2:] == "99":  # way too simple so i just included it in here
                 break
@@ -26,13 +26,13 @@ class Droid(intCode):
         self.data = self.reference.copy()  # to change it back to the original
 
     def opThree(self, arg1):
-        self.data[arg1] = input('hippity hoppity where do i go-ity ')
+        self.data[arg1] = int(input('hippity hoppity where do i go-ity '))
         self.orientation = self.data[arg1]
         self.v += 2
     
     def opFour(self, arg1):
         if arg1 == 0:
-            self.coordinates.append(self.wallHit() + [0])
+            self.coordinates.append(self.currPos + [0])
         elif arg1 == 1:
             self.move()
             self.coordinates.append(self.currPos + [1])
@@ -40,33 +40,22 @@ class Droid(intCode):
             self.move()
             self.coordinates.append(self.currPos + [2])
             self.foundOx = True
-        print(self.coordinates)
+        print(self.coordinates[-1])
         self.v += 2
             
     def move(self):
         if self.orientation == 1:
-            self.currPos[0] += 1
-        elif self.orientation == 2:
-            self.currPos[0] -= 1
-        elif self.orientation == 3:
             self.currPos[1] += 1
-        elif self.orientation == 4:
-            self.currPos[1] -= 1
-
-    def wallHit(self):
-        copy = [x for x in self.currPos]
-        if self.orientation == 1:
-            self.copy[0] += 1
         elif self.orientation == 2:
-            self.copy[0] -= 1
+            self.currPos[1] -= 1
         elif self.orientation == 3:
-            self.copy[1] += 1
+            self.currPos[0] += 1
         elif self.orientation == 4:
-            self.copy[1] -= 1
-        return copy
+            self.currPos[0] -= 1
 
 with open('data stuff/amazonElves.txt') as stuff:
     Data = [int(x) for x in stuff.readline().rstrip().split(sep = ',')]
 
+#PART 1
 code = Droid(Data)
 code.interpret()

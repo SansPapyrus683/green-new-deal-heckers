@@ -16,11 +16,12 @@ class Arcade(intCode):
 
     def opThree(self, arg1):
         x = showBoard()
-        self.data[arg1] = int(input("*atari intensifies* "))
+        #self.data[arg1] = int(input("*atari intensifies* "))
+        print(x)
         self.ballPos, self.boardPos = x[1][:2], x[2][:2]
         self.score = x[-1]
         self.v += 2
-        #self.data[arg1] = sign(self.ballPos[0] - self.boardPos[0])
+        self.data[arg1] = sign(self.ballPos[0] - self.boardPos[0])
 
     def opFour(self, arg1):
         self.outputs.append(arg1)
@@ -37,18 +38,13 @@ def showBoard():
     yVals.sort(reverse=True)
     canvas = [
         [x, y, False]
-        for x in range(max(xVals) + 1)  # making a raw canvas
-        for y in range(max(yVals) + 1)  # just consists of all the points
+        for y in range(max(yVals) + 1)  # making a raw canvas
+        for x in range(max(xVals) + 1)  # just consists of all the points
     ]
-    goodCanvs = []
-    for y in range(max(yVals) + 1):
-        for c in canvas:
-            if c[1] == y:
-                goodCanvs.append(c)  # makes the points in the order i want
     for p in procsessed:
-        for pt in goodCanvs:  # compares it with the outputs
+        for pt in canvas:  # compares it with the outputs
             if p[:2] == pt[:2]:  # to see if it should be anything else
-                goodCanvs[goodCanvs.index(pt)] = p
+                canvas[canvas.index(pt)] = p
     result = []
     procsessed.reverse()
     for l in procsessed:
@@ -56,22 +52,24 @@ def showBoard():
             result.append(l[-1])
             print("Score: %s" % l[-1])
             break
-    for chungus in chunks(goodCanvs, max(xVals) + 1):
+    for chungus in chunks(canvas, max(xVals) + 1):
+        temp = ''
         for pt in chungus:
             if pt[-1]:
                 if pt[-1] == 1:
-                    print(" W ", end="")  # wall or smth
+                    temp += ' W '
                 elif pt[-1] == 2:
-                    print(" B ", end="")  # block
-                if pt[-1] == 3:
-                    print("___", end="")  # the paddle
+                    temp += ' B '
+                elif pt[-1] == 3:
+                    temp += '___'
                     result.append(pt)
-                if pt[-1] == 4:
-                    print(" * ", end="")  # the one ball
+                elif pt[-1] == 4:
+                    temp += ' * '
                     result.append(pt)
             else:
-                print("   ", end="")
-        print("")
+                temp += '   '
+
+        print(temp)
     return result
 
 

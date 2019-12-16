@@ -1,27 +1,25 @@
 from math import ceil
 
-data = open('data stuff/test.txt')
-conversion = [] #each element: [product, reactants]
+data = open("data stuff/jason.txt")
+conversion = []  # each element: [product, reactants]
 with data as Data:
     for line in data.readlines():
         temp = []
-        line = line.rstrip().split(sep = ' => ')
+        line = line.rstrip().split(sep=" => ")
         line.reverse()
         temp.append([int(line[0].split()[0]), line[0].split()[1]])
-        line = line[1].split(sep = ', ')
+        line = line[1].split(sep=", ")
         for r in line:
             r = r.split()
             temp.append([int(r[0]), r[1]])
         conversion.append(temp)
+    elements = [k[1] for d in conversion for k in d]
+    elements = list(set(elements))
+    leftovers = {s: 0 for s in elements}
+    print(conversion)
 
-print(conversion)
-elements = [k[1] for d in conversion for k in d]
-elements = list(set(elements))
-leftovers = {s: 0 for s in elements}
-#leftovers['A'] = 3
-print(leftovers)
 
-def findRawReactants(reactionList, element = 'FUEL', amt = 1):
+def findRawReactants(reactionList, element="FUEL", amt=1):
     """break everything down into ore components
     amt is the amt that we want produced
     oh and primitive elements are ones that can be directly
@@ -38,34 +36,36 @@ def findRawReactants(reactionList, element = 'FUEL', amt = 1):
                 leftovers[element] = alreadyHave - amt
                 alreadyHave -= amt
                 continue
-            productionTimes = ceil(amt/increment)
-            print(productionTimes, 'times to do it')
+            productionTimes = ceil(amt / increment)
+            #print(productionTimes, "times to do it")
             amtProduced = 0
-            for i in range(productionTimes): #does it enough to produce the amt
+            for i in range(productionTimes):  # does it enough to produce the amt
                 for e in reaction[1:]:
-                    if e[-1] == 'ORE':
+                    if e[-1] == "ORE":
                         for i in range(productionTimes):
                             oreCount += e[0]
                             amtProduced += increment
                         leftovers[element] += amtProduced - amt
-                        print(increment, oreCount)
                         return increment, oreCount
                     else:
-                        print(e)
-                        print('finding the ore needed to produce %s of %s' %(e[0], e[1]))
+                        # print('finding the ore needed to produce %s of %s' %(e[0], e[1]))
                         for r in reactionList:
-                            if r[0][1] == e[1] and r[-1][1] == 'ORE':
-                                #print('%s is a primitive element' % e)
-                                oreCount += findRawReactants(conversion, e[1], amt = e[0])[1]
+                            if r[0][1] == e[1] and r[-1][1] == "ORE":
+                                # print('%s is a primitive element' % e)
+                                oreCount += findRawReactants(
+                                    conversion, e[1], amt=e[0]
+                                )[1]
                             elif r[0][1] == e[1]:
-                                oreCount += findRawReactants(conversion, e[1], amt = e[0])[1]
-                                print(leftovers)
-                                print(oreCount)
+                                oreCount += findRawReactants(
+                                    conversion, e[1], amt=e[0]
+                                )[1]
                 amtProduced += increment
             leftovers[element] += amtProduced - amt
 
-    print(increment, oreCount)
     return increment, oreCount
 
-findRawReactants(conversion, element = 'B', amt = 3)
-print(leftovers)
+#PART 1
+print(findRawReactants(conversion, element="FUEL", amt=1)[1])
+
+#PART 2
+totalOre = 10 ** 12

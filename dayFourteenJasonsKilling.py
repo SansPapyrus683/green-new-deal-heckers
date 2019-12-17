@@ -62,8 +62,8 @@ def findRawReactants(reactionList = conversion, element="FUEL", amt=1):
     return increment, oreCount
 
 #PART 1
-print(findRawReactants(conversion, element="FUEL", amt=1)[1])
-
+print(findRawReactants(conversion, element="FUEL", amt=500000000)[1])
+exit()
 #PART 2
 oreNum = 10**12
 #1 trillion is 12 0's

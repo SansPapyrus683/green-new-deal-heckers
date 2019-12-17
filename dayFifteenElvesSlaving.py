@@ -8,6 +8,8 @@ class Droid(intCode):
         self.coordinates = [[0,0,1]] #coordinates then thing
         self.currPos = [0, 0]
         self.foundOx = False
+        self.orientation = 1
+        self.blocked = False
 
     def interpret(self):
         self.v = 0
@@ -28,15 +30,19 @@ class Droid(intCode):
     def opThree(self, arg1):
         self.data[arg1] = int(input('hippity hoppity where do i go-ity '))
         self.orientation = self.data[arg1]
+        if not self.blocked:
+            self.data[arg1] = self.orientation
         self.v += 2
     
     def opFour(self, arg1):
-        if arg1 == 0:
+        if arg1 == 0: #this wall can commit not alive
             self.coordinates.append(self.currPos + [0])
-        elif arg1 == 1:
+            self.blocked = True
+        elif arg1 == 1: #well we moved
             self.move()
             self.coordinates.append(self.currPos + [1])
-        elif arg1 == 2:
+            self.blocked = False
+        elif arg1 == 2: #HALLELUJAH
             self.move()
             self.coordinates.append(self.currPos + [2])
             self.foundOx = True

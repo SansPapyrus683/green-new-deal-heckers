@@ -69,3 +69,4 @@ code = Arcade(Data)
 code.data[0] = 2
 code.interpret()
 print('Total score: %s' % code.score)
+processOutputs()

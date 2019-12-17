@@ -51,12 +51,7 @@ def findRawReactants(reactionList = conversion, element="FUEL", amt=1):
                     else:
                         # print('finding the ore needed to produce %s of %s' %(e[0], e[1]))
                         for r in reactionList:
-                            if r[0][1] == e[1] and r[-1][1] == "ORE":
-                                # print('%s is a primitive element' % e)
-                                oreCount += findRawReactants(
-                                    conversion, e[1], amt=e[0]
-                                )[1]
-                            elif r[0][1] == e[1]:
+                            if r[0][1] == e[1]:
                                 oreCount += findRawReactants(
                                     conversion, e[1], amt=e[0]
                                 )[1]
@@ -75,14 +70,16 @@ currNum = oreNum//2
 searchRange = [1, oreNum]
 while searchRange[1] - searchRange[0] > 1:
     leftovers = {s: 0 for s in elements}
-    if findRawReactants(amt = currNum)[1] < oreNum: #GIMME MORE
+    reference = findRawReactants(amt = currNum)[1]
+    if reference < oreNum: #GIMME MORE
         searchRange[0] += (searchRange[1] - searchRange[0] + 1)//2
         currNum += (searchRange[1] - searchRange[0] + 1)//2
-    elif findRawReactants(amt = currNum)[1] > oreNum: #ooh thats a diddly darn too much
+    elif reference > oreNum: #ooh thats a diddly darn too much
         searchRange[1] -= (searchRange[1] - searchRange[0] + 1)//2
         currNum -= (searchRange[1] - searchRange[0] + 1)//2
     else:
         print('ok we can make this much ore %s' % currNum)
         exit()
+    print('searched one time')
 
 print('well we have this, so... %s' % searchRange[0])

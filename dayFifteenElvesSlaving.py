@@ -53,6 +53,18 @@ class Droid(intCode):
         elif self.orientation == 4:
             self.currPos[0] -= 1
 
+    def testMove(self):
+        self.copy = self.currPos[:]
+        if self.orientation == 1:
+            self.copy[1] += 1
+        elif self.orientation == 2:
+            self.copy[1] -= 1
+        elif self.orientation == 3:
+            self.copy[0] += 1
+        elif self.orientation == 4:
+            self.copy[0] -= 1
+        return copy
+
 with open('data stuff/amazonElves.txt') as stuff:
     Data = [int(x) for x in stuff.readline().rstrip().split(sep = ',')]
 

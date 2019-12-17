@@ -55,6 +55,7 @@ def findRawReactants(reactionList = conversion, element="FUEL", amt=1):
                                 oreCount += findRawReactants(
                                     conversion, e[1], amt=e[0]
                                 )[1]
+                                break
                 amtProduced += increment
             leftovers[element] += amtProduced - amt
 

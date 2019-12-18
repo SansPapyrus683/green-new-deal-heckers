@@ -68,5 +68,5 @@ with open("data stuff/javaBad.txt") as stuff:
 code = Arcade(Data)
 code.data[0] = 2
 code.interpret()
+code.score = processOutputs()[0] #just process the outputs one more time
 print('Total score: %s' % code.score)
-processOutputs()

@@ -30,31 +30,32 @@ def findRawReactants(reactionList = conversion, element="FUEL", amt=1):
     oreCount = 0
     increment = reactionList[element][0]
     alreadyHave = leftovers[element]
+    #print('well we already have %s of %s' % (alreadyHave, element))
     if amt >= alreadyHave:
         amt -= alreadyHave
         leftovers[element] = 0
     elif amt < alreadyHave:
-        leftovers[element] = alreadyHave - amt
-        alreadyHave -= amt
+        leftovers[element] -= amt
+        #alreadyHave -= amt
+        return 0
     productionTimes = ceil(amt/increment) #calc the amt of times needed to produce
     amtProduced = 0
+    #rint('for %s we need to make it %s times' % (element, productionTimes))
     for i in range(productionTimes):  # does it enough to produce the amt
         for e in reactionList[element][1:]:
             if e[-1] == "ORE":
                 oreCount += e[0]
-                amtProduced += increment
             else:
                 # print('finding the ore needed to produce %s of %s' %(e[0], e[1]))
                 oreCount += findRawReactants(element = e[1], amt = e[0])
-                amtProduced += increment
+        amtProduced += increment
     leftovers[element] += amtProduced - amt
 
     return oreCount
 
 #PART 1
 print(findRawReactants(conversion, element="FUEL", amt=1))
-print(leftovers)
-exit()
+
 #PART 2
 oreNum = 10**12
 #1 trillion is 12 0's
@@ -74,4 +75,4 @@ while searchRange[1] - searchRange[0] > 1:
         exit()
     print('searched one time')
 
-print('well we have this, so... %s' % searchRange[0])
+print('well we have this, so we can make this much: %s' % searchRange[0])

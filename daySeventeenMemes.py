@@ -21,7 +21,7 @@ class Scaffold(intCode):
             print('')
         self.v += 2
 
-with open('memlord.txt') as stuff:
+with open('data stuff/memlord.txt') as stuff:
     code = Scaffold([int(x) for x in stuff.readline().rstrip().split(sep = ',')])
     code.interpret()
     #print(code.coordinates)

@@ -35,7 +35,7 @@ class Droid(intCode):
         if self.doneMoving:
         #were done moving- now lets see the new thing
             if self.orientation == 1:
-                self.moveList = [3,1,4,2] #these stuff in wrong order, must fix
+                self.moveList = [3,1,4,2]
             elif self.orientation == 2:
                 self.moveList = [4,2,3,1]
             elif self.orientation == 3:
@@ -48,7 +48,6 @@ class Droid(intCode):
         #self.data[arg1] = int(input('hippity hoppity where do i go-ity '))
         self.orientation = self.data[arg1]
         self.v += 2
-    #GET THE COMEDY NOTES BACK
 
     def opFour(self, arg1): #always just gives 0 1 or 2
         if arg1 == 0: #this wall can commit not alive
@@ -59,14 +58,15 @@ class Droid(intCode):
             if self.currPos not in self.coordinates:
                 self.coordinates.append(self.currPos[:])
             #print(self.currPos)
-            self.showMaze()
+            #self.showMaze()
             self.doneMoving = True
             self.moveCheck = 0
         elif arg1 == 2: #HALLELUJAH
             self.move()
             if self.currPos not in self.coordinates:
                 self.coordinates.append(self.currPos[:])
-            self.foundOx == True
+            self.foundOx = True
+            print('FOUND AT %s HALLELUJAH BABY' % self.currPos)
         #print(self.coordinates[-1])
         self.v += 2
         

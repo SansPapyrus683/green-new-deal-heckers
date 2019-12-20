@@ -1,3 +1,5 @@
+from justStupidIntcode import chunks
+
 with open("data stuff/milkFlashback.txt") as data:
     for line in data.readlines():
         # PART 1
@@ -28,13 +30,6 @@ with open("data stuff/milkFlashback.txt") as data:
         print(oneCount * twoCount)
 
 # PART 2
-def chunks(lst, n):
-    """Yield successive n-sized chunks from lst. shamless copied from
-    stack overflow lol"""
-    for i in range(0, len(lst), n):
-        yield lst[i : i + n]
-
-
 final = []
 layerCopy = layers.copy()
 zippedLayers = zip(*layerCopy)

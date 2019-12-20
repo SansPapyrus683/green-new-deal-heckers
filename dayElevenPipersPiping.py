@@ -94,8 +94,6 @@ whitePanels = [
 # print(whitePanels)
 xVals = list({a[0] for a in code.panels})
 yVals = list({a[1] for a in code.panels})
-xVals.sort()
-yVals.sort(reverse=True)
 canvas = [
     [x, y, False]
     for x in range(min(xVals), max(xVals) + 1)

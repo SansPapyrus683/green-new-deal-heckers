@@ -6,11 +6,14 @@ from sys import exit
 class Droid(intCode):
     def __init__(self, code):
         super().__init__(code)
-        self.coordinates = [[0,0,1]] #coordinates then thing
+        self.coordinates = [[0,0]] #coordinates then thing
+        #these coordinates only have valid positions
         self.currPos = [0, 0]
         self.foundOx = False
-        self.orientation = 3 #start facing right bc why not
-        self.moveBack = [0, False]
+        self.orientation = 1 #i kno this is the right hand rule but whatevs
+        self.doneMoving = True
+        self.moveCheck = 0 #vibe check intensifies
+        #but relly tho the above just goes through each of the moves
 
     def interpret(self):
         self.v = 0
@@ -29,24 +32,40 @@ class Droid(intCode):
         self.data = self.reference.copy()  # to change it back to the original
 
     def opThree(self, arg1):
-        self.data[arg1] = int(input('hippity hoppity where do i go-ity '))
+        if self.doneMoving:
+        #were done moving- now lets see the new thing
+            if self.orientation == 1:
+                self.moveList = [3,1,4,2] #these stuff in wrong order, must fix
+            elif self.orientation == 2:
+                self.moveList = [4,2,3,1]
+            elif self.orientation == 3:
+                self.moveList = [2,3,1,4]
+            elif self.orientation == 4:
+                self.moveList = [1,4,2,3]
+            self.doneMoving = False
+        self.data[arg1] = self.moveList[self.moveCheck]
+        self.moveCheck += 1
+        #self.data[arg1] = int(input('hippity hoppity where do i go-ity '))
         self.orientation = self.data[arg1]
         self.v += 2
     #GET THE COMEDY NOTES BACK
 
     def opFour(self, arg1): #always just gives 0 1 or 2
         if arg1 == 0: #this wall can commit not alive
-            print('dumb droid haha')
-            if self.currPos not in self.coordinates:
-                self.coordinates.append(self.currPos)
+            pass
+            #print('dumb droid haha')
         elif arg1 == 1: #well we moved
             self.move()
             if self.currPos not in self.coordinates:
-                self.coordinates.append(self.currPos)
+                self.coordinates.append(self.currPos[:])
             print(self.currPos)
+            self.doneMoving = True
+            self.moveCheck = 0
         elif arg1 == 2: #HALLELUJAH
             self.move()
-            self.coordinates.append(self.currPos + [2])
+            if self.currPos not in self.coordinates:
+                self.coordinates.append(self.currPos)
+            self.foundOx == True
         #print(self.coordinates[-1])
         self.v += 2
         
@@ -66,3 +85,25 @@ with open('data stuff/amazonElves.txt') as stuff:
 #PART 1
 code = Droid(Data)
 code.interpret()
+exit()
+#THE BOTTOM PART JUST MAKES OUT A PATH: I JUST SOLVE IT BY HAND
+xVals = list({a[0] for a in code.coordinates})
+yVals = list({a[1] for a in code.coordinates})
+canvas = [
+[x, y, False]
+for y in range(max(yVals) + 1)  # making a raw canvas
+for x in range(max(xVals) + 1)  # just consists of all the points
+]
+for p in code.coordinates:
+    for pt in canvas:
+        if pt[:2] == p[:2]:
+            canvas[canvas.index(pt)] = p + [True]
+
+for chungus in chunks(canvas, max(xVals) - min(xVals) + 1):
+    temp = ''
+    for c in chungus:
+        if c[-1]:
+            temp += ' O '
+        else:
+            temp += '   '
+    print(temp)

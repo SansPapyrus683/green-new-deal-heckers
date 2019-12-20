@@ -59,12 +59,15 @@ class Droid(intCode):
             if self.currPos not in self.coordinates:
                 self.coordinates.append(self.currPos[:])
             print(self.currPos)
+            print(self.coordinates)
+            print(len(self.coordinates))
+            self.showMaze()
             self.doneMoving = True
             self.moveCheck = 0
         elif arg1 == 2: #HALLELUJAH
             self.move()
             if self.currPos not in self.coordinates:
-                self.coordinates.append(self.currPos)
+                self.coordinates.append(self.currPos[:])
             self.foundOx == True
         #print(self.coordinates[-1])
         self.v += 2
@@ -79,6 +82,28 @@ class Droid(intCode):
         elif self.orientation == 4:
             self.currPos[0] -= 1
 
+    def showMaze(self):
+        xVals = list({a[0] for a in self.coordinates})
+        yVals = list({a[1] for a in self.coordinates})
+        canvas = [
+        [x, y, False]
+        for y in range(max(yVals) + 1)  # making a raw canvas
+        for x in range(max(xVals) + 1)  # just consists of all the points
+        ]
+        for p in code.coordinates:
+            for pt in canvas:
+                if pt[:2] == p[:2]:
+                    canvas[canvas.index(pt)] = p + [True]
+
+        for chungus in chunks(canvas, max(xVals) - min(xVals) + 1):
+            temp = ''
+            for c in chungus:
+                if c[-1]:
+                    temp += ' O '
+                else:
+                    temp += '   '
+            print(temp)
+
 with open('data stuff/amazonElves.txt') as stuff:
     Data = [int(x) for x in stuff.readline().rstrip().split(sep = ',')]
 
@@ -87,23 +112,3 @@ code = Droid(Data)
 code.interpret()
 exit()
 #THE BOTTOM PART JUST MAKES OUT A PATH: I JUST SOLVE IT BY HAND
-xVals = list({a[0] for a in code.coordinates})
-yVals = list({a[1] for a in code.coordinates})
-canvas = [
-[x, y, False]
-for y in range(max(yVals) + 1)  # making a raw canvas
-for x in range(max(xVals) + 1)  # just consists of all the points
-]
-for p in code.coordinates:
-    for pt in canvas:
-        if pt[:2] == p[:2]:
-            canvas[canvas.index(pt)] = p + [True]
-
-for chungus in chunks(canvas, max(xVals) - min(xVals) + 1):
-    temp = ''
-    for c in chungus:
-        if c[-1]:
-            temp += ' O '
-        else:
-            temp += '   '
-    print(temp)

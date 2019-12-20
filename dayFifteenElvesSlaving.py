@@ -58,9 +58,7 @@ class Droid(intCode):
             self.move()
             if self.currPos not in self.coordinates:
                 self.coordinates.append(self.currPos[:])
-            print(self.currPos)
-            print(self.coordinates)
-            print(len(self.coordinates))
+            #print(self.currPos)
             self.showMaze()
             self.doneMoving = True
             self.moveCheck = 0
@@ -87,15 +85,17 @@ class Droid(intCode):
         yVals = list({a[1] for a in self.coordinates})
         canvas = [
         [x, y, False]
-        for y in range(max(yVals) + 1)  # making a raw canvas
-        for x in range(max(xVals) + 1)  # just consists of all the points
+        for y in range(min(yVals), max(yVals) + 1)  # making a raw canvas
+        for x in range(min(xVals), max(xVals) + 1)  # just consists of all the points
         ]
         for p in code.coordinates:
             for pt in canvas:
                 if pt[:2] == p[:2]:
                     canvas[canvas.index(pt)] = p + [True]
-
-        for chungus in chunks(canvas, max(xVals) - min(xVals) + 1):
+        goodCanvas = list(chunks(canvas, max(xVals) - min(xVals) + 1))
+        #print(goodCanvas)
+        goodCanvas.reverse()
+        for chungus in goodCanvas:
             temp = ''
             for c in chungus:
                 if c[-1]:

@@ -40,19 +40,20 @@ class Droid(intCode):
             self.moveBack = [0, False]
             self.movingBack = False
             return
-            
-        self.data[arg1] = self.order[self.checkCount]
+
         if self.checkCount == 4:
-            print('well now going %s which idk' % self.tempCo[-1][-1])
+            print('well now going %s which idk what it means' % self.tempCo[-1][-1])
             self.data[arg1] = self.tempCo[-1][-1]
             self.checkCount = 0
             self.tempCo = []
             exit()
+        self.data[arg1] = self.order[self.checkCount]
         self.checkCount += 1
         self.orientation = self.data[arg1]
         self.movingBack = True
         self.v += 2
-    
+    #GET THE COMEDY NOTES BACK
+
     def opFour(self, arg1): #always just gives 0 1 or 2
         if arg1 == 0: #this wall can commit not alive
             if self.currPos not in self.coordinates:

@@ -9,10 +9,7 @@ class Droid(intCode):
         self.coordinates = [[0,0,1]] #coordinates then thing
         self.currPos = [0, 0]
         self.foundOx = False
-        self.orientation = 1
-        self.checkCount = 0
-        self.tempCo = []
-        self.order = [3,2,1,4]
+        self.orientation = 3 #start facing right bc why not
         self.moveBack = [0, False]
 
     def interpret(self):
@@ -32,46 +29,21 @@ class Droid(intCode):
         self.data = self.reference.copy()  # to change it back to the original
 
     def opThree(self, arg1):
-        #self.data[arg1] = int(input('hippity hoppity where do i go-ity '))
-        if self.moveBack[-1]: #if we made it and we have to go back
-            self.data[arg1] = self.moveBack[0]
-            self.orientation = self.moveBack[0]
-            self.v += 2
-            self.moveBack = [0, False]
-            self.movingBack = False
-            return
-
-        if self.checkCount == 4:
-            print('well now going %s which idk what it means' % self.tempCo[-1][-1])
-            self.data[arg1] = self.tempCo[-1][-1]
-            self.checkCount = 0
-            self.tempCo = []
-            exit()
-        self.data[arg1] = self.order[self.checkCount]
-        self.checkCount += 1
+        self.data[arg1] = int(input('hippity hoppity where do i go-ity '))
         self.orientation = self.data[arg1]
-        self.movingBack = True
         self.v += 2
     #GET THE COMEDY NOTES BACK
 
     def opFour(self, arg1): #always just gives 0 1 or 2
         if arg1 == 0: #this wall can commit not alive
+            print('dumb droid haha')
             if self.currPos not in self.coordinates:
                 self.coordinates.append(self.currPos)
         elif arg1 == 1: #well we moved
             self.move()
             if self.currPos not in self.coordinates:
                 self.coordinates.append(self.currPos)
-            self.tempCo.append(self.currPos + [self.orientation]) #only valid moves go in tempco
-            if self.movingBack:
-                if self.orientation == 1:
-                    self.moveBack = [2, True]
-                elif self.orientation == 2:
-                    self.moveBack = [1, True]
-                elif self.orientation == 3:
-                    self.moveBack = [4, True]
-                elif self.orientation == 4:
-                    self.moveBack = [3, True]
+            print(self.currPos)
         elif arg1 == 2: #HALLELUJAH
             self.move()
             self.coordinates.append(self.currPos + [2])

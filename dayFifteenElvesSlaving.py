@@ -66,6 +66,7 @@ class Droid(intCode):
             if self.currPos not in self.coordinates:
                 self.coordinates.append(self.currPos[:])
             self.foundOx = True
+            self.oxSys = self.currPos[:]
             print('FOUND AT %s HALLELUJAH BABY' % self.currPos)
         #print(self.coordinates[-1])
         self.v += 2
@@ -110,5 +111,7 @@ with open('data stuff/amazonElves.txt') as stuff:
 #PART 1
 code = Droid(Data)
 code.interpret()
-exit()
-#THE BOTTOM PART JUST MAKES OUT A PATH: I JUST SOLVE IT BY HAND
+goodCoordinates = code.coordinates[:]
+oxSys = code.oxSys[:]
+print(goodCoordinates)
+print(len(goodCoordinates))

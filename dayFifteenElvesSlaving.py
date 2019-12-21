@@ -7,14 +7,12 @@ from sys import exit
 class Droid(intCode):
     def __init__(self, code):
         super().__init__(code)
-        self.coordinates = [[0, 0]]  # coordinates then thing
-        # these coordinates only have valid positions
+        self.coordinates = [[0, 0]] #good coordinates
         self.currPos = [0, 0]
         self.foundOx = False
         self.orientation = 1  # i kno this is the right hand rule but whatevs
         self.doneMoving = True
-        self.moveCheck = 0  # vibe check intensifies
-        # but relly tho the above just goes through each of the moves
+        self.moveCheck = 0 # but relly tho the above just goes through each of the moves
 
     def interpret(self):
         self.v = 0
@@ -116,5 +114,22 @@ code = Droid(Data)
 code.interpret()
 goodCoordinates = code.coordinates[:]
 oxSys = code.oxSys[:]
-print(goodCoordinates)
-print(len(goodCoordinates))
+toBeProcessed = [[0,0]] #some guy just told me to do bfs
+moveCount = 0
+while True: #theres probably a better way to do this
+    processedNowDie = []
+    for v, p in enumerate(toBeProcessed):
+        possibleNeighbours = [[p[0] + 1, p[1]], [p[0] - 1, p[1]], [p[0], p[1] + 1], [p[0], p[1] + 1]]
+        usedCoordinates = []
+        for pt in possibleNeighbours:
+            if pt in goodCoordinates:
+                toBeProcessed.append(pt)
+                usedCoordinates.append(goodCoordinates.index(pt))
+        processedNowDie.append(v)
+        for target in reversed(usedCoordinates): del goodCoordinates[target]
+        
+    for target in reversed(processedNowDie): del toBeProcessed[target]
+    moveCount += 1
+    if oxSys in toBeProcessed:
+        print('itll take %i moves to do this' % moveCount)
+        break

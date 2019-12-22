@@ -118,18 +118,30 @@ toBeProcessed = [[0,0]] #some guy just told me to do bfs
 moveCount = 0
 while True: #theres probably a better way to do this
     processedNowDie = []
+    inLine = []
     for v, p in enumerate(toBeProcessed):
-        possibleNeighbours = [[p[0] + 1, p[1]], [p[0] - 1, p[1]], [p[0], p[1] + 1], [p[0], p[1] + 1]]
-        usedCoordinates = []
+        possibleNeighbours = [[p[0] + 1, p[1]], [p[0] - 1, p[1]], [p[0], p[1] + 1], [p[0], p[1] - 1]]
         for pt in possibleNeighbours:
-            if pt in goodCoordinates:
-                toBeProcessed.append(pt)
-                usedCoordinates.append(goodCoordinates.index(pt))
+            if pt in goodCoordinates: #delete the point itself thats being processed or smth
+                inLine.append(pt) #idk this WONT WORK
+                goodCoordinates.remove(pt)
         processedNowDie.append(v)
-        for target in reversed(usedCoordinates): del goodCoordinates[target]
+        if p in goodCoordinates:
+            goodCoordinates.remove(p)
         
     for target in reversed(processedNowDie): del toBeProcessed[target]
+    toBeProcessed.extend(inLine)
     moveCount += 1
     if oxSys in toBeProcessed:
         print('itll take %i moves to do this' % moveCount)
         break
+
+#PART 2
+goodCoordinates = code.coordinates[:]
+oxSys = code.oxSys[:]
+toBeProcessed = [oxSys[:]]
+moveCount = 0
+#ya know what if you
+while goodCoordinates:
+    pass
+print('itll take %s minutes for all oxygen to infiltrate our base' % moveCount)

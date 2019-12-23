@@ -1,4 +1,4 @@
-from sys import exit #just for debugging
+from sys import exit  # just for debugging
 
 orbits = []
 with open("data stuff/geeseEggs.txt") as eggs:
@@ -21,26 +21,26 @@ def orbitNumber(planet, orbitList):
         if pl in orbited:
             # print(pl)
             orbiteeNumber += orbitNumber(pl, orbitList)
-        #i mean if nothing orbits it it doesnt matter
+        # i mean if nothing orbits it it doesnt matter
     return orbiteeNumber
 
 
-newOrbits = {} #orbited: orbitees
+newOrbits = {}  # orbited: orbitees
 for v, o in enumerate(orbits):
     tempOrbitList = o[1:]
-    for ob in orbits[:v] + orbits[v+1:]:
+    for ob in orbits[:v] + orbits[v + 1 :]:
         if ob[0] == o[0]:
             tempOrbitList.extend(ob[1:])
     newOrbits[o[0]] = tempOrbitList
-#251208
-#print(newOrbits)
+# 251208
+# print(newOrbits)
 realCount = 0
 orbited = [ob for ob in newOrbits]
 
 for ob in orbited:
     realCount += orbitNumber(ob, newOrbits)
 
-print('our checksum is %i - is that valid?' % realCount)
+print("our checksum is %i - is that valid?" % realCount)
 
 # PART 2
 def findPath(planet, orbitList):
@@ -50,15 +50,16 @@ def findPath(planet, orbitList):
             path.append(o)
         if not path:
             continue
-        elif 'COM' not in path:
+        elif "COM" not in path:
             path.extend(findPath(path[-1], orbitList))
-        elif 'COM' in path:
+        elif "COM" in path:
             return path
 
+
 for k in newOrbits:
-    if 'YOU' in newOrbits[k]:
+    if "YOU" in newOrbits[k]:
         whereUAt = k
-    elif 'SAN' in newOrbits[k]:
+    elif "SAN" in newOrbits[k]:
         whereHeAt = k
 
 yourPath = findPath(whereUAt, newOrbits)
@@ -69,4 +70,4 @@ for v, pl in enumerate(yourPath):
         if pl == pla:
             if v + x + 2 < lowestScore:
                 lowestScore = v + x + 2
-print('the min amt of orbital transfers  is %i' % lowestScore)
+print("the min amt of orbital transfers  is %i" % lowestScore)

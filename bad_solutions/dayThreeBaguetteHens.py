@@ -90,10 +90,10 @@ print(lowestScore)
 
 # PART 2
 lowestScore = float("inf")
-#print(associatedLines)
+# print(associatedLines)
 for v, point in enumerate(goodPoints):
     lines = associatedLines[v]
-    #print(point, lines)
+    # print(point, lines)
     # print(lines[0])
     firstCount, secondCount = 0, 0
     for x in firstWireLines:

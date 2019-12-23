@@ -1,7 +1,9 @@
 from justStupidIntcode import *
 from collections import defaultdict
-#this one is cold and calculating
-#for the fun one go to dayThirteenCodersPlaying
+
+# this one is cold and calculating
+# for the fun one go to dayThirteenCodersPlaying
+
 
 class Arcade(intCode):
     def __init__(self, code):
@@ -16,7 +18,7 @@ class Arcade(intCode):
 
     def opThree(self, arg1):
         x = showBoard()
-        #self.data[arg1] = int(input("*atari intensifies* "))
+        # self.data[arg1] = int(input("*atari intensifies* "))
         print(x)
         self.ballPos, self.boardPos = x[1][:2], x[2][:2]
         self.score = x[-1]
@@ -53,21 +55,21 @@ def showBoard():
             print("Score: %s" % l[-1])
             break
     for chungus in chunks(canvas, max(xVals) + 1):
-        temp = ''
+        temp = ""
         for pt in chungus:
             if pt[-1]:
                 if pt[-1] == 1:
-                    temp += ' W '
+                    temp += " W "
                 elif pt[-1] == 2:
-                    temp += ' B '
+                    temp += " B "
                 elif pt[-1] == 3:
-                    temp += '___'
+                    temp += "___"
                     result.append(pt)
                 elif pt[-1] == 4:
-                    temp += ' * '
+                    temp += " * "
                     result.append(pt)
             else:
-                temp += '   '
+                temp += "   "
 
         print(temp)
     return result
@@ -82,7 +84,7 @@ with open("data stuff/javaBad.txt") as stuff:
     for chungus in chunks(code.outputs, 3):
         if chungus[-1] == 2:
             blockCount += 1
-    print('Block count: %s' % blockCount)
+    print("Block count: %s" % blockCount)
 
 # PART 2
 code = Arcade(Data)

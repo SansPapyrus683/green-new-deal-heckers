@@ -1,7 +1,9 @@
 from justStupidIntcode import *
 from collections import defaultdict
-#this one is cold and calculating
-#for the fun one go to dayThirteenCodersPlaying
+
+# this one is cold and calculating
+# for the fun one go to dayThirteenCodersPlaying
+
 
 class Arcade(intCode):
     def __init__(self, code):
@@ -21,7 +23,7 @@ class Arcade(intCode):
         self.score = x[0]
         self.v += 2
         self.data[arg1] = sign(self.ballPos[0] - self.boardPos[0])
-        #print(sign(self.ballPos[0] - self.boardPos[0]))
+        # print(sign(self.ballPos[0] - self.boardPos[0]))
 
     def opFour(self, arg1):
         # print(arg1)
@@ -35,7 +37,7 @@ def processOutputs():
     for chungus in chunks(code.outputs, 3):
         procsessed.append(chungus)
     procsessed.reverse()
-    #print(procsessed)
+    # print(procsessed)
     for l in procsessed:
         if l[:2] == [-1, 0]:
             result.append(l[-1])
@@ -43,12 +45,12 @@ def processOutputs():
             print("Score: %s" % l[-1])
             break
     for chungus in chunks(procsessed, max(a[0] for a in procsessed) + 1):
-        #print(chungus)
+        # print(chungus)
         for pt in chungus:
             if pt[-1]:
-                if pt[-1] == 3: #paddle detected
+                if pt[-1] == 3:  # paddle detected
                     result.append(pt)
-                elif pt[-1] == 4: #ball detected
+                elif pt[-1] == 4:  # ball detected
                     result.append(pt)
     return result
 
@@ -62,11 +64,11 @@ with open("data stuff/javaBad.txt") as stuff:
     for chungus in chunks(code.outputs, 3):
         if chungus[-1] == 2:
             blockCount += 1
-    print('Block count: %s' % blockCount)
+    print("Block count: %s" % blockCount)
 
 # PART 2
 code = Arcade(Data)
 code.data[0] = 2
 code.interpret()
-code.score = processOutputs()[0] #just process the outputs one more time
-print('Total score: %s' % code.score)
+code.score = processOutputs()[0]  # just process the outputs one more time
+print("Total score: %s" % code.score)

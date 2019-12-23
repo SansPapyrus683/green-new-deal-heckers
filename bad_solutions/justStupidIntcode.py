@@ -1,5 +1,7 @@
 from collections import defaultdict
+
 """just a bunch of functions that i might use later on"""
+
 
 class intCode:
     """if you wanna kno what the frick this does,
@@ -165,6 +167,7 @@ def chunks(lst, n):
     for i in range(0, len(lst), n):
         yield lst[i : i + n]
 
+
 def sign(n):
     """need i say more?"""
     if n < 0:
@@ -174,19 +177,21 @@ def sign(n):
     else:
         return 0
 
+
 def ascii(before):
     before = list(before)
-    after = ''
+    after = ""
     for c in before:
         after += str(ord(c))
     return after
+
 
 if __name__ == "__main__":
     with open("data stuff/gardenTool.txt") as data:
         Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
         code = intCode(Data)
         code.interpret()
-    for chungus in chunks([1,2,3,4,5,6], 3):
+    for chungus in chunks([1, 2, 3, 4, 5, 6], 3):
         print(chungus)
     print(sign(8), sign(-9), sign(0))
-    print(ascii('8,9'))
+    print(ascii("8,9"))

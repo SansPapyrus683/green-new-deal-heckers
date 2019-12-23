@@ -69,7 +69,7 @@ if partOneRun:
         if len(seen) > count:
             good = a
             count = len(seen)
-    print('%s is the optimal asteroid, it can see %i others' % (good, count))
+    print("%s is the optimal asteroid, it can see %i others" % (good, count))
 
 # PART 2
 # good for my input was [19,11]

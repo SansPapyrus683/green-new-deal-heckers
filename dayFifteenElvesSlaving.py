@@ -141,7 +141,23 @@ goodCoordinates = code.coordinates[:]
 oxSys = code.oxSys[:]
 toBeProcessed = [oxSys[:]]
 moveCount = 0
-#ya know what if you
+#ya know what if you look at the maze theres only a little
+#it wont really matter nao
+#maybe ill clean it up later
 while goodCoordinates:
-    pass
+    processedNowDie = []
+    inLine = []
+    for v, p in enumerate(toBeProcessed):
+        possibleNeighbours = [[p[0] + 1, p[1]], [p[0] - 1, p[1]], [p[0], p[1] + 1], [p[0], p[1] - 1]]
+        for pt in possibleNeighbours:
+            if pt in goodCoordinates:
+                inLine.append(pt)
+                goodCoordinates.remove(pt)
+        processedNowDie.append(v)
+        if p in goodCoordinates:
+            goodCoordinates.remove(p)
+        
+    for target in reversed(processedNowDie): del toBeProcessed[target]
+    toBeProcessed.extend(inLine)
+    moveCount += 1
 print('itll take %s minutes for all oxygen to infiltrate our base' % moveCount)

@@ -1,5 +1,7 @@
+from sys import exit #just for debugging
+
 orbits = []
-with open("datat stuff/geeseEggs.txt") as eggs:
+with open("data stuff/geeseEggs.txt") as eggs:
     for line in eggs.readlines():
         orbits.append(
             [s for s in line.rstrip().split(sep=")")]
@@ -12,65 +14,53 @@ for o in orbits:
             plantes.append(x)
 
 # PART 1
-def calculateOrbits(planet, orbitList):
-    orbitedList = [i[0] for i in orbitList]
-    orbiteeList = []
-    # print(orbitedList)
-    for sl in orbitList:
-        if sl[0] == planet:
-            orbiteeList.extend(sl[1:])
-            for pl in sl[1:]:
-                # print(pl, orbitedList)
-                if pl in orbitedList:
-                    # print(pl)
-                    orbiteeList.extend(calculateOrbits(pl, orbitList))
-            else:
-                return orbiteeList
-    return set(orbiteeList)
+def orbitNumber(planet, orbitList):
+    orbiteeNumber = 0
+    orbiteeNumber += len(orbitList[planet])
+    for pl in orbitList[planet]:
+        if pl in orbited:
+            # print(pl)
+            orbiteeNumber += orbitNumber(pl, orbitList)
+        #i mean if nothing orbits it it doesnt matter
+    return orbiteeNumber
 
 
-newOrbits = (
-    []
-)  # heres the struct for a single element: [orbitedPlanet, *insert planets that directly orbit*]
+newOrbits = {} #orbited: orbitees
 for v, o in enumerate(orbits):
-    o = o[0]
-    temporaryOrbitList = [o]
-    for ob in orbits:
-        if ob[0] == o:
-            temporaryOrbitList.append(ob[1])
-    if len(temporaryOrbitList) > 1:
-        newOrbits.append(temporaryOrbitList)
-
-print(newOrbits)
+    tempOrbitList = o[1:]
+    for ob in orbits[:v] + orbits[v+1:]:
+        if ob[0] == o[0]:
+            tempOrbitList.extend(ob[1:])
+    newOrbits[o[0]] = tempOrbitList
+#251208
+#print(newOrbits)
 realCount = 0
-orbited = set(ob[0] for ob in newOrbits)
+orbited = [ob for ob in newOrbits]
 
 for ob in orbited:
-    realCount += len(calculateOrbits(ob, newOrbits))
+    realCount += orbitNumber(ob, newOrbits)
 
-print(realCount)
+print('our checksum is %i - is that valid?' % realCount)
 
 # PART 2
 def findPath(planet, orbitList):
     path = []
     for o in orbitList:
-        if planet in o[1:]:
-            path.append(o[0])
+        if planet in orbitList[o]:
+            path.append(o)
         if not path:
             continue
-        if not "COM" in path:
+        elif 'COM' not in path:
             path.extend(findPath(path[-1], orbitList))
-        if "COM" in path:
+        elif 'COM' in path:
             return path
 
+for k in newOrbits:
+    if 'YOU' in newOrbits[k]:
+        whereUAt = k
+    elif 'SAN' in newOrbits[k]:
+        whereHeAt = k
 
-for v, thing in enumerate(newOrbits):
-    if "YOU" in thing:
-        # print(thing)
-        whereUAt = thing[0]
-    if "SAN" in thing:
-        # print(thing)
-        whereHeAt = thing[0]
 yourPath = findPath(whereUAt, newOrbits)
 santaPath = findPath(whereHeAt, newOrbits)
 lowestScore = float("inf")
@@ -79,4 +69,4 @@ for v, pl in enumerate(yourPath):
         if pl == pla:
             if v + x + 2 < lowestScore:
                 lowestScore = v + x + 2
-print(lowestScore)
+print('the min amt of orbital transfers  is %i' % lowestScore)

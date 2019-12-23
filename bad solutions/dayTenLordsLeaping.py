@@ -3,7 +3,7 @@ from sys import exit
 
 asteroids = []
 allpts = []
-file = open("whoLeaps.txt")
+file = open("data stuff/whoLeaps.txt")
 with file as data:
     for v, line in enumerate(data):
         count = 0
@@ -69,7 +69,7 @@ if partOneRun:
         if len(seen) > count:
             good = a
             count = len(seen)
-    print(count, good)  # the good is for part 2
+    print('%s is the optimal asteroid, it can see %i others' % (good, count))
 
 # PART 2
 # good for my input was [19,11]

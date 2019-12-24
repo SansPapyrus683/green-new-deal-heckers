@@ -1,7 +1,8 @@
 # dont ask what happened to day sixteen
 # we all miss it
 from justStupidIntcode import intCode, ascii
-
+written = open('data stuff/heckingScaffolding.txt', 'w')
+written.write(' ')
 
 class Scaffold(intCode):
     def __init__(self, code):
@@ -11,26 +12,24 @@ class Scaffold(intCode):
         self.coordinates = []
 
     def opFour(self, arg1):
-        if arg1 == 35:
-            print(" # ", end="")
+        print(' ' + chr(arg1) + ' ', end = '')
+        written.write(' ' + chr(arg1) + ' ')
+        if arg1 in [35, 94, 62, 60, 118]:
             self.coordinates.append([self.xVal, self.yVal])
             self.xVal += 1
         elif arg1 == 46:
-            print(" . ", end="")
             self.xVal += 1
         elif arg1 == 10:
             self.yVal += 1
             self.xVal = 0
-            print("")
         self.v += 2
 
 
 with open("data stuff/memlord.txt") as stuff:
     code = Scaffold([int(x) for x in stuff.readline().rstrip().split(sep=",")])
-    code.interpret()
-    # print(code.coordinates)
 
 # PART 1
+code.interpret()
 alignParaSum = 0
 for c in code.coordinates:
     testee = [[c[0] + 1, c[1]], [c[0] - 1, c[1]], [c[0], c[1] + 1], [c[0], c[1] - 1]]
@@ -44,3 +43,4 @@ print("The sum of the alignment parameters is %s" % alignParaSum)
 
 # PART 2
 code.data[0] = 2
+code.interpret()

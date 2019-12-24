@@ -1,4 +1,7 @@
-file = open("data stuff/test.txt")
+"""IM NOT SANTA
+IM JUST ROBBING A BANK IN NOVEMBER
+but really im running out of ideas"""
+file = open("data stuff/bankInNovember")
 sigCode = []
 with file as data:
     for l in data.readlines():
@@ -34,12 +37,14 @@ if partOneRun:
 #PART 2
 offset = int(''.join([str(s) for s in sigCode[:7]]))
 whatWeWant = (sigCode * 10000)[offset:]
-print(len(whatWeWant))
+print(offset)
 for i in range(100):
+    masterSum = sum(whatWeWant)
     result = []
     for v, n in enumerate(whatWeWant):
-        result.append(sum(whatWeWant[v:]) % 10)
-    whatWeWant = result[:]
-    print('one time')
+        result.append(masterSum % 10)
+        masterSum -= n
+    whatWeWant = result
+    #print('one time')
 
 print(whatWeWant[:8])

@@ -1,4 +1,4 @@
-file = open("data stuff/bankInNovember")
+file = open("data stuff/test.txt")
 sigCode = []
 with file as data:
     for l in data.readlines():
@@ -6,7 +6,6 @@ with file as data:
             sigCode.append(int(s))
 
 # PART 1
-#print(sigCode)
 pattern = [0, 1, 0, -1]
 
 def oneStep(code, times):
@@ -28,8 +27,19 @@ def oneStep(code, times):
         #print(code)   
     return code         
 
-print(oneStep(sigCode, 100))
+partOneRun = False
+if partOneRun:
+    print(oneStep(sigCode, 100))
 
 #PART 2
-sigCode = sigCode * 10000
-print(oneStep(sigCode, 100))
+offset = int(''.join([str(s) for s in sigCode[:7]]))
+whatWeWant = (sigCode * 10000)[offset:]
+print(len(whatWeWant))
+for i in range(100):
+    result = []
+    for v, n in enumerate(whatWeWant):
+        result.append(sum(whatWeWant[v:]) % 10)
+    whatWeWant = result[:]
+    print('one time')
+
+print(whatWeWant[:8])

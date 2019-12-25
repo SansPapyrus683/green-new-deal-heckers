@@ -1,8 +1,6 @@
 # dont ask what happened to day sixteen
 # we all miss it
 from justStupidIntcode import intCode, ascii
-written = open('data stuff/heckingScaffolding.txt', 'w')
-written.write(' ')
 
 class Scaffold(intCode):
     def __init__(self, code):
@@ -14,9 +12,8 @@ class Scaffold(intCode):
     def opFour(self, arg1):
         try:
             print(' ' + chr(arg1) + ' ', end = '')
-        except ValueError:
+        except:
             print('i think this is the amount of spacedust collected %i' % arg1)
-        written.write(chr(arg1))
         if arg1 in [35, 94, 62, 60, 118]:
             self.coordinates.append([self.xVal, self.yVal])
             self.xVal += 1
@@ -47,3 +44,4 @@ print("The sum of the alignment parameters is %s" % alignParaSum)
 # PART 2
 code.data[0] = 2
 code.interpret()
+#see data stuff/heckingScaffolding for my movement pattern

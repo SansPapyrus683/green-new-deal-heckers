@@ -39,12 +39,10 @@ offset = int(''.join([str(s) for s in sigCode[:7]]))
 whatWeWant = (sigCode * 10000)[offset:]
 print(offset)
 for i in range(100):
-    masterSum = sum(whatWeWant)
-    result = []
-    for v, n in enumerate(whatWeWant):
-        result.append(masterSum % 10)
-        masterSum -= n
-    whatWeWant = result
+    masterSum = 0
+    for x in range(len(whatWeWant) - 1, -1, -1):
+        masterSum += whatWeWant[x]
+        whatWeWant[x] = masterSum % 10
     #print('one time')
 
 print(whatWeWant[:8])

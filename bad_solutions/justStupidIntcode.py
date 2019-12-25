@@ -178,12 +178,8 @@ def sign(n):
         return 0
 
 
-def ascii(before):
-    before = list(before)
-    after = ""
-    for c in before:
-        after += str(ord(c))
-    return after
+def ascii(before: str) -> list:
+    return list(map(ord, before))
 
 
 if __name__ == "__main__":

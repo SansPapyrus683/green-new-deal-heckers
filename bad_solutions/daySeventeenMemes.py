@@ -12,8 +12,8 @@ class Scaffold(intCode):
     def opFour(self, arg1):
         try:
             print(' ' + chr(arg1) + ' ', end = '')
-        except:
-            print('i think this is the amount of spacedust collected %i' % arg1)
+        except ValueError:
+            print('SPAAAACEDUUUUUST: %i' % arg1)
         if arg1 in [35, 94, 62, 60, 118]:
             self.coordinates.append([self.xVal, self.yVal])
             self.xVal += 1

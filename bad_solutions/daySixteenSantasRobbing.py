@@ -11,6 +11,7 @@ with file as data:
 # PART 1
 pattern = [0, 1, 0, -1]
 
+
 def oneStep(code, times):
     for y in range(times):
         result = []
@@ -21,21 +22,22 @@ def oneStep(code, times):
             actualMatch = nextPatterns[1:]
             while len(actualMatch) < len(code):
                 actualMatch.extend(nextPatterns)
-            #print(actualMatch)
+            # print(actualMatch)
             tempSum = 0
             for v, x in enumerate(code):
-                tempSum += x* actualMatch[v]
+                tempSum += x * actualMatch[v]
             result.append(int(str(tempSum)[-1]))
         code = result[:]
-        #print(code)   
-    return code         
+        # print(code)
+    return code
+
 
 partOneRun = False
 if partOneRun:
     print(oneStep(sigCode, 100))
 
-#PART 2
-offset = int(''.join([str(s) for s in sigCode[:7]]))
+# PART 2
+offset = int("".join([str(s) for s in sigCode[:7]]))
 whatWeWant = (sigCode * 10000)[offset:]
 print(offset)
 for i in range(100):
@@ -43,6 +45,6 @@ for i in range(100):
     for x in range(len(whatWeWant) - 1, -1, -1):
         masterSum += whatWeWant[x]
         whatWeWant[x] = masterSum % 10
-    #print('one time')
+    # print('one time')
 
 print(whatWeWant[:8])

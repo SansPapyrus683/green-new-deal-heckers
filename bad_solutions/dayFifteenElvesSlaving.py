@@ -182,4 +182,5 @@ while goodCoordinates:
         del toBeProcessed[target]
     toBeProcessed.extend(inLine)
     moveCount += 1
+
 print("itll take %s minutes for all oxygen to infiltrate our base" % moveCount)

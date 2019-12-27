@@ -87,26 +87,21 @@ def goToPos(start, ptList, goal):
 
     return len(path), path
 
-def findAvailable(fromPos=currPos):
-    frontier = [fromPos]
-    visited = [fromPos]
-    available = []
-    while frontier:
-        inLine = []
-        for pt in frontier:
-            for pt in [p for p in findNeighbors(pt, openPts) if p not in visited]:
-                visited.append(pt)
-                inLine.append(pt)
-        frontier = inLine
-        for key in keyLoc:
-            if keyLoc[key] in frontier:
-                available.append(key)
-
-    return available
-
-
 # PART 1 OMG THIS IS WAY TOO LONG
-available = findAvailable()
+frontier = [currPos]
+visited = [currPos]
+available = []
+while frontier:
+    inLine = []
+    for pt in frontier:
+        for pt in [p for p in findNeighbors(pt, openPts) if p not in visited]:
+            visited.append(pt)
+            inLine.append(pt)
+    frontier = inLine
+    for key in keyLoc:
+        if keyLoc[key] in frontier:
+            available.append(key)
+
 neededKeys = {} #for each key of the dictionary, you need the values(empty if none)
 
 for k in keyLoc:
@@ -119,4 +114,9 @@ for k in keyLoc:
 
     neededKeys[k] = keyList
 
-print(neededKeys)
+keyDistances = {}
+for pair in combinations(keyLoc, 2):
+    #print(pair)
+    keyDistances[pair] = goToPos(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])[0]
+
+print(keyDistances)

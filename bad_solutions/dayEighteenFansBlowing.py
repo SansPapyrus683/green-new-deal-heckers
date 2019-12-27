@@ -1,7 +1,8 @@
 """neptune just reminds me of spongebob
 WHO LIVES IN A PINEAPPLE UNDER THE SEA
 maybe numpy would be good but heck that"""
-from queue import Queue
+from queue import PriorityQueue
+from itertools import combinations
 
 openPts = []  # itll be a list of tuples
 ptsWithDoors = []
@@ -9,6 +10,7 @@ keyLoc = {}
 assoDoorLoc = {}
 
 inFan = open("data stuff/test.txt")
+#inFan = open('data stuff/poPoSeidon')
 with inFan as stuff:
     yVal = 0
     for l in reversed(stuff.readlines()):
@@ -16,7 +18,7 @@ with inFan as stuff:
         l = l.rstrip()
         for c in list(l):
             if c == "#":
-                xVal += 1
+                pass
             elif c == ".":
                 openPts.append((xVal, yVal))
                 ptsWithDoors.append((xVal, yVal))
@@ -49,24 +51,33 @@ def findNeighbors(pt: "point", ptList: "list of good points") -> "list of neighb
             goodNeighbors.append(p)
     return goodNeighbors
 
+def manhattan(a, b):
+    """shameless copied from some place other than stackoverflow
+    they called me a madman"""
+    return abs(a[0] -  b[0]) + abs(a[1] - b[1])
 
 def goToPos(start, ptList, goal):
     #path that goes to the thing along with the amt of moves needed
-    frontier = Queue()
-    frontier.put(start)
+    frontier = PriorityQueue()
+    frontier.put([0, start])
     camefrom = {}
     camefrom[start] = None
+    costSoFar = {}
+    costSoFar[start] = 0
 
     while not frontier.empty():
-        current = frontier.get()
+        current = frontier.get()[1]
 
         if current == goal:
             break
 
-        for next in findNeighbors(current, ptList):
-            if next not in camefrom:
-                frontier.put(next)
-                camefrom[next] = current
+        for nextPt in findNeighbors(current, ptList):
+            newCost = costSoFar[current] + 1
+            if nextPt not in costSoFar or newCost < costSoFar[nextPt]:
+                costSoFar[nextPt] = newCost
+                priority = newCost + manhattan(nextPt, goal)
+                frontier.put([priority, nextPt])
+                camefrom[nextPt] = current
 
     current = goal
     path = []
@@ -75,7 +86,6 @@ def goToPos(start, ptList, goal):
         current = camefrom[current]
 
     return len(path), path
-
 
 def findAvailable(fromPos=currPos):
     frontier = [fromPos]
@@ -100,8 +110,8 @@ available = findAvailable()
 neededKeys = {} #for each key of the dictionary, you need the values(empty if none)
 
 for k in keyLoc:
-    #print(goToPos(keyLoc[k], ptsWithDoors, currPos))
-    keyPath = goToPos(keyLoc[k], ptsWithDoors, currPos)[1]
+    #print('processing key %s' % k)
+    keyPath = goToPos(currPos, ptsWithDoors, keyLoc[k])[1]
     keyList = []
     for d in assoDoorLoc:
         if assoDoorLoc[d] in keyPath:

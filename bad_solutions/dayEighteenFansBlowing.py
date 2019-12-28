@@ -1,13 +1,13 @@
 """neptune just reminds me of spongebob
 WHO LIVES IN A PINEAPPLE UNDER THE SEA
 maybe numpy would be good but heck that"""
-from queue import PriorityQueue
+from queue import PriorityQueue, Queue
 from itertools import combinations
 
 openPts = []  # itll be a list of tuples
 ptsWithDoors = []
 keyLoc = {}
-assoDoorLoc = {}
+DoorLoc = {}
 
 inFan = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/test.txt")
 # inFan = open('data stuff/poPoSeidon')
@@ -28,7 +28,7 @@ with inFan as stuff:
                 currPos = (xVal, yVal)
             else:
                 if c.upper() == c:  # door found
-                    assoDoorLoc[c] = (xVal, yVal)
+                    DoorLoc[c] = (xVal, yVal)
                     ptsWithDoors.append((xVal, yVal))
                 else:  # key instead
                     keyLoc[c] = (xVal, yVal)
@@ -62,10 +62,8 @@ def goToPos(start, ptList, goal):
     # path that goes to the thing along with the amt of moves needed
     frontier = PriorityQueue()
     frontier.put([0, start])
-    camefrom = {}
-    camefrom[start] = None
-    costSoFar = {}
-    costSoFar[start] = 0
+    camefrom = {start: None}  # pycharm told me to do this
+    costSoFar = {start: 0}
 
     while not frontier.empty():
         current = frontier.get()[1]
@@ -90,7 +88,6 @@ def goToPos(start, ptList, goal):
     return len(path), path
 
 
-# PART 1 OMG THIS IS WAY TOO LONG
 frontier = [currPos]
 visited = [currPos]
 available = []
@@ -111,8 +108,8 @@ for k in keyLoc:
     # print('processing key %s' % k)
     keyPath = goToPos(currPos, ptsWithDoors, keyLoc[k])[1]
     keyList = []
-    for d in assoDoorLoc:
-        if assoDoorLoc[d] in keyPath:
+    for d in DoorLoc:
+        if DoorLoc[d] in keyPath:
             keyList.append(d.lower())
 
     neededKeys[k] = keyList
@@ -124,8 +121,28 @@ for pair in combinations(keyLoc, 2):
 for k in available:
     keyDistances[("start", k[-1])] = goToPos(currPos, ptsWithDoors, keyLoc[k[-1]])[0]
 
-print(keyDistances)
-print(neededKeys)
-#data strucutre- [[([collected keys], key location), [all the nodes or keys or smth you can go to i think]]]
-for k in neededKeys:
-    if not neededKeys[k]:
+print('distance from each key (including the start): %s' % keyDistances)
+print('these are the keys you need for each other key: %s' % neededKeys)
+
+
+# PART 1 OMG THIS IS WAY TOO LONG
+def findKeys(alreadyHave, keyRequirement=neededKeys):
+    """takes a buncha keys and returns the keys you can get"""
+    canGet = []
+    for k in keyRequirement:
+        if set(keyRequirement[k]).issubset(set(alreadyHave)) and k not in alreadyHave:
+            canGet.append(k)
+    return canGet
+
+
+horribleKeyGraph = [[[], 'start']]
+toBeProcessed = Queue()
+toBeProcessed.put(horribleKeyGraph[0])
+
+while not toBeProcessed.empty():
+    current = toBeProcessed.get()
+    for ke in findKeys((current[0])):
+        havedKeys = [ke]
+        havedKeys.extend(current[0])
+        horribleKeyGraph.append([havedKeys, ke])
+        toBeProcessed.put([havedKeys, ke])

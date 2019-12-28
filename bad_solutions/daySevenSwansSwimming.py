@@ -1,7 +1,7 @@
 from itertools import permutations
 from justStupidIntcode import intCode
 
-with open("swanLake.txt") as data:
+with open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/swanLake.txt") as data:
     for line in data.readlines():
         Data = [int(x) for x in line.rstrip().split(sep=",")]
 

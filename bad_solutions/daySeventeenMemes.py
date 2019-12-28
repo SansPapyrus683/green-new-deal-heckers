@@ -43,7 +43,7 @@ class Scaffold(intCode):
         self.v += 2
 
 
-with open("data stuff/memlord.txt") as stuff:
+with open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/memlord.txt") as stuff:
     code = Scaffold([int(x) for x in stuff.readline().rstrip().split(sep=",")])
 
 # PART 1

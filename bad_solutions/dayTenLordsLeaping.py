@@ -3,7 +3,7 @@ from sys import exit
 
 asteroids = []
 allpts = []
-file = open("data stuff/whoLeaps.txt")
+file = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/whoLeaps.txt")
 with file as data:
     for v, line in enumerate(data):
         count = 0

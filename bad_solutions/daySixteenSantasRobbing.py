@@ -1,7 +1,7 @@
 """IM NOT SANTA
 IM JUST ROBBING A BANK IN NOVEMBER
 but really im running out of ideas"""
-file = open("data stuff/bankInNovember")
+file = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/bankInNovember")
 sigCode = []
 with file as data:
     for l in data.readlines():

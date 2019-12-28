@@ -1,7 +1,7 @@
 # a better one that only calculates line segments
 from itertools import product
 
-tooLongSoHereItIsInASeperateFile = open("data stuff/frenchHens.txt")
+tooLongSoHereItIsInASeperateFile = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/frenchHens.txt")
 # tooLongSoHereItIsInASeperateFile = open('test.txt')
 for v, line in enumerate(tooLongSoHereItIsInASeperateFile):
     if v == 0:

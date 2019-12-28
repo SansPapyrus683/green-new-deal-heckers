@@ -9,8 +9,8 @@ ptsWithDoors = []
 keyLoc = {}
 assoDoorLoc = {}
 
-inFan = open("data stuff/test.txt")
-#inFan = open('data stuff/poPoSeidon')
+inFan = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/test.txt")
+# inFan = open('data stuff/poPoSeidon')
 with inFan as stuff:
     yVal = 0
     for l in reversed(stuff.readlines()):
@@ -51,13 +51,15 @@ def findNeighbors(pt: "point", ptList: "list of good points") -> "list of neighb
             goodNeighbors.append(p)
     return goodNeighbors
 
+
 def manhattan(a, b):
     """shameless copied from some place other than stackoverflow
     they called me a madman"""
-    return abs(a[0] -  b[0]) + abs(a[1] - b[1])
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
 
 def goToPos(start, ptList, goal):
-    #path that goes to the thing along with the amt of moves needed
+    # path that goes to the thing along with the amt of moves needed
     frontier = PriorityQueue()
     frontier.put([0, start])
     camefrom = {}
@@ -87,6 +89,7 @@ def goToPos(start, ptList, goal):
 
     return len(path), path
 
+
 # PART 1 OMG THIS IS WAY TOO LONG
 frontier = [currPos]
 visited = [currPos]
@@ -102,10 +105,10 @@ while frontier:
         if keyLoc[key] in frontier:
             available.append(key)
 
-neededKeys = {} #for each key of the dictionary, you need the values(empty if none)
+neededKeys = {}  # for each key of the dictionary, you need the values(empty if none)
 
 for k in keyLoc:
-    #print('processing key %s' % k)
+    # print('processing key %s' % k)
     keyPath = goToPos(currPos, ptsWithDoors, keyLoc[k])[1]
     keyList = []
     for d in assoDoorLoc:
@@ -116,7 +119,13 @@ for k in keyLoc:
 
 keyDistances = {}
 for pair in combinations(keyLoc, 2):
-    #print(pair)
+    # print(pair)
     keyDistances[pair] = goToPos(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])[0]
+for k in available:
+    keyDistances[("start", k[-1])] = goToPos(currPos, ptsWithDoors, keyLoc[k[-1]])[0]
 
 print(keyDistances)
+print(neededKeys)
+#data strucutre- [[([collected keys], key location), [all the nodes or keys or smth you can go to i think]]]
+for k in neededKeys:
+    if not neededKeys[k]:

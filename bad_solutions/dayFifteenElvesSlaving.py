@@ -114,7 +114,7 @@ class Droid(intCode):
             print(temp)
 
 
-with open("data stuff/amazonElves.txt") as stuff:
+with open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/amazonElves.txt") as stuff:
     Data = [int(x) for x in stuff.readline().rstrip().split(sep=",")]
 
 # PART 1

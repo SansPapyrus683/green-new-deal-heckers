@@ -56,7 +56,7 @@ def processOutputs():
 
 
 # PART 1
-with open("data stuff/javaBad.txt") as stuff:
+with open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/javaBad.txt") as stuff:
     Data = [int(x) for x in stuff.read().rstrip().split(sep=",")]
     code = Arcade(Data)
     code.interpret()

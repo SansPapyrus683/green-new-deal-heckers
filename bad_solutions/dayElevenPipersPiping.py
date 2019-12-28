@@ -64,7 +64,7 @@ class Robot(intCode):
         self.v += 2
 
 
-stuff = open("data stuff/peterPiper.txt")
+stuff = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/peterPiper.txt")
 with stuff as data:
     Data = [int(x) for x in data.readline().rstrip().split(sep=",")]
 print(Data)

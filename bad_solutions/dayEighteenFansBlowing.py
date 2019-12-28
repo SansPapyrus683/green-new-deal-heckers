@@ -3,14 +3,16 @@ WHO LIVES IN A PINEAPPLE UNDER THE SEA
 maybe numpy would be good but heck that"""
 from queue import PriorityQueue, Queue
 from itertools import combinations
+from sys import exit
 
 openPts = []  # itll be a list of tuples
 ptsWithDoors = []
 keyLoc = {}
 DoorLoc = {}
+allKeys = []
 
 inFan = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/test.txt")
-# inFan = open('data stuff/poPoSeidon')
+inFan = open('C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/poPoSeidon')
 with inFan as stuff:
     yVal = 0
     for l in reversed(stuff.readlines()):
@@ -20,8 +22,8 @@ with inFan as stuff:
             if c == "#":
                 pass
             elif c == ".":
-                openPts.append((xVal, yVal))
                 ptsWithDoors.append((xVal, yVal))
+                openPts.append((xVal, yVal))
             elif c == "@":
                 openPts.append((xVal, yVal))
                 ptsWithDoors.append((xVal, yVal))
@@ -32,10 +34,12 @@ with inFan as stuff:
                     ptsWithDoors.append((xVal, yVal))
                 else:  # key instead
                     keyLoc[c] = (xVal, yVal)
+                    allKeys.append(c)
                     openPts.append((xVal, yVal))
                     ptsWithDoors.append((xVal, yVal))
             xVal += 1
         yVal += 1
+    allKeys = tuple(allKeys)
 
 
 def findNeighbors(pt: "point", ptList: "list of good points") -> "list of neighbors":
@@ -116,13 +120,13 @@ for k in keyLoc:
 
 keyDistances = {}
 for pair in combinations(keyLoc, 2):
-    # print(pair)
     keyDistances[pair] = goToPos(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])[0]
+
 for k in available:
     keyDistances[("start", k[-1])] = goToPos(currPos, ptsWithDoors, keyLoc[k[-1]])[0]
 
-print('distance from each key (including the start): %s' % keyDistances)
-print('these are the keys you need for each other key: %s' % neededKeys)
+print("distance from each key (including the start): %s" % keyDistances)
+print("these are the keys you need for each other key: %s" % neededKeys)
 
 
 # PART 1 OMG THIS IS WAY TOO LONG
@@ -135,7 +139,22 @@ def findKeys(alreadyHave, keyRequirement=neededKeys):
     return canGet
 
 
-horribleKeyGraph = [[[], 'start']]
+def keyNeighbors(status, allPossibles):
+    possibleKeys = findKeys(status[0])
+    possibleKeys.sort()
+    neighbors = []
+    for k in possibleKeys:
+        test = [list(status[0][:]), k]
+        test[0].append(k)
+        test[0].sort()
+        test[0] = tuple(test[0])
+        test = tuple(test)
+        if test in allPossibles:
+            neighbors.append(test)
+    return neighbors
+
+
+horribleKeyGraph = [[[], "start"]]
 toBeProcessed = Queue()
 toBeProcessed.put(horribleKeyGraph[0])
 
@@ -144,5 +163,34 @@ while not toBeProcessed.empty():
     for ke in findKeys((current[0])):
         havedKeys = [ke]
         havedKeys.extend(current[0])
+        havedKeys.sort()
         horribleKeyGraph.append([havedKeys, ke])
         toBeProcessed.put([havedKeys, ke])
+
+for v, t in enumerate(horribleKeyGraph):
+    horribleKeyGraph[v][0] = tuple(horribleKeyGraph[v][0])
+horribleKeyGraph = [tuple(l) for l in horribleKeyGraph]
+
+toBeProcessedKeys = PriorityQueue()
+toBeProcessedKeys.put([0, horribleKeyGraph[0]])
+costs = {horribleKeyGraph[0][:]: 0}
+print(horribleKeyGraph)
+
+while not toBeProcessedKeys.empty():
+    current = toBeProcessedKeys.get()
+    for next in keyNeighbors(current[1], horribleKeyGraph):
+        for k in keyDistances:
+            if current[1][1] in k and next[1] in k:
+                thisCost = keyDistances[k]
+        newCost = costs[current[1]] + thisCost
+        if next not in costs or newCost < costs[next]:
+            costs[next] = newCost
+            priority = newCost
+            toBeProcessedKeys.put([priority, next])
+
+lowestMovement = float('inf')
+for k in costs:
+    if set(allKeys).issubset(set(k[0])) and costs[k] < lowestMovement:
+        lowestMovement = costs[k]
+
+print('OMG YOU COULDVE JUST WANDERED THE MAZE BUT NO YOU HAAAD TO DO IT A NERDY-BUTT WAY BUT HERE: %i' % lowestMovement)

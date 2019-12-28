@@ -1,6 +1,8 @@
 from justStupidIntcode import chunks
 
-with open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/milkFlashback.txt") as data:
+with open(
+    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/milkFlashback.txt"
+) as data:
     for line in data.readlines():
         # PART 1
         line = line.rstrip()

@@ -1,7 +1,9 @@
 from sys import exit  # just for debugging
 
 orbits = []
-with open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/geeseEggs.txt") as eggs:
+with open(
+    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/geeseEggs.txt"
+) as eggs:
     for line in eggs.readlines():
         orbits.append(
             [s for s in line.rstrip().split(sep=")")]

@@ -27,7 +27,9 @@ class Beam(intCode):
         self.v += 2
 
 
-with open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/finallySomeGoodFood") as stuff:
+with open(
+    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/finallySomeGoodFood"
+) as stuff:
     Data = [int(x) for x in stuff.readline().split(sep=",")]
 
 # PART 1

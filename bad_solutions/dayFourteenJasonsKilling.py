@@ -1,7 +1,9 @@
 from math import ceil
 from sys import exit
 
-data = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/jason.txt")
+data = open(
+    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/jason.txt"
+)
 conversion = {}  # each element: [product, reactants]
 with data as Data:
     elements = []

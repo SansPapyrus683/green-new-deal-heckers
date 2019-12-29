@@ -61,7 +61,6 @@ def manhattan(a, b):
     they called me a madman"""
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
-
 def goToPos(start, ptList, goal):
     # path that goes to the thing along with the amt of moves needed
     frontier = PriorityQueue()
@@ -109,7 +108,7 @@ while frontier:
 neededKeys = {}  # for each key of the dictionary, you need the values(empty if none)
 
 for k in keyLoc:
-    # print('processing key %s' % k)
+    print('processing key %s' % k)
     keyPath = goToPos(currPos, ptsWithDoors, keyLoc[k])[1]
     keyList = []
     for d in DoorLoc:
@@ -120,6 +119,7 @@ for k in keyLoc:
 
 keyDistances = {}
 for pair in combinations(keyLoc, 2):
+    print('asdf')
     keyDistances[pair] = goToPos(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])[0]
 
 for k in available:
@@ -143,9 +143,9 @@ def keyNeighbors(status, allPossibles):
     possibleKeys = findKeys(status[0])
     possibleKeys.sort()
     neighbors = []
-    for k in possibleKeys:
-        test = [list(status[0][:]), k]
-        test[0].append(k)
+    for key in possibleKeys:
+        test = [list(status[0][:]), key]
+        test[0].append(key)
         test[0].sort()
         test[0] = tuple(test[0])
         test = tuple(test)
@@ -161,11 +161,11 @@ toBeProcessed.put(horribleKeyGraph[0])
 while not toBeProcessed.empty():
     current = toBeProcessed.get()
     for ke in findKeys((current[0])):
-        havedKeys = [ke]
-        havedKeys.extend(current[0])
-        havedKeys.sort()
-        horribleKeyGraph.append([havedKeys, ke])
-        toBeProcessed.put([havedKeys, ke])
+        gotKeys = [ke]
+        gotKeys.extend(current[0])
+        gotKeys.sort()
+        horribleKeyGraph.append([gotKeys, ke])
+        toBeProcessed.put([gotKeys, ke])
 
 for v, t in enumerate(horribleKeyGraph):
     horribleKeyGraph[v][0] = tuple(horribleKeyGraph[v][0])
@@ -193,4 +193,4 @@ for k in costs:
     if set(allKeys).issubset(set(k[0])) and costs[k] < lowestMovement:
         lowestMovement = costs[k]
 
-print('OMG YOU COULDVE JUST WANDERED THE MAZE BUT NO YOU HAAAD TO DO IT A NERDY-BUTT WAY BUT HERE: %i' % lowestMovement)
+print('OMG YOU COULDVE JUST WANDERED THE MAZE BUT NO YOU HAD TO DO IT A NERDY-BUTT WAY BUT HERE: %i' % lowestMovement)

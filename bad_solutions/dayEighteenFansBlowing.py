@@ -12,7 +12,7 @@ DoorLoc = {}
 allKeys = []
 
 inFan = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/test.txt")
-inFan = open('C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/poPoSeidon')
+# inFan = open('C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/poPoSeidon')
 with inFan as stuff:
     yVal = 0
     for l in reversed(stuff.readlines()):
@@ -61,34 +61,52 @@ def manhattan(a, b):
     they called me a madman"""
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
+
 def goToPos(start, ptList, goal):
     # path that goes to the thing along with the amt of moves needed
-    frontier = PriorityQueue()
-    frontier.put([0, start])
+    tempFrontier = PriorityQueue()
+    tempFrontier.put([0, start])
     camefrom = {start: None}  # pycharm told me to do this
     costSoFar = {start: 0}
 
-    while not frontier.empty():
-        current = frontier.get()[1]
+    while not tempFrontier.empty():
+        processed = tempFrontier.get()[1]
 
-        if current == goal:
+        if processed == goal:
             break
 
-        for nextPt in findNeighbors(current, ptList):
-            newCost = costSoFar[current] + 1
+        for nextPt in findNeighbors(processed, ptList):
+            newCost = costSoFar[processed] + 1
             if nextPt not in costSoFar or newCost < costSoFar[nextPt]:
                 costSoFar[nextPt] = newCost
                 priority = newCost + manhattan(nextPt, goal)
-                frontier.put([priority, nextPt])
-                camefrom[nextPt] = current
+                tempFrontier.put([priority, nextPt])
+                camefrom[nextPt] = processed
 
-    current = goal
+    processed = goal
     path = []
-    while current != start:
-        path.append(current)
-        current = camefrom[current]
+    while processed != start:
+        path.append(processed)
+        processed = camefrom[processed]
 
     return len(path), path
+
+
+def justDistance(start, ptList, goal):
+    frontier = [start]
+    visited = [start]
+    moveCount = 0
+    while frontier:
+        inLine = []
+        for pt in frontier:
+            for p in findNeighbors(pt, ptList):
+                if p not in visited:
+                    inLine.append(p)
+                    visited.append(p)
+        moveCount += 1
+        frontier = inLine
+        if goal in frontier:
+            return moveCount
 
 
 frontier = [currPos]
@@ -116,18 +134,21 @@ for k in keyLoc:
             keyList.append(d.lower())
 
     neededKeys[k] = keyList
+for k in neededKeys:
+    if k in available and neededKeys[k]:
+        neededKeys[k] = []
 
 keyDistances = {}
 for pair in combinations(keyLoc, 2):
-    print('asdf')
-    keyDistances[pair] = goToPos(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])[0]
+    keyDistances[pair] = justDistance(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])
 
 for k in available:
-    keyDistances[("start", k[-1])] = goToPos(currPos, ptsWithDoors, keyLoc[k[-1]])[0]
+    keyDistances[("start", k[-1])] = justDistance(currPos, ptsWithDoors, keyLoc[k[-1]])
 
 print("distance from each key (including the start): %s" % keyDistances)
 print("these are the keys you need for each other key: %s" % neededKeys)
 
+exit()
 
 # PART 1 OMG THIS IS WAY TOO LONG
 def findKeys(alreadyHave, keyRequirement=neededKeys):

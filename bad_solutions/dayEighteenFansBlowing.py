@@ -11,7 +11,9 @@ keyLoc = {}
 DoorLoc = {}
 allKeys = []
 
-inFan = open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/test.txt")
+inFan = open(
+    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/test.txt"
+)
 # inFan = open('C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/poPoSeidon')
 with inFan as stuff:
     yVal = 0
@@ -126,7 +128,7 @@ while frontier:
 neededKeys = {}  # for each key of the dictionary, you need the values(empty if none)
 
 for k in keyLoc:
-    print('processing key %s' % k)
+    print("processing key %s" % k)
     keyPath = goToPos(currPos, ptsWithDoors, keyLoc[k])[1]
     keyList = []
     for d in DoorLoc:
@@ -148,7 +150,6 @@ for k in available:
 print("distance from each key (including the start): %s" % keyDistances)
 print("these are the keys you need for each other key: %s" % neededKeys)
 
-exit()
 
 # PART 1 OMG THIS IS WAY TOO LONG
 def findKeys(alreadyHave, keyRequirement=neededKeys):
@@ -161,25 +162,28 @@ def findKeys(alreadyHave, keyRequirement=neededKeys):
 
 
 def keyNeighbors(status, allPossibles):
-    possibleKeys = findKeys(status[0])
+    print(status, allPossibles)
+    possibleKeys = findKeys(status[1])
     possibleKeys.sort()
     neighbors = []
     for key in possibleKeys:
-        test = [list(status[0][:]), key]
+        test = [status[0][:], key]
         test[0].append(key)
         test[0].sort()
-        test[0] = tuple(test[0])
-        test = tuple(test)
         if test in allPossibles:
             neighbors.append(test)
     return neighbors
 
 
 horribleKeyGraph = [[[], "start"]]
+costs = [[horribleKeyGraph[0][:], 0]]  # hecking dicts don't support lists
 toBeProcessed = Queue()
 toBeProcessed.put(horribleKeyGraph[0])
+keysInLine = PriorityQueue()
+keysInLine.put([0, horribleKeyGraph[0]])
 
 while not toBeProcessed.empty():
+    # constructing
     current = toBeProcessed.get()
     for ke in findKeys((current[0])):
         gotKeys = [ke]
@@ -188,30 +192,37 @@ while not toBeProcessed.empty():
         horribleKeyGraph.append([gotKeys, ke])
         toBeProcessed.put([gotKeys, ke])
 
-for v, t in enumerate(horribleKeyGraph):
-    horribleKeyGraph[v][0] = tuple(horribleKeyGraph[v][0])
-horribleKeyGraph = [tuple(l) for l in horribleKeyGraph]
+    # exploring
+    visit = keysInLine.get()[1]
+    for neighbor in keyNeighbors(visit, horribleKeyGraph):
+        firstCost = 0
+        for cost in costs:
+            if cost[0] == visit:
+                initialCost = cost[1]
+            if cost[0] == neighbor:
+                firstCost = cost[1]
+        for dist in keyDistances:
+            if neighbor[1] in dist and visit[1] in dist:
+                newCost = initialCost + keyDistances[dist]
 
-toBeProcessedKeys = PriorityQueue()
-toBeProcessedKeys.put([0, horribleKeyGraph[0]])
-costs = {horribleKeyGraph[0][:]: 0}
-print(horribleKeyGraph)
-
-while not toBeProcessedKeys.empty():
-    current = toBeProcessedKeys.get()
-    for next in keyNeighbors(current[1], horribleKeyGraph):
-        for k in keyDistances:
-            if current[1][1] in k and next[1] in k:
-                thisCost = keyDistances[k]
-        newCost = costs[current[1]] + thisCost
-        if next not in costs or newCost < costs[next]:
-            costs[next] = newCost
+        if neighbor not in [l[0] for l in costs] or newCost < firstCost:
+            if neighbor not in [l[0] for l in costs]:
+                costs.append([visit, newCost])
+            else:
+                for v, cost in enumerate(costs):
+                    if cost[0] == neighbor:
+                        costs[v][1] = newCost
             priority = newCost
-            toBeProcessedKeys.put([priority, next])
+            keysInLine.put([priority, neighbor])
 
-lowestMovement = float('inf')
-for k in costs:
+print(costs)
+exit()
+lowestMovement = float("inf")
+for k in costs: #obsolete
     if set(allKeys).issubset(set(k[0])) and costs[k] < lowestMovement:
         lowestMovement = costs[k]
 
-print('OMG YOU COULDVE JUST WANDERED THE MAZE BUT NO YOU HAD TO DO IT A NERDY-BUTT WAY BUT HERE: %i' % lowestMovement)
+print(
+    "OMG YOU COULDVE JUST WANDERED THE MAZE BUT NO YOU HAD TO DO IT A NERDY-BUTT WAY BUT HERE: %i"
+    % lowestMovement
+)

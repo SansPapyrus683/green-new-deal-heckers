@@ -14,7 +14,7 @@ allKeys = []
 inFan = open(
     "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/test.txt"
 )
-inFan = open('C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/poPoSeidon')
+
 with inFan as stuff:
     yVal = 0
     for l in reversed(stuff.readlines()):
@@ -44,17 +44,17 @@ with inFan as stuff:
     allKeys = tuple(allKeys)
 
 
-def findNeighbors(pt: "point", ptList: "list of good points") -> "list of neighbors":
-    possibleNeighbors = [
+def findNeighbors(pt: "point", ptList: "list of good points"):
+    possibleNeighbors = {
         (pt[0] - 1, pt[1]),
         (pt[0] + 1, pt[1]),
         (pt[0], pt[1] - 1),
         (pt[0], pt[1] + 1),
-    ]
-    goodNeighbors = []
-    for p in possibleNeighbors:
-        if p in ptList:
-            goodNeighbors.append(p)
+    }
+    goodNeighbors = set()
+    for pt in possibleNeighbors:
+        if pt in ptList:
+            goodNeighbors.add(pt)
     return goodNeighbors
 
 
@@ -68,7 +68,7 @@ def goToPos(start, ptList, goal):
     # path that goes to the thing along with the amt of moves needed
     tempFrontier = PriorityQueue()
     tempFrontier.put([0, start])
-    camefrom = {start: None}  # pycharm told me to do this
+    cameFromPos = {start: None}  # pycharm told me to do this
     costSoFar = {start: 0}
 
     while not tempFrontier.empty():
@@ -83,47 +83,42 @@ def goToPos(start, ptList, goal):
                 costSoFar[nextPt] = newCost
                 priority = newCost + manhattan(nextPt, goal)
                 tempFrontier.put([priority, nextPt])
-                camefrom[nextPt] = processed
+                cameFromPos[nextPt] = processed
 
     processed = goal
-    path = []
+    path = set()
     while processed != start:
-        path.append(processed)
-        processed = camefrom[processed]
+        path.add(processed)
+        processed = cameFromPos[processed]
 
     return len(path), path
 
 
 def justDistance(start, ptList, goal):
-    frontier = [start]
-    visited = [start]
+    frontier = {start}
+    visited = {start}
     moveCount = 0
     while frontier:
-        inLine = []
+        inLine = set()
         for pt in frontier:
             for p in findNeighbors(pt, ptList):
                 if p not in visited:
-                    inLine.append(p)
-                    visited.append(p)
+                    inLine.add(p)
+                visited.add(p)
+
         moveCount += 1
         frontier = inLine
         if goal in frontier:
             return moveCount
 
 
-frontier = [currPos]
-visited = [currPos]
 available = []
-while frontier:
-    inLine = []
-    for pt in frontier:
-        for pt in [p for p in findNeighbors(pt, openPts) if p not in visited]:
-            visited.append(pt)
-            inLine.append(pt)
-    frontier = inLine
-    for key in keyLoc:
-        if keyLoc[key] in frontier:
-            available.append(key)
+for k in keyLoc:
+    try:
+        goToPos(currPos, openPts, keyLoc[k])
+        available.append(k)
+    except ValueError:  # it gives me this it it cant find the key with the points
+        pass
 
 neededKeys = {}  # for each key of the dictionary, you need the values(empty if none)
 
@@ -154,11 +149,11 @@ print("these are the keys you need for each other key: %s" % neededKeys)
 # PART 1 OMG THIS IS WAY TOO LONG
 
 def findKeys(alreadyHave, keyRequirement=neededKeys):
-    """takes a buncha keys and returns the keys you can get"""
+    """takes a bunch of keys and returns the keys you can get"""
     canGet = []
-    for k in keyRequirement:
-        if set(keyRequirement[k]).issubset(set(alreadyHave)) and k not in alreadyHave:
-            canGet.append(k)
+    for required in keyRequirement:
+        if set(keyRequirement[required]).issubset(set(alreadyHave)) and required not in alreadyHave:
+            canGet.append(required)
     return canGet
 
 
@@ -177,9 +172,12 @@ def keyNeighbors(status, allPossibles):
     return neighbors
 
 
-horribleKeyGraph = [[[], "start"]]
+statusGraphs = {((), "start")}  # each will be ((already haved keys), current position (at which key?))
 toBeProcessed = Queue()
-toBeProcessed.put(horribleKeyGraph[0])
+toBeProcessed.put(((), 'start'))
+toBeProcessedKeys = PriorityQueue()
+toBeProcessedKeys.put([0, ((), 'start')])
+costs = {((), 'start'): 0}
 
 while not toBeProcessed.empty():
     current = toBeProcessed.get()
@@ -187,21 +185,16 @@ while not toBeProcessed.empty():
         gotKeys = [ke]
         gotKeys.extend(current[0])
         gotKeys.sort()
-        horribleKeyGraph.append([gotKeys, ke])
+        gotKeys = tuple(gotKeys)
+        statusGraphs.add((gotKeys, ke))
+        # print((gotKeys, ke), 'added this key')
         toBeProcessed.put([gotKeys, ke])
 
-for v, t in enumerate(horribleKeyGraph):
-    horribleKeyGraph[v][0] = tuple(horribleKeyGraph[v][0])
-horribleKeyGraph = [tuple(l) for l in horribleKeyGraph]
-
-toBeProcessedKeys = PriorityQueue()
-toBeProcessedKeys.put([0, horribleKeyGraph[0]])
-costs = {horribleKeyGraph[0][:]: 0}
-print(horribleKeyGraph)
+print(statusGraphs)
 
 while not toBeProcessedKeys.empty():
     current = toBeProcessedKeys.get()
-    for next in keyNeighbors(current[1], horribleKeyGraph):
+    for next in keyNeighbors(current[1], statusGraphs):
         for k in keyDistances:
             if current[1][1] in k and next[1] in k:
                 thisCost = keyDistances[k]
@@ -210,6 +203,8 @@ while not toBeProcessedKeys.empty():
             costs[next] = newCost
             priority = newCost
             toBeProcessedKeys.put([priority, next])
+
+print(costs)
 
 lowestMovement = float('inf')
 for k in costs:

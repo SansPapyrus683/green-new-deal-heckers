@@ -9,14 +9,10 @@ class Beam(intCode):
     def opThree(self, arg1):
         self.count += 1
         self.v += 2
-        # self.data[arg1] = int(input('apsoidfj '))
-        # return
         if self.count == 1:
             self.data[arg1] = coo[0]
-            # print('x will now be', coo[0])
         elif self.count == 2:
             self.data[arg1] = coo[1]
-            # print('y will now be',coo[1])
             self.count = 0
 
     def opFour(self, arg1):
@@ -28,7 +24,7 @@ class Beam(intCode):
 
 
 with open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/finallySomeGoodFood"
+        "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/finallySomeGoodFood"
 ) as stuff:
     Data = [int(x) for x in stuff.readline().split(sep=",")]
 
@@ -39,6 +35,7 @@ attracted = 0
 for coo in coordinates:
     code.interpret()
 print("we be attracting %s things? idk" % attracted)
+
 
 # PART 2
 # print(coordinates)
@@ -54,4 +51,21 @@ def showBeam():
         print(line)
 
 
-showBeam()
+coordinates = [[x, y, 0] for y in range(5, 100) for x in range(6, 100)]
+for coo in coordinates:
+    code.interpret()
+
+seeReading = True
+if seeReading:
+    showBeam()
+
+
+def genSquare(pt=[0, 0]):
+    """generates a 100*100 square
+    rom a single point that is the upper left corner"""
+
+    for pt in [[x, y] for y in range(pt[1] + 100) for x in range(pt[0] + 100)]:
+        yield pt
+
+
+relativePosition = [6, 5]  # all coordinates from now will be relative to this point

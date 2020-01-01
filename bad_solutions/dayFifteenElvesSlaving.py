@@ -1,13 +1,18 @@
 from justStupidIntcode import *
 from sys import exit
+import iHateMazes
 
-# norht south east west 1 2 3 4 -> x + 1, x - 1, y+ 1, y - 1
-# wall 0 (position hasnt changed), 1 empty, 2 oxygen
+
+# north south east west 1 2 3 4 -> x + 1, x - 1, y+ 1, y - 1
+# wall 0 (position hasn't changed), 1 empty, 2 oxygen
 # right up left down or 3 1 2 4
 class Droid(intCode):
     def __init__(self, code):
         super().__init__(code)
-        self.coordinates = [[0, 0]]  # good coordinates
+        self.reference = self.data.copy()
+        self.currSetting = 0
+        self.v = 0
+        self.coordinates = [(0, 0)]  # good coordinates
         self.currPos = [0, 0]
         self.foundOx = False
         self.orientation = 1  # i kno this is the right hand rule but whatevs
@@ -18,9 +23,6 @@ class Droid(intCode):
         self.foundAll = False
 
     def interpret(self):
-        self.v = 0
-        self.reference = self.data.copy()
-        self.currSetting = 0
         while self.v <= len(self.data):
             # print(self.v, self.data[self.v])
             self.i = self.data[self.v]
@@ -59,7 +61,7 @@ class Droid(intCode):
         elif arg1 == 1:  # well we moved
             self.move()
             if self.currPos not in self.coordinates:
-                self.coordinates.append(self.currPos[:])
+                self.coordinates.append(tuple(self.currPos[:]))
             if self.currPos == [0, 0]:
                 print("i think we explored all of it?")
                 self.complete = self.coordinates
@@ -71,9 +73,9 @@ class Droid(intCode):
         elif arg1 == 2:  # HALLELUJAH
             self.move()
             if self.currPos not in self.coordinates:
-                self.coordinates.append(self.currPos[:])
+                self.coordinates.append(tuple(self.currPos[:]))
             self.foundOx = True
-            self.oxSys = self.currPos[:]
+            self.oxSys = tuple(self.currPos[:])
             print("FOUND AT %s HALLELUJAH BABY" % self.currPos)
         # print(self.coordinates[-1])
         self.v += 2
@@ -115,7 +117,7 @@ class Droid(intCode):
 
 
 with open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/amazonElves.txt"
+        "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/amazonElves.txt"
 ) as stuff:
     Data = [int(x) for x in stuff.readline().rstrip().split(sep=",")]
 
@@ -124,35 +126,7 @@ code = Droid(Data)
 code.interpret()
 goodCoordinates = code.coordinates[:]
 oxSys = code.oxSys[:]
-toBeProcessed = [[0, 0]]  # some guy just told me to do bfs
-moveCount = 0
-while True:  # theres probably a better way to do this
-    processedNowDie = []
-    inLine = []
-    for v, p in enumerate(toBeProcessed):
-        possibleNeighbours = [
-            [p[0] + 1, p[1]],
-            [p[0] - 1, p[1]],
-            [p[0], p[1] + 1],
-            [p[0], p[1] - 1],
-        ]
-        for pt in possibleNeighbours:
-            if (
-                pt in goodCoordinates
-            ):  # delete the point itself thats being processed or smth
-                inLine.append(pt)  # idk this WONT WORK
-                goodCoordinates.remove(pt)
-        processedNowDie.append(v)
-        if p in goodCoordinates:
-            goodCoordinates.remove(p)
-
-    for target in reversed(processedNowDie):
-        del toBeProcessed[target]
-    toBeProcessed.extend(inLine)
-    moveCount += 1
-    if oxSys in toBeProcessed:
-        print("itll take %i moves to do this" % moveCount)
-        break
+print("itll take %i moves to do this" % iHateMazes.justDistance((0, 0), goodCoordinates, oxSys))
 
 # PART 2
 goodCoordinates = code.coordinates[:]

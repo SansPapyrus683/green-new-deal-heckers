@@ -12,6 +12,7 @@ keyLoc = {}
 doorLoc = {}
 allKeys = []
 robotStartPos = []
+startPosCount = 0
 
 inFan = open(
     "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/test.txt"
@@ -31,6 +32,8 @@ with inFan as stuff:
             elif c == "@":
                 openPts.append((xVal, yVal))
                 robotStartPos.append((xVal, yVal))
+                keyLoc['start' + str(startPosCount)] = (xVal, yVal)
+                startPosCount += 1  # they go from down to up, left to right.
             else:
                 if c.upper() == c:  # door found
                     doorLoc[c] = (xVal, yVal)
@@ -44,18 +47,14 @@ with inFan as stuff:
     allKeys = tuple(allKeys)
 
 
-def findNeighbors(pt: "the point to find neighbors for", ptList: "list of good points"):
+def iHateMazes(pt: "the point to find neighbors for", ptList: "list of good points"):
     possibleNeighbors = {
         (pt[0] - 1, pt[1]),
         (pt[0] + 1, pt[1]),
         (pt[0], pt[1] - 1),
         (pt[0], pt[1] + 1),
     }
-    goodNeighbors = set()
-    for pt in possibleNeighbors:
-        if pt in ptList:
-            goodNeighbors.add(pt)
-    return goodNeighbors
+    return possibleNeighbors.intersection(ptList)
 
 
 def manhattan(a, b):
@@ -77,7 +76,7 @@ def goToPos(start, ptList, goal):
         if processed == goal:
             break
 
-        for nextPt in findNeighbors(processed, ptList):
+        for nextPt in iHateMazes.findNeighbors(processed, ptList):
             newCost = costSoFar[processed] + 1
             if nextPt not in costSoFar or newCost < costSoFar[nextPt]:
                 costSoFar[nextPt] = newCost
@@ -99,15 +98,15 @@ def justDistance(start, ptList, goal):
     visited = {start}
     moveCount = 0
     while frontier:
-        inLine = set()
+        ptsInLine = set()
         for pt in frontier:
-            for p in findNeighbors(pt, ptList):
+            for p in iHateMazes.findNeighbors(pt, ptList):
                 if p not in visited:
-                    inLine.add(p)
+                    ptsInLine.add(p)
                 visited.add(p)
 
         moveCount += 1
-        frontier = inLine
+        frontier = ptsInLine
         if goal in frontier:
             return moveCount
 
@@ -115,6 +114,7 @@ def justDistance(start, ptList, goal):
 # each of these are associated by index, which probably is the wrong thing to do oof
 assoAvailable = []  # the list of initially available keys
 assoTotal = []  # the list of total keys for each "room"
+requirements = {}
 for startPos in robotStartPos:
     blockedYet = False
     available = []
@@ -124,7 +124,7 @@ for startPos in robotStartPos:
     while processList:
         for p in processList:
             inLine = []
-            for n in findNeighbors(p, ptsWithDoors):
+            for n in iHateMazes.findNeighbors(p, ptsWithDoors):
                 if n not in usedBefore:
                     usedBefore.append(n)
                     inLine.append(n)
@@ -139,11 +139,21 @@ for startPos in robotStartPos:
         if keyLoc[k] in usedBefore and not blockedYet:
             available.append(k)
             roomKeys.append(k)
+            requirements[k] = []
         elif keyLoc[k] in usedBefore:
+            neededKeys = []
+            for d in doorLoc:
+                if doorLoc[d] in usedBefore:
+                    neededKeys.append(d.lower())
+            requirements[k] = neededKeys
             roomKeys.append(k)
 
     assoAvailable.append(available)
     assoTotal.append(roomKeys)
 
-print(assoAvailable)
-print(assoTotal)
+keyDistances = {}
+for v, l in enumerate(assoTotal):
+    for pair in combinations(l, 2):
+        keyDistances[pair] = justDistance(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])
+
+print(keyDistances)

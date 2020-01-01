@@ -147,7 +147,7 @@ print("these are the keys you need for each other key: %s" % neededKeys)
 
 
 # PART 1 OMG THIS IS WAY TOO LONG
-
+# NOW PART 2 IS IN A SEPARATE FILE OOF
 
 def findKeys(alreadyHave, keyRequirement=neededKeys):
     """takes a bunch of keys and returns the keys you can get"""

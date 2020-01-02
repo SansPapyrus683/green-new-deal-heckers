@@ -1,8 +1,9 @@
 """neptune just reminds me of spongebob
 WHO LIVES IN A PINEAPPLE UNDER THE SEA
 maybe numpy would be good but heck that"""
-from queue import PriorityQueue, Queue
+from queue import PriorityQueue
 from itertools import combinations
+import iHateMazes
 from sys import exit
 
 # STUPID GOSH OOF PART 2 AAAAAAAA
@@ -46,114 +47,52 @@ with inFan as stuff:
         yVal += 1
     allKeys = tuple(allKeys)
 
-
-def iHateMazes(pt: "the point to find neighbors for", ptList: "list of good points"):
-    possibleNeighbors = {
-        (pt[0] - 1, pt[1]),
-        (pt[0] + 1, pt[1]),
-        (pt[0], pt[1] - 1),
-        (pt[0], pt[1] + 1),
-    }
-    return possibleNeighbors.intersection(ptList)
-
-
-def manhattan(a, b):
-    """shameless copied from some place other than stackoverflow
-    they called me a madman"""
-    return abs(a[0] - b[0]) + abs(a[1] - b[1])
-
-
-def goToPos(start, ptList, goal):
-    # path that goes to the thing along with the amt of moves needed
-    tempFrontier = PriorityQueue()
-    tempFrontier.put([0, start])
-    cameFromPos = {start: None}  # pycharm told me to do this
-    costSoFar = {start: 0}
-
-    while not tempFrontier.empty():
-        processed = tempFrontier.get()[1]
-
-        if processed == goal:
-            break
-
-        for nextPt in iHateMazes.findNeighbors(processed, ptList):
-            newCost = costSoFar[processed] + 1
-            if nextPt not in costSoFar or newCost < costSoFar[nextPt]:
-                costSoFar[nextPt] = newCost
-                priority = newCost + manhattan(nextPt, goal)
-                tempFrontier.put([priority, nextPt])
-                cameFromPos[nextPt] = processed
-
-    processed = goal
-    path = set()
-    while processed != start:
-        path.add(processed)
-        processed = cameFromPos[processed]
-
-    return len(path), path
-
-
-def justDistance(start, ptList, goal):
-    frontier = {start}
-    visited = {start}
-    moveCount = 0
-    while frontier:
-        ptsInLine = set()
-        for pt in frontier:
-            for p in iHateMazes.findNeighbors(pt, ptList):
-                if p not in visited:
-                    ptsInLine.add(p)
-                visited.add(p)
-
-        moveCount += 1
-        frontier = ptsInLine
-        if goal in frontier:
-            return moveCount
-
-
 # each of these are associated by index, which probably is the wrong thing to do oof
-assoAvailable = []  # the list of initially available keys
-assoTotal = []  # the list of total keys for each "room"
+canGetKeys = []  # the list of initially available keys
+totalRoomKeys = []  # the list of total keys for each "room"
 requirements = {}
 for startPos in robotStartPos:
     blockedYet = False
     available = []
-    roomKeys = []
+    roomKeys = set()
     processList = [startPos]
-    usedBefore = [startPos]
+    usedBefore = {startPos}
+    keysLeft = keyLoc.copy()  # to prevent searching the same key twice
     while processList:
         for p in processList:
             inLine = []
             for n in iHateMazes.findNeighbors(p, ptsWithDoors):
                 if n not in usedBefore:
-                    usedBefore.append(n)
+                    usedBefore.add(n)
                     inLine.append(n)
             processList = inLine
 
-    for d in doorLoc:
-        if doorLoc[d] in usedBefore:
-            blockedYet = True
-            continue
+        for d in doorLoc:
+            if doorLoc[d] in usedBefore:
+                blockedYet = True
+                continue
 
-    for k in keyLoc:
-        if keyLoc[k] in usedBefore and not blockedYet:
-            available.append(k)
-            roomKeys.append(k)
-            requirements[k] = []
-        elif keyLoc[k] in usedBefore:
-            neededKeys = []
-            for d in doorLoc:
-                if doorLoc[d] in usedBefore:
-                    neededKeys.append(d.lower())
-            requirements[k] = neededKeys
-            roomKeys.append(k)
+        for k in keyLoc:
+            if keyLoc[k] in usedBefore and not blockedYet:
+                available.append(k)
+                roomKeys.add(k)
+                requirements[k] = []
+                print(k, 'doesnt need any keys')
+            elif keyLoc[k] in usedBefore:
+                neededKeys = []
+                for d in doorLoc:
+                    if doorLoc[d] in usedBefore:
+                        neededKeys.append(d.lower())
+                requirements[k] = neededKeys
+                roomKeys.add(k)
 
-    assoAvailable.append(available)
-    assoTotal.append(roomKeys)
+    canGetKeys.append(available)
+    totalRoomKeys.append(list(roomKeys))
 
 keyDistances = {}
-for v, l in enumerate(assoTotal):
+for v, l in enumerate(totalRoomKeys):
     for pair in combinations(l, 2):
-        keyDistances[pair] = justDistance(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])
+        keyDistances[pair] = iHateMazes.justDistance(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])
 
+print(requirements)
 print(keyDistances)

@@ -1,6 +1,8 @@
 """neptune just reminds me of spongebob
 WHO LIVES IN A PINEAPPLE UNDER THE SEA
-maybe numpy would be good but heck that"""
+maybe numpy would be good but heck that
+but anyways this isn't a really optimized solution
+better on e is in dayEighteenFansBlowingBetter.py"""
 from queue import PriorityQueue, Queue
 from itertools import combinations
 import iHateMazes
@@ -80,21 +82,8 @@ print("these are the keys you need for each other key: %s" % neededKeys)
 
 # PART 1 OMG THIS IS WAY TOO LONG
 # NOW PART 2 IS IN A SEPARATE FILE OOF
-
-def findKeys(alreadyHave, keyRequirement=neededKeys):
-    """takes a bunch of keys and returns the keys you can get"""
-    canGet = []
-    for required in keyRequirement:
-        if (
-            set(keyRequirement[required]).issubset(set(alreadyHave))
-            and required not in alreadyHave
-        ):
-            canGet.append(required)
-    return canGet
-
-
 def keyNeighbors(status, allPossibles):
-    possibleKeys = findKeys(status[0])
+    possibleKeys = iHateMazes.findKeys(status[0], neededKeys)
     possibleKeys.sort()
     neighbors = []
     for key in possibleKeys:
@@ -119,7 +108,7 @@ costs = {((), "start"): 0}
 
 while not toBeProcessed.empty():
     current = toBeProcessed.get()
-    for ke in findKeys((current[0])):
+    for ke in iHateMazes.findKeys((current[0]), neededKeys):
         gotKeys = [ke]
         gotKeys.extend(current[0])
         gotKeys.sort()

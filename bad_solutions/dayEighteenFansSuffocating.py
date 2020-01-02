@@ -9,7 +9,7 @@ from sys import exit
 # STUPID GOSH OOF PART 2 AAAAAAAA
 openPts = []  # itll be a list of tuples
 ptsWithDoors = []
-keyLoc = {}
+keyLoc = {}  # it includes the start positions because technically they are a valid position to be at
 doorLoc = {}
 allKeys = []
 robotStartPos = []
@@ -58,6 +58,7 @@ for startPos in robotStartPos:
     processList = [startPos]
     usedBefore = {startPos}
     keysLeft = keyLoc.copy()  # to prevent searching the same key twice
+
     while processList:
         for p in processList:
             inLine = []
@@ -72,12 +73,14 @@ for startPos in robotStartPos:
                 blockedYet = True
                 continue
 
-        for k in keyLoc:
-            if keyLoc[k] in usedBefore and not blockedYet:
+        killList = []
+        for k in keysLeft:
+            if keysLeft[k] in usedBefore and not blockedYet:
                 available.append(k)
                 roomKeys.add(k)
                 requirements[k] = []
                 print(k, 'doesnt need any keys')
+                killList.append(k)
             elif keyLoc[k] in usedBefore:
                 neededKeys = []
                 for d in doorLoc:
@@ -85,14 +88,23 @@ for startPos in robotStartPos:
                         neededKeys.append(d.lower())
                 requirements[k] = neededKeys
                 roomKeys.add(k)
+                killList.append(k)
+        for target in killList:
+            del keysLeft[target]
 
     canGetKeys.append(available)
     totalRoomKeys.append(list(roomKeys))
+
+killList = []
+for req in requirements:
+    if req.startswith('start'):
+        killList.append(req)
+
+for target in killList:
+    del requirements[target]
 
 keyDistances = {}
 for v, l in enumerate(totalRoomKeys):
     for pair in combinations(l, 2):
         keyDistances[pair] = iHateMazes.justDistance(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])
 
-print(requirements)
-print(keyDistances)

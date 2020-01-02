@@ -67,6 +67,19 @@ def justDistance(start, ptList, goal) -> int:
             return moveCount
 
 
+def findKeys(alreadyHave, keyRequirement):
+    """takes a bunch of keys and returns the keys you can get
+    in case you couldn't tell, this was just for d18"""
+    canGet = []
+    for required in keyRequirement:
+        if (
+                set(keyRequirement[required]).issubset(set(alreadyHave))
+                and required not in alreadyHave
+        ):
+            canGet.append(required)
+    return canGet
+
+
 if __name__ == '__main__':
     testPts = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (1, 3), (2, 3), (3, 3), (4, 3), (4, 4), (4, 2)]
     print(justDistance((0, 0), testPts, (3, 3)))

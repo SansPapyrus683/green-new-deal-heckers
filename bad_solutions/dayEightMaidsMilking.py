@@ -1,4 +1,8 @@
-from justStupidIntcode import chunks
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst. shamless copied from
+    stack overflow lol"""
+    for i in range(0, len(lst), n):
+        yield lst[i : i + n]
 
 with open(
     "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/milkFlashback.txt"

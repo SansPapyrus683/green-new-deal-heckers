@@ -74,28 +74,36 @@ for k in available:
 
 print("distance from each key (including the start): %s" % keyDistances)
 print("these are the keys you need for each other key: %s" % neededKeys)
+statusCosts = {((), 'start'): 0}
 
-statusCosts = {}
+
 def shortestPath(current: 'at which key', alreadyHave: set, cost: int) -> int:
     global statusCosts
     alreadyHave.add(current)
+    alreadyHave = set(sorted(list(alreadyHave)))
     if allKeys.issubset(alreadyHave):
         return cost
 
     goodKeys = iHateMazes.findKeys(alreadyHave, neededKeys)
     shortest = float('inf')
     for canSee in goodKeys:
+        savedIndex = (tuple(sorted(list(alreadyHave) + [canSee])), canSee)
         thisCost = keyDistances[tuple(sorted([current, canSee]))]
-        print('calculating we go to the key %s and we already have this list of keys: %s' % (canSee, alreadyHave))
+        # print('calculating we go to the key %s and we already have this list of keys: %s' % (canSee, alreadyHave))
+        if savedIndex in statusCosts:
+            # print('in already so yea')
+            currentCost = statusCosts[(savedIndex)]
+        else:
+            print(statusCosts)
+            currentCost = shortestPath(canSee, alreadyHave.copy(), cost + thisCost)
+            statusCosts[savedIndex] = currentCost
 
-        currentCost = shortestPath(canSee, alreadyHave.copy(), cost + thisCost)
         shortest = min(shortest, currentCost)
 
     return shortest
 
-
 print('SEND YOUR ELVES TO BLOW UP THE MAZE AND YOUR DONE BOIII BUT PAOSIJDF: %i' % shortestPath('start', set(), 0))
-
+print(statusCosts)
 
 # IF YOU DONT WANT TO WAIT FOR IT TO CALC THE DISTANCES, USE THIS:
 keyDistances = {('y', 'n'): 368, ('y', 'x'): 36, ('y', 'd'): 386, ('y', 'u'): 118, ('y', 'a'): 48, ('y', 'o'): 184,

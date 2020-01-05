@@ -5,8 +5,7 @@ but anyways this isn't a really 'good' solution
 better(well, more readable) one is in dayEighteenFansBlowingBetter.py"""
 from queue import PriorityQueue, Queue
 from itertools import combinations
-from sys import exit, path
-path.insert(1, "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/bad_solutions/iHateMazes")
+from sys import exit
 import iHateMazes
 
 openPts = []  # itll be a list of tuples

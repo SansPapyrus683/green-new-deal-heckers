@@ -59,13 +59,13 @@ if seeReading:
 
 
 def testPtSquare(pt=(0, 0), dimension=3):
-    """generates a 100*100 square
+    """generates a square whose dimension defaults to 100
     from a single point that is the upper left corner
     also, tests if it is valid"""
     borderTest = [[pt[0], pt[1], 0]]
     for i in range(dimension):
         borderTest.extend(([pt[0], pt[1] + i, 0], [pt[0] + i, pt[1], 0],
-                           [pt[0] + i, pt[1] + 3, 0], [pt[0] + 3, pt[1] + i, 0]))
+                           [pt[0] + i, pt[1] + dimension, 0], [pt[0] + dimension, pt[1] + i, 0]))
     borderTest = [list(pt) for pt in set([tuple(pt) for pt in borderTest])]
     print(borderTest)
 

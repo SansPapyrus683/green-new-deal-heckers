@@ -10,7 +10,7 @@ class Beam(intCode):
         self.count += 1
         self.v += 2
         if self.count == 1:
-            self.data[arg1] = coo[0]
+            self.data[arg1] = coo[0]  # it'll be a variable implemented later
         elif self.count == 2:
             self.data[arg1] = coo[1]
             self.count = 0
@@ -24,7 +24,7 @@ class Beam(intCode):
 
 
 with open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/finallySomeGoodFood"
+        "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/finallySomeGoodFood"
 ) as stuff:
     Data = [int(x) for x in stuff.readline().split(sep=",")]
 
@@ -38,7 +38,6 @@ print("we be attracting %s things? idk" % attracted)
 
 
 # PART 2
-# print(coordinates)
 def showBeam():
     xVals = list(set([x[0] for x in coordinates]))
     for l in chunks(coordinates, max(xVals) - min(xVals) + 1):
@@ -51,21 +50,32 @@ def showBeam():
         print(line)
 
 
-coordinates = [[x, y, 0] for y in range(5, 100) for x in range(6, 100)]
-for coo in coordinates:
-    code.interpret()
-
 seeReading = True
 if seeReading:
+    coordinates = [[x, y, 0] for y in range(100) for x in range(100)]
+    for coo in coordinates:
+        code.interpret()
     showBeam()
 
 
-def genSquare(pt=[0, 0]):
+def testPtSquare(pt=(0, 0), dimension=3):
     """generates a 100*100 square
-    rom a single point that is the upper left corner"""
+    from a single point that is the upper left corner
+    also, tests if it is valid"""
+    borderTest = [[pt[0], pt[1], 0]]
+    for i in range(dimension):
+        borderTest.extend(([pt[0], pt[1] + i, 0], [pt[0] + i, pt[1], 0],
+                           [pt[0] + i, pt[1] + 3, 0], [pt[0] + 3, pt[1] + i, 0]))
+    borderTest = [list(pt) for pt in set([tuple(pt) for pt in borderTest])]
+    print(borderTest)
 
-    for pt in [[x, y] for y in range(pt[1] + 100) for x in range(pt[0] + 100)]:
-        yield pt
+    for coo in borderTest:
+        code.interpret()
+        if not coo[-1]:
+            break
+    else:
+        return True
+    return False
 
 
-relativePosition = [6, 5]  # all coordinates from now will be relative to this point
+print(testPtSquare())

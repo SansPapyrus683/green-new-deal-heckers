@@ -1,14 +1,14 @@
 """neptune just reminds me of spongebob
 WHO LIVES IN A PINEAPPLE UNDER THE SEA
 maybe numpy would be good but heck that"""
-from queue import PriorityQueue
+from heapq import heappush, heappop
+from collections import deque
+
 from itertools import combinations
 import iHateMazes
-from queue import PriorityQueue, Queue
-from sys import exit
 
 # STUPID GOSH OOF PART 2 AAAAAAAA
-ptsWithDoors = []
+ptsWithDoors = set()
 keyLoc = {}  # it includes the start positions because technically they are a valid position to be at
 doorLoc = {}
 allKeys = set()
@@ -38,7 +38,7 @@ with inFan as stuff:
                 else:  # key instead
                     keyLoc[c] = (xVal, yVal)
                     allKeys.add(c)
-            ptsWithDoors.append((xVal, yVal))
+            ptsWithDoors.add((xVal, yVal))
             xVal += 1
         yVal += 1
 
@@ -46,7 +46,7 @@ with inFan as stuff:
 canGetKeys = []  # the list of initially available keys
 totalRoomKeys = []  # the list of total keys for each "room"
 requirements = {}
-for startPos in robotStartPos:
+for startPos in robotStartPos:  # TODO: clean this up gosh darn it
     blockedYet = False
     available = []
     roomKeys = set()
@@ -82,7 +82,7 @@ for startPos in robotStartPos:
             del keysLeft[target]
 
     canGetKeys.append(available)
-    totalRoomKeys.append(list(roomKeys))
+    totalRoomKeys.append(roomKeys)
 
 killList = []
 for req in requirements:
@@ -114,10 +114,10 @@ for key in allKeys:
     requirements[key] = neededKeys
 
 
-print(requirements)
-print(totalRoomKeys)
-print(canGetKeys)
-print(doorLoc)
+# print(requirements)
+# print(totalRoomKeys)
+# print(canGetKeys)
+# print(doorLoc)
 
 # ACTUALLY MAKING THE GRAPH AND EXPLORING IT
 def makeFinal(initial, keyToGet):
@@ -138,29 +138,27 @@ def statusNeighbors(status, allStatuses):
     return goodNeighbors
 
 
-statusGraphs = [((), ('start0', 'start1', 'start2', 'start3'))]  # the same thing as the first but four pos
-toBeProcessed = Queue()
-toBeProcessed.put(statusGraphs[0])
-costs = {statusGraphs[0]: 0}
-statusQueue = PriorityQueue()
-statusQueue.put([0, statusGraphs[0]])
-
-while not toBeProcessed.empty():
-    currStatus = toBeProcessed.get()
-    # print('processing for if this were our status:',currStatus)
+start = ((), ('start0', 'start1', 'start2', 'start3'))  # the same thing as the first but four pos
+statusGraphs = {start}
+toBeProcessed = deque([start])
+while toBeProcessed:
+    currStatus = toBeProcessed.popleft()
     for possibleKey in iHateMazes.findKeys(currStatus[0], requirements):
-        # print('what if we went for %s' % possibleKey)
         resultingStatus = makeFinal(currStatus, possibleKey)
-        # print(resultingStatus)
         if resultingStatus not in statusGraphs:
-            statusGraphs.append(resultingStatus)
-            toBeProcessed.put(resultingStatus)
+            statusGraphs.add(resultingStatus)
+            toBeProcessed.append(resultingStatus)
 
 print(statusGraphs)
 
 
-while not statusQueue.empty():  # dora the exploraaaa
-    current = statusQueue.get()[1]
+costs = {start: 0}
+statusQueue = [(0, start)]
+while statusQueue:  # dora the exploraaaa
+    moves, current = heappop(statusQueue)
+    if len(current[0]) == len(allKeys):
+        robotCost = moves
+        break
     for nextStatus in statusNeighbors(current, statusGraphs):
         for v, p in enumerate(current[1]):  # detects what change in the position it was
             if nextStatus[1][v] != p:
@@ -170,13 +168,7 @@ while not statusQueue.empty():  # dora the exploraaaa
         newCost = costs[current] + keyDistances[pair]
         if nextStatus not in costs or newCost < costs[nextStatus]:
             costs[nextStatus] = newCost
-            statusQueue.put([newCost, nextStatus])
-
-print(costs)
-robotCost = float('inf')
-for cost in costs:
-    if allKeys.issubset(set(cost[0])) and costs[cost] < robotCost:
-        robotCost = costs[cost]
+            heappush(statusQueue, (newCost, nextStatus))
 
 print('beepity boopity the robots will take a minimum of %i steps' % robotCost)
 print('but you kno you could just enslave some elves and throw them in there')

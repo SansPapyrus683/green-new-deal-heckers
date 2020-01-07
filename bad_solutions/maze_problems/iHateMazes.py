@@ -1,6 +1,6 @@
 """ill be putting all my bfs & find neighbors stuff here
 ill update d15 later, because im that lazy"""
-from queue import PriorityQueue
+from heapq import heappush, heappop
 
 
 def findNeighbors(pt: "point", ptList: "list of good points") -> set:
@@ -21,13 +21,12 @@ def manhattan(a, b) -> int:
 
 def goToPos(start, ptList, goal) -> (int, list):
     # path that goes to the thing along with the amt of moves needed
-    tempFrontier = PriorityQueue()
-    tempFrontier.put([0, start])
+    tempFrontier = [(0, start)]
     cameFromPos = {start: None}  # pycharm told me to do this
     costSoFar = {start: 0}
 
-    while not tempFrontier.empty():
-        processed = tempFrontier.get()[1]
+    while tempFrontier:
+        processed = heappop(tempFrontier)[1]
 
         if processed == goal:
             break
@@ -37,7 +36,7 @@ def goToPos(start, ptList, goal) -> (int, list):
             if nextPt not in costSoFar or newCost < costSoFar[nextPt]:
                 costSoFar[nextPt] = newCost
                 priority = newCost + manhattan(nextPt, goal)
-                tempFrontier.put([priority, nextPt])
+                heappush(tempFrontier, (priority, nextPt))
                 cameFromPos[nextPt] = processed
 
     processed = goal
@@ -71,9 +70,10 @@ def findKeys(alreadyHave, keyRequirement):
     """takes a bunch of keys and returns the keys you can get
     in case you couldn't tell, this was just for d18"""
     canGet = []
+    alreadyHave = set(alreadyHave)  # better do this once, rather than in a loop
     for required in keyRequirement:
         if (
-                set(keyRequirement[required]).issubset(set(alreadyHave))
+                set(keyRequirement[required]).issubset(alreadyHave)
                 and required not in alreadyHave
         ):
             canGet.append(required)
@@ -86,3 +86,4 @@ if __name__ == '__main__':
     print(goToPos((0, 0), testPts, (3, 3)))
     print(findNeighbors((0, 0), [(0, 1), (1, 0)]))
     print(findKeys({'a', 'b'}, {'c': ['a', 'b'], 'a': [], 'b': ['a']}))
+

@@ -3,13 +3,13 @@ WHO LIVES IN A PINEAPPLE UNDER THE SEA
 maybe numpy would be good but heck that
 but anyways this isn't a really 'good' solution
 better(well, more readable) one is in dayEighteenFansBlowingBetter.py"""
-from queue import PriorityQueue, Queue
+from heapq import heappush, heappop
+from collections import deque
 from itertools import combinations
-from sys import exit
 import iHateMazes
 
-openPts = []  # itll be a list of tuples
-ptsWithDoors = []
+openPts = set()  # itll be a set of tuples
+ptsWithDoors = set()
 keyLoc = {}
 DoorLoc = {}
 allKeys = []
@@ -27,21 +27,21 @@ with inFan as stuff:
             if c == "#":
                 pass
             elif c == ".":
-                ptsWithDoors.append((xVal, yVal))
-                openPts.append((xVal, yVal))
+                ptsWithDoors.add((xVal, yVal))
+                openPts.add((xVal, yVal))
             elif c == "@":
-                openPts.append((xVal, yVal))
-                ptsWithDoors.append((xVal, yVal))
+                openPts.add((xVal, yVal))
+                ptsWithDoors.add((xVal, yVal))
                 currPos = (xVal, yVal)
             else:
                 if c.upper() == c:  # door found
                     DoorLoc[c] = (xVal, yVal)
-                    ptsWithDoors.append((xVal, yVal))
+                    ptsWithDoors.add((xVal, yVal))
                 else:  # key instead
                     keyLoc[c] = (xVal, yVal)
                     allKeys.append(c)
-                    openPts.append((xVal, yVal))
-                    ptsWithDoors.append((xVal, yVal))
+                    openPts.add((xVal, yVal))
+                    ptsWithDoors.add((xVal, yVal))
             xVal += 1
         yVal += 1
     allKeys = tuple(allKeys)
@@ -57,7 +57,7 @@ for k in keyLoc:
 neededKeys = {}  # for each key of the dictionary, you need the values(empty if none)
 
 for k in keyLoc:
-    print("processing key %s" % k)
+    # print("processing key %s" % k)
     keyPath = iHateMazes.goToPos(currPos, ptsWithDoors, keyLoc[k])[1]
     keyList = []
     for d in DoorLoc:
@@ -76,8 +76,8 @@ for pair in combinations(keyLoc, 2):
 for k in available:
     keyDistances[("start", k[-1])] = iHateMazes.justDistance(currPos, ptsWithDoors, keyLoc[k[-1]])
 
-print("distance from each key (including the start): %s" % keyDistances)
-print("these are the keys you need for each other key: %s" % neededKeys)
+# print("distance from each key (including the start): %s" % keyDistances)
+# print("these are the keys you need for each other key: %s" % neededKeys)
 
 
 # PART 1 OMG THIS IS WAY TOO LONG
@@ -100,48 +100,43 @@ def keyNeighbors(status, allPossibles):
 statusGraphs = {
     ((), "start")
 }  # each will be ((already haved keys), current position (at which key?))
-toBeProcessed = Queue()
-toBeProcessed.put(((), "start"))
-toBeProcessedKeys = PriorityQueue()
-toBeProcessedKeys.put([0, ((), "start")])
-costs = {((), "start"): 0}
 
-while not toBeProcessed.empty():
-    current = toBeProcessed.get()
-    print(current)
-    for ke in iHateMazes.findKeys((current[0]), neededKeys):
+toBeProcessed = deque([()])
+while toBeProcessed:
+    current = toBeProcessed.popleft()
+    for ke in iHateMazes.findKeys(current, neededKeys):
         gotKeys = [ke]
-        gotKeys.extend(current[0])
+        gotKeys.extend(current)
         gotKeys.sort()
         gotKeys = tuple(gotKeys)
         if (gotKeys, ke) not in statusGraphs:
             statusGraphs.add((gotKeys, ke))
-            # print((gotKeys, ke), 'added this keySet with you being at this key')
-            toBeProcessed.put([gotKeys, ke])
+            toBeProcessed.append(gotKeys)
 
 #print(statusGraphs)
 
-while not toBeProcessedKeys.empty():  # this explores the graph
-    current = toBeProcessedKeys.get()
-    for curProcess in keyNeighbors(current[1], statusGraphs):
-        for k in keyDistances:
-            if current[1][1] in k and curProcess[1] in k:
-                thisCost = keyDistances[k]
-        newCost = costs[current[1]] + thisCost
+toBeProcessedKeys = [(0, ((), "start"))]
+costs = {((), "start"): 0}
+while toBeProcessedKeys:  # this explores the graph
+    moves, current = heappop(toBeProcessedKeys)
+    if len(current[0]) == len(allKeys):
+        # this is basically dijkstra's algorithm, so the first path found is the shortest
+        lowestMovement = moves
+        break
+    for curProcess in keyNeighbors(current, statusGraphs):
+        a, b = current[1], curProcess[1]
+        if (a, b) in keyDistances:
+            thisCost = keyDistances[a, b]
+        else:
+            thisCost = keyDistances[b, a]
+        newCost = costs[current] + thisCost
         if curProcess not in costs or newCost < costs[curProcess]:
             costs[curProcess] = newCost
             priority = newCost
-            toBeProcessedKeys.put([priority, curProcess])
+            heappush(toBeProcessedKeys, (priority, curProcess))
 
-print(costs)
-
-lowestMovement = float("inf")
-for k in costs:
-    if set(allKeys).issubset(set(k[0])) and costs[k] < lowestMovement:
-        lowestMovement = costs[k]
 
 print(
     "OMG YOU COULD'VE JUST WANDERED THE MAZE BUT NO YOU HAD TO DO IT A NERDY-BUTT WAY BUT HERE: %i"
     % lowestMovement
 )
-print("well there's %i statuses possible" % len(statusGraphs))

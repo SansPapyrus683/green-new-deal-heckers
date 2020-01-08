@@ -1,4 +1,5 @@
 from justStupidIntcode import intCode, chunks
+from sys import exit
 
 
 class Beam(intCode):
@@ -24,6 +25,7 @@ class Beam(intCode):
             attracted += 1
             coo[-1] = 1
         self.v += 2
+
 
 with open(
         "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/finallySomeGoodFood"
@@ -61,32 +63,12 @@ if seeReading:
         code.interpret()
     showBeam()
 
-
-def testPtSquare(pt=(0, 0), dimension=100):
-    """generates a square whose dimension defaults to 100
-    from a single point that is the upper left corner
-    also, tests if it is valid"""
-    borderTest = [[pt[0], pt[1], 0]]
-    for i in range(dimension):
-        borderTest.extend(([pt[0], pt[1] + i, 0], [pt[0] + i, pt[1], 0],
-                           [pt[0] + i, pt[1] + dimension, 0], [pt[0] + dimension, pt[1] + i, 0]))
-    borderTest = [list(pt) for pt in set([tuple(pt) for pt in borderTest])]
-    # print(borderTest)
-
-    for coo in borderTest:
-        code.interpret()
-        if not coo[-1]:
-            break
-    else:
-        return True
-    return False
-
-
 currYValCheck = 5  # ill go row by row
-xCheckRange = range(6-2, 6+2+1)  # also there's this gap between the first and the rest
+xCheckRange = range(6 - 2, 6 + 2 + 1)  # also there's this gap between the first and the rest
 shipDimension = 100
+attractedRecords = [None] * shipDimension
 
-for i in range(10):
+while True:  # TODO: maybe optimize this somehow?
     started = False
     record = []  # start and end (inclusive)
     for checked in xCheckRange:
@@ -96,11 +78,30 @@ for i in range(10):
             record.append(checked)
             started = True
         if (not coo[-1]) and started:
-            record.insert(0, checked - 1)
+            record.append(checked - 1)
             break
     else:
-        record.insert(0, checked)
-    print(record)
-    xCheckRange = range(record[0] - 2, record[1] + 2 + 1)
-    print(xCheckRange)
+        record.append(checked)
+
+    xCheckRange = range((record[0] - 2), (record[1] + 2 + 1))
+    attractedRecords.append(record)
+    attractedRecords.pop(0)
+    # print('a potential square coulde be in this: %s' % attractedRecords)
+    if None in attractedRecords or attractedRecords[0][1] - attractedRecords[0][0] + 1 < shipDimension:
+        currYValCheck += 1
+        continue  # not even gonna deal with this
+
+    startRange = list(range(attractedRecords[0][0], attractedRecords[0][1] + 1))
+    snapshotIndex = 0
+
+    for i in range(len(startRange) + 1 - shipDimension):
+        snapshot = startRange[snapshotIndex: snapshotIndex + shipDimension]
+        for inOrNot in attractedRecords[1:]:
+            if not (snapshot[0] >= inOrNot[0] and snapshot[1] <= inOrNot[1]):
+                break
+        else:
+            print(snapshot)
+            print('why do we even need this: %s' % [snapshot[0], currYValCheck - shipDimension + 1])
+            exit()
+        snapshotIndex += 1
     currYValCheck += 1

@@ -183,11 +183,17 @@ def ascii(before: str) -> list:
 
 
 if __name__ == "__main__":
-    with open("data stuff/gardenTool.txt") as data:
+    with open("C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/gardenTool.txt") as data:
         Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
         code = intCode(Data)
         code.interpret()
+
+    print('chunks test')
     for chungus in chunks([1, 2, 3, 4, 5, 6], 3):
         print(chungus)
+
+    print('sing function test')
     print(sign(8), sign(-9), sign(0))
+
+    print('ascii test')
     print(ascii("8,9"))

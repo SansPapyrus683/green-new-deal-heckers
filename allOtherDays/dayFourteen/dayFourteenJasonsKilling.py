@@ -1,9 +1,7 @@
 from math import ceil
 from sys import exit
 
-data = open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/jason.txt"
-)
+data = open("jason.txt")
 conversion = {}  # each element: [product, reactants]
 with data as Data:
     elements = []
@@ -57,7 +55,7 @@ def findRawReactants(reactionList=conversion, element="FUEL", amt=1):
 
 
 # PART 1
-print(findRawReactants(conversion, element="FUEL", amt=1))
+print('wow- ONE UNIT OF FUEL costs this %i ore' % findRawReactants(conversion, element="FUEL", amt=1))
 
 # PART 2
 leftoverCopies = []

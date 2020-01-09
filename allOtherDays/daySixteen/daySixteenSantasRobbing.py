@@ -1,9 +1,7 @@
 """IM NOT SANTA
 IM JUST ROBBING A BANK IN NOVEMBER
 but really im running out of ideas"""
-file = open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/bankInNovember"
-)
+file = open("bankInNovember")
 sigCode = []
 with file as data:
     for l in data.readlines():
@@ -34,14 +32,13 @@ def oneStep(code, times):
     return code
 
 
-partOneRun = False
+partOneRun = True
 if partOneRun:
-    print(oneStep(sigCode, 100))
+    print('i don\'t think this sigcode:\n %i \n is even based in science' % oneStep(sigCode, 100))
 
 # PART 2
 offset = int("".join([str(s) for s in sigCode[:7]]))
 whatWeWant = (sigCode * 10000)[offset:]
-print(offset)
 for i in range(100):
     masterSum = 0
     for x in range(len(whatWeWant) - 1, -1, -1):
@@ -49,4 +46,4 @@ for i in range(100):
         whatWeWant[x] = masterSum % 10
     # print('one time')
 
-print(whatWeWant[:8])
+print('i hate you santa - %s' % whatWeWant[:8])

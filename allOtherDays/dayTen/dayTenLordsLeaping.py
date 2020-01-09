@@ -2,21 +2,15 @@ from math import sqrt
 from sys import exit
 
 asteroids = []
-allpts = []
-file = open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/whoLeaps.txt"
-)
+file = open("whoLeaps.txt")
 with file as data:
     for v, line in enumerate(data):
         count = 0
         for c in line.rstrip():
             if c == "#":
                 asteroids.append([count, v])
-                allpts.append([count, v])
-            elif c == ".":
-                allpts.append([count, v])
-                pass
             count += 1
+
 
 # PART 1
 def distance(firstPt, secondPt):
@@ -55,15 +49,15 @@ if partOneRun:
     for v, a in enumerate(asteroids):
         # print(a)
         otherAst = asteroids[:v]
-        otherAst.extend(asteroids[v + 1 :])
+        otherAst.extend(asteroids[v + 1:])
         seen = []
         for ast in findCloset(a, otherAst):
             for aste in seen:
                 # print(ast, aste)
                 if (
-                    slope(a, ast) == slope(a, aste)
-                    and checkRange([a[0], ast[0]], aste[0])
-                    and checkRange([a[1], ast[1]], aste[1])
+                        slope(a, ast) == slope(a, aste)
+                        and checkRange([a[0], ast[0]], aste[0])
+                        and checkRange([a[1], ast[1]], aste[1])
                 ):
                     break
             else:
@@ -76,7 +70,7 @@ if partOneRun:
 # PART 2
 # good for my input was [19,11]
 allOthers = asteroids[: asteroids.index(good)]
-allOthers.extend(asteroids[asteroids.index(good) + 1 :])
+allOthers.extend(asteroids[asteroids.index(good) + 1:])
 allOthers = findCloset(good, allOthers)
 allSlopes = list(set([slope(good, p) for p in allOthers]))
 allSlopes.sort(reverse=True)

@@ -1,19 +1,18 @@
 from sys import exit  # just for debugging
 
 orbits = []
-with open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/geeseEggs.txt"
-) as eggs:
+with open("geeseEggs.txt") as eggs:
     for line in eggs.readlines():
         orbits.append(
             [s for s in line.rstrip().split(sep=")")]
         )  # the thing being orbited, the orbiter
 
-plantes = []
+allPlanets = []
 for o in orbits:
     for x in o:
-        if x not in plantes:
-            plantes.append(x)
+        if x not in allPlanets:
+            allPlanets.append(x)
+
 
 # PART 1
 def orbitNumber(planet, orbitList):
@@ -30,7 +29,7 @@ def orbitNumber(planet, orbitList):
 newOrbits = {}  # orbited: orbitees
 for v, o in enumerate(orbits):
     tempOrbitList = o[1:]
-    for ob in orbits[:v] + orbits[v + 1 :]:
+    for ob in orbits[:v] + orbits[v + 1:]:
         if ob[0] == o[0]:
             tempOrbitList.extend(ob[1:])
     newOrbits[o[0]] = tempOrbitList
@@ -43,6 +42,7 @@ for ob in orbited:
     realCount += orbitNumber(ob, newOrbits)
 
 print("our checksum is %i - is that valid?" % realCount)
+
 
 # PART 2
 def findPath(planet, orbitList):

@@ -1,4 +1,5 @@
 from itertools import permutations
+from ..justStupidIntcode import intCode
 
 data = [
     1,
@@ -153,14 +154,13 @@ data = [
 ]
 data[1], data[2] = 12, 2
 values = [[a, b] for (a, b) in permutations(list(range(0, 100)), 2)]
-# first part
-import justStupidIntcode
 
-intcode = justStupidIntcode.intCode(data)
+# first part
+intcode = intCode(data)
 intcode.interpret()
 print(intcode.changed[0])
 
-# seond part
+# second part
 data = [
     1,
     12,
@@ -312,10 +312,10 @@ data = [
     0,
     0,
 ]
-for testee in values:
-    newIntCode = justStupidIntcode.intCode(data)
-    newIntCode.data[1], newIntCode.data[2] = testee[0], testee[1]
+for possibleValue in values:
+    newIntCode = intCode(data)
+    newIntCode.data[1], newIntCode.data[2] = possibleValue[0], possibleValue[1]
     newIntCode.interpret()
     if newIntCode.changed[0] == 19690720:
-        print(testee)
+        print(possibleValue)
         break

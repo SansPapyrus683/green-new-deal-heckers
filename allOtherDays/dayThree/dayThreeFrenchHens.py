@@ -1,6 +1,4 @@
-tooLongSoHereItIsInASeperateFile = open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/frenchHens.txt"
-)
+tooLongSoHereItIsInASeperateFile = open("frenchHens.txt")
 
 for v, line in enumerate(tooLongSoHereItIsInASeperateFile):
     if v == 0:
@@ -45,7 +43,6 @@ makePts(secondData, secondPts)
 intersections = firstPts.intersection(secondPts)
 intersections.remove((0, 0))
 
-print(intersections)
 lowestDistance = float("inf")
 for cross in intersections:
     if abs(cross[0]) + abs(cross[1]) < lowestDistance:

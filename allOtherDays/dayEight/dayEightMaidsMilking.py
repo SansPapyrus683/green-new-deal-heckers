@@ -4,9 +4,8 @@ def chunks(lst, n):
     for i in range(0, len(lst), n):
         yield lst[i : i + n]
 
-with open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/milkFlashback.txt"
-) as data:
+
+with open("milkFlashback.txt") as data:
     for line in data.readlines():
         # PART 1
         line = line.rstrip()
@@ -33,7 +32,7 @@ with open(
                 oneCount += 1
             elif i == 2:
                 twoCount += 1
-        print(oneCount * twoCount)
+        print('well here? idk what purpose this serves', oneCount * twoCount)
 
 # PART 2
 final = []
@@ -48,8 +47,7 @@ for i in zippedLayers:
         elif z == 0:
             final.append(0)
             break
-print(final)
-written = open("test.txt", "w")
+
 for l in chunks(final, 25):
     for i in l:
         if i == 1:

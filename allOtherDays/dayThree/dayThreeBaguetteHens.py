@@ -1,11 +1,9 @@
 # a better one that only calculates line segments
 from itertools import product
 
-tooLongSoHereItIsInASeperateFile = open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/frenchHens.txt"
-)
-# tooLongSoHereItIsInASeperateFile = open('test.txt')
-for v, line in enumerate(tooLongSoHereItIsInASeperateFile):
+tooLongSoHereItIsInASeparateFile = open("frenchHens.txt")
+
+for v, line in enumerate(tooLongSoHereItIsInASeparateFile):
     if v == 0:
         firstData = [s for s in line.rstrip().split(sep=",")]
     elif v == 1:
@@ -88,7 +86,7 @@ for v, thing in enumerate(goodPoints):  # calculates manhattan distance of smth
     else:
         if abs(thing[0]) + abs(thing[1]) < lowestScore:
             lowestScore = abs(thing[0]) + abs(thing[1])
-print(lowestScore)
+print('this was a mistake- %i' % lowestScore)
 
 # PART 2
 lowestScore = float("inf")
@@ -128,4 +126,4 @@ for v, point in enumerate(goodPoints):
                 secondCount += abs(x[0][0] - x[1][0])
     if firstCount + secondCount < lowestScore:
         lowestScore = firstCount + secondCount
-print(lowestScore)
+print('THE RESISTANCE WILL PREVAIL! but here- %i' % lowestScore)

@@ -1,6 +1,5 @@
 from itertools import combinations
 from math import gcd
-from sys import exit  # for debugging
 
 deathMoons = [
     {"x": 17, "y": -12, "z": 13},
@@ -14,7 +13,6 @@ asoVelocities = [
     {"x": 0, "y": 0, "z": 0},
     {"x": 0, "y": 0, "z": 0},
 ]
-# print(deathMoons)
 stepCount = 0
 while stepCount < 1000:
     for pair, pairAsoV in zip(
@@ -62,19 +60,15 @@ asoVelocities = [
 
 
 def lcm(a, b):
-    """shamelessly copied from stackoverlofw"""
     return abs(a * b) // gcd(a, b)
 
 
 deathX, deathY, deathZ = (
-    [a["x"] for a in deathMoons],
-    [a["y"] for a in deathMoons],
-    [a["z"] for a in deathMoons],
+    [a["x"] for a in deathMoons] + [a["x"] for a in asoVelocities],
+    [a["y"] for a in deathMoons] + [a["y"] for a in asoVelocities],
+    [a["z"] for a in deathMoons] + [a["z"] for a in asoVelocities],
 )
-deathX.extend([a["x"] for a in asoVelocities])
-deathY.extend([a["y"] for a in asoVelocities])
-deathZ.extend([a["z"] for a in asoVelocities])
-reference = [deathX, deathY, deathZ]
+reference = [deathX, deathY, deathZ]  # to see if its the same as the starting position
 
 
 def oneStep() -> list:  # these two args specify the things needed
@@ -98,29 +92,19 @@ def oneStep() -> list:  # these two args specify the things needed
     ]
 
 
-"""
-for i in range(1008):
-    x = oneStep()
-    print(i, x[0], x[1], x[2])
-exit()
-"""
 cycles = []
-axees = [
+allAxis = [
     [a[c] for a in deathMoons] + [a[c] for a in asoVelocities] for c in ["x", "y", "z"]
 ]
 mark = 0
-for a in axees:
+for a in allAxis:
     found = False
     count = 0
     while not found:
         ax = oneStep()[mark]
         if ax == reference[mark]:
-            # print('found one at %s' % ax)
-            # print(len(a), a.index(ax))
             found = True
             cycles.append(count + 1)
-            # print(a)
-            # print(ax)
         else:
             count += 1
     mark += 1
@@ -136,7 +120,6 @@ for a in axees:
         {"x": 0, "y": 0, "z": 0},
         {"x": 0, "y": 0, "z": 0},
     ]
-print(cycles)
 x = lcm(cycles[0], cycles[1])
-x = lcm(cycles[2], x)
-print(x)
+x = lcm(cycles[2], lcm(cycles[0], cycles[1]))
+print('darn it takes %i time steps to complete a complete cycle'% x)

@@ -103,6 +103,7 @@ newData = [int(i) for i in data.split(sep="\n")]
 fuelCount = 0
 for i in newData:
     fuelCount += i // 3 - 2
+print('fuel count is go- %i' % fuelCount)
 
 
 # part 2

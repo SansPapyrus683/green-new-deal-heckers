@@ -1,6 +1,6 @@
 from justStupidIntcode import *
 from sys import exit
-import iHateMazes
+from .mazeFuncForFifteen import *
 
 
 # north south east west 1 2 3 4 -> x + 1, x - 1, y+ 1, y - 1
@@ -126,20 +126,20 @@ code = Droid(Data)
 code.interpret()
 goodCoordinates = code.coordinates[:]
 oxSys = code.oxSys[:]
-print("itll take %i moves to do this" % iHateMazes.justDistance((0, 0), goodCoordinates, oxSys))
+print("itll take %i moves to do this" % justDistance((0, 0), goodCoordinates, oxSys))
 
 # PART 2
 goodCoordinates = code.coordinates[:]
 oxSys = code.oxSys[:]
 moveCount = 0
 goodCoordinates.remove(oxSys)
-# ya know what if you look at the maze theres only a little
+# ya know what if you look at the maze there's only a little
 # it wont really matter nao
 processedNowDie = [oxSys[:]]
 while goodCoordinates:
     inLine = []
     for v, p in enumerate(processedNowDie):
-        for pt in iHateMazes.findNeighbors(p, goodCoordinates):
+        for pt in findNeighbors(p, goodCoordinates):
             inLine.append(pt)
             goodCoordinates.remove(pt)
 

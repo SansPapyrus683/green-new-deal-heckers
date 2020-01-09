@@ -1,5 +1,7 @@
 data = [273025, 767253]
 count = 0
+
+
 # PART 1- TESTVALID ONLY APPLIES FOR THIS ONE
 def testValid(value):
     i = [int(x) for x in list(str(value))]
@@ -17,6 +19,7 @@ for i in range(data[0], data[1] + 1):  # actuall runs the program
     if testValid(i):
         count += 1
 print(count)
+
 
 # PART 2 TEST VALID
 def testValid(value):

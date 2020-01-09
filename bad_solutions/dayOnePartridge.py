@@ -104,6 +104,7 @@ fuelCount = 0
 for i in newData:
     fuelCount += i // 3 - 2
 
+
 # part 2
 def fuelCeption(fuelAmt):  # this calculates the fuel all the way from the mass
     adoptedFuelCount = 0
@@ -116,4 +117,4 @@ def fuelCeption(fuelAmt):  # this calculates the fuel all the way from the mass
 returnOfTheFuelCount = 0
 for i in newData:
     returnOfTheFuelCount += fuelCeption(i)
-print(returnOfTheFuelCount)
+print('i feel apollo flashbacks- %i' % returnOfTheFuelCount)

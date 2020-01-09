@@ -80,10 +80,44 @@ def findKeys(alreadyHave, keyRequirement):
     return canGet
 
 
+ptsAndWormholes = {}
+
+
+def wormholeNeighbors(pt, ptList):
+    possibleNeighbors = {
+        (pt[0] - 1, pt[1]),
+        (pt[0] + 1, pt[1]),
+        (pt[0], pt[1] - 1),
+        (pt[0], pt[1] + 1),
+    }
+    goodNeighbors = possibleNeighbors.intersection(ptList)
+    for value in ptsAndWormholes.values():
+        if pt in value:
+            goodNeighbors.add(value[not value.index(pt)])
+    return goodNeighbors
+
+
+def wormholeDistance(start, ptList, goal) -> int:
+    frontier = {start}
+    visited = {start}
+    moveCount = 0
+    while frontier:
+        inLine = set()
+        for pt in frontier:
+            for p in wormholeNeighbors(pt, ptList):
+                if p not in visited:
+                    inLine.add(p)
+                visited.add(p)
+
+        moveCount += 1
+        frontier = inLine
+        if goal in frontier:
+            return moveCount
+
+
 if __name__ == '__main__':
     testPts = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (1, 3), (2, 3), (3, 3), (4, 3), (4, 4), (4, 2)]
     print(justDistance((0, 0), testPts, (3, 3)))
     print(goToPos((0, 0), testPts, (3, 3)))
     print(findNeighbors((0, 0), [(0, 1), (1, 0)]))
     print(findKeys({'a', 'b'}, {'c': ['a', 'b'], 'a': [], 'b': ['a']}))
-

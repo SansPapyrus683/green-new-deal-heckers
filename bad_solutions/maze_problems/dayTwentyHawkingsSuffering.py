@@ -6,7 +6,7 @@ validPlaces = []  # list of tuples, and empty places are in the coordinate syste
 ptsAndWormholes = {}  # each point is which wormhole? (ill make another good one later)
 
 # WHAT IS THIS FILE PROCESSING
-with open('C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/plutoIsntAPlanet') as data:
+with open('data stuff/plutoIsntAPlanet') as data:
     yVal = 0
     mazeList = []
     for line in data:

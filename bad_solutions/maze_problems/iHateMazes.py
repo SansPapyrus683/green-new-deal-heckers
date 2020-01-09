@@ -83,7 +83,7 @@ def findKeys(alreadyHave, keyRequirement):
 ptsAndWormholes = {}
 
 
-def wormholeNeighbors(pt, ptList):
+def wormholeNeighbors(pt, ptList, linkedPts: dict):
     possibleNeighbors = {
         (pt[0] - 1, pt[1]),
         (pt[0] + 1, pt[1]),
@@ -91,20 +91,20 @@ def wormholeNeighbors(pt, ptList):
         (pt[0], pt[1] + 1),
     }
     goodNeighbors = possibleNeighbors.intersection(ptList)
-    for value in ptsAndWormholes.values():
+    for value in linkedPts.values():
         if pt in value:
             goodNeighbors.add(value[not value.index(pt)])
     return goodNeighbors
 
 
-def wormholeDistance(start, ptList, goal) -> int:
+def wormholeDistance(start, ptList, goal, wormholePts) -> int:
     frontier = {start}
     visited = {start}
     moveCount = 0
     while frontier:
         inLine = set()
         for pt in frontier:
-            for p in wormholeNeighbors(pt, ptList):
+            for p in wormholeNeighbors(pt, ptList, wormholePts):
                 if p not in visited:
                     inLine.add(p)
                 visited.add(p)

@@ -135,7 +135,6 @@ def partTwoWormholes(start: tuple, ptList: list, goal: tuple) -> int:
 
         moveCount += 1
         frontier = inLine
-        print(visited)
         if goal in frontier:
             return moveCount
 

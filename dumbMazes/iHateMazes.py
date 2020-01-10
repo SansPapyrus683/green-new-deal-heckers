@@ -3,7 +3,7 @@ ill update d15 later, because im that lazy"""
 from heapq import heappush, heappop
 
 
-def findNeighbors(pt: "point", ptList: "list of good points") -> set:
+def findNeighbors(pt: tuple, ptList: "list of good points") -> set:
     possibleNeighbors = {
         (pt[0] - 1, pt[1]),
         (pt[0] + 1, pt[1]),
@@ -78,41 +78,6 @@ def findKeys(alreadyHave, keyRequirement):
         ):
             canGet.append(required)
     return canGet
-
-
-ptsAndWormholes = {}
-
-
-def wormholeNeighbors(pt, ptList, linkedPts: dict):
-    possibleNeighbors = {
-        (pt[0] - 1, pt[1]),
-        (pt[0] + 1, pt[1]),
-        (pt[0], pt[1] - 1),
-        (pt[0], pt[1] + 1),
-    }
-    goodNeighbors = possibleNeighbors.intersection(ptList)
-    for value in linkedPts.values():
-        if pt in value:
-            goodNeighbors.add(value[not value.index(pt)])
-    return goodNeighbors
-
-
-def wormholeDistance(start, ptList, goal, wormholePts: dict) -> int:
-    frontier = {start}
-    visited = {start}
-    moveCount = 0
-    while frontier:
-        inLine = set()
-        for pt in frontier:
-            for p in wormholeNeighbors(pt, ptList, wormholePts):
-                if p not in visited:
-                    inLine.add(p)
-                visited.add(p)
-
-        moveCount += 1
-        frontier = inLine
-        if goal in frontier:
-            return moveCount
 
 
 if __name__ == '__main__':

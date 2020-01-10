@@ -1,14 +1,9 @@
-from justStupidIntcode import intCode
-from collections import defaultdict
+from iHateIntcode.justStupidIntcode import intCode, chunks
 
 
 class Robot(intCode):
     def __init__(self, code):
-        self.data = code
-        self.data = defaultdict(int)
-        for v, i in enumerate(code):
-            self.data[v] = i
-        self.relBase = 0
+        super().__init__(code)
         self.currPos = [0, 0]
         self.panels = [[0, 0]]
         self.asoColorings = [[0, False]]
@@ -18,7 +13,6 @@ class Robot(intCode):
     def opThree(self, arg1):
         self.data[arg1] = self.asoColorings[self.panels.index(self.currPos)][0]
         self.v += 2
-        # print('heres the value that was put into the robot : %s' %self.asoColorings[self.panels.index(self.currPos)])
 
     def opFour(self, arg1):
         self.count += 1
@@ -60,17 +54,14 @@ class Robot(intCode):
             self.asoColorings.append([0, False])
         # print('position and the argument that was outputted',self.currPos, arg1)
         # print('all the panels the robot has visited: %s' % self.panels)
-        # print(' also heres the corresponding colors: %s' % self.asoColorings)
+        # print('also here\'s the corresponding colors and if they've been painted: %s' % self.asoColorings)
         self.v += 2
 
 
-stuff = open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/peterPiper.txt"
-)
-with stuff as data:
+with open("peterPiper.txt") as data:
     Data = [int(x) for x in data.readline().rstrip().split(sep=",")]
-print(Data)
-code = Robot(Data)
+    code = Robot(Data)
+
 code.interpret()
 sumPaints = 0
 for panel in code.asoColorings:
@@ -79,41 +70,27 @@ for panel in code.asoColorings:
 print(sumPaints)
 
 # PART 2
-def chunks(lst, n):
-    """Yield successive n-sized chunks from lst. shamless copied from
-    stack overflow lol"""
-    for i in range(0, len(lst), n):
-        yield lst[i : i + n]
-
-
 code = Robot(Data)
 code.asoColorings = [[1, False]]
 code.interpret()
-# print(code.asoColorings)
-whitePanels = [
-    x for x in code.panels if code.asoColorings[code.panels.index(x)][0] == 1
-]
-# print(whitePanels)
+paintedPanels = [x for x in code.panels if code.asoColorings[code.panels.index(x)][0] == 1]
 xVals = list({a[0] for a in code.panels})
 yVals = list({a[1] for a in code.panels})
 canvas = [
     [x, y, False]
-    for x in range(min(xVals), max(xVals) + 1)
     for y in range(min(yVals), max(yVals) + 1)
+    for x in range(min(xVals), max(xVals) + 1)
 ]
 for pt in canvas:
-    if pt[:2] in whitePanels:
+    if pt[:2] in paintedPanels:
         pt[-1] = True
-goodCanvs = []
-for y in yVals:
-    for c in canvas:
-        if c[1] == y:
-            goodCanvs.append(c)
 
-for chungus in chunks(goodCanvs, max(xVals) - min(xVals) + 1):
-    for c in chungus:
+canvas.reverse()
+for smallChunk in chunks(canvas, max(xVals) - min(xVals) + 1):
+    smallChunk.reverse()
+    for c in smallChunk:
         if c[-1]:
-            print(" M ", end="")
+            print(" # ", end="")
         else:
             print("   ", end="")
     print("")

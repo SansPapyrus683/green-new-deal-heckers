@@ -1,4 +1,4 @@
-from justStupidIntcode import *
+from iHateIntcode.justStupidIntcode import *
 from collections import defaultdict
 
 # this one is cold and calculating
@@ -7,11 +7,7 @@ from collections import defaultdict
 
 class Arcade(intCode):
     def __init__(self, code):
-        self.data = code
-        self.data = defaultdict(int)
-        for v, i in enumerate(code):
-            self.data[v] = i
-        self.relBase = 0
+        super().__init__(code)
         self.outputs = []
         self.score = 0
         self.calcScore = False
@@ -56,9 +52,7 @@ def processOutputs():
 
 
 # PART 1
-with open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/javaBad.txt"
-) as stuff:
+with open("javaBad.txt") as stuff:
     Data = [int(x) for x in stuff.read().rstrip().split(sep=",")]
     code = Arcade(Data)
     code.interpret()

@@ -1,12 +1,12 @@
 """ok so im going to assume that
 there are no two consecutive wormholes"""
-from iHateMazes import *
+from dumbMazes.iHateMazes import *
 
 validPlaces = []  # list of tuples, and empty places are in the coordinate system
 ptsAndWormholes = {}  # each point is which wormhole? (ill make another good one later)
 
 # WHAT IS THIS FILE PROCESSING
-with open('data stuff/plutoIsntAPlanet') as data:
+with open('plutoIsntAPlanet.txt') as data:
     yVal = 0
     mazeList = []
     for line in data:
@@ -48,7 +48,6 @@ with open('data stuff/plutoIsntAPlanet') as data:
         if len(line) < conformLen:
             line.extend([' ' for i in range(conformLen - len(line))])
 
-    print(mazeList)
     xVal = 0  # now we gon check for vertical wormholes
     wormHoleCount = 0
     for column in zip(*mazeList):
@@ -82,7 +81,6 @@ with open('data stuff/plutoIsntAPlanet') as data:
             yVal += 1
         xVal += 1
 
-print(ptsAndWormholes)
 start, end = ptsAndWormholes['AA'][0], ptsAndWormholes['ZZ'][0]
 del ptsAndWormholes['AA']
 del ptsAndWormholes['ZZ']

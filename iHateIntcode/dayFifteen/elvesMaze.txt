@@ -1,41 +1,40 @@
 the bottom is day 15 part 1 maze
-its not complete because the oxygen thing was already found
- O  O  O  O  O  O  O     O  O  O  O  O  O  O  O  O  O  O     O  O  O     O  O  O  O  O  O  O  O  O  O  O  O  O  O  O 
-             O     O                             O     O     O           O                                   O     O 
- O  O  O  O  O     O  O  O  O  O  O  O  O  O  O  O     O     O  O  O  O  O     O     O  O  O     O  O  O  O  O     O 
- O                                                     O     O                 O     O     O     O                   
- O     O  O  O  O  O  O  O  O  O     O  O  O  O  O     O     O  O  O  O  O     O  O  O     O     O  O  O  O  O  O  O 
- O     O                       O     O     O           O                 O                 O                       O 
- O     O     O     O  O  O  O  O     O     O  O  O     O     O  O  O     O  O  O  O  O  O  O     O  O  O  O  O     O 
- O     O     O     O                 O           O     O     O     O                             O           O     O 
- O     O  O  O     O  O  O  O  O     O  O  O     O     O  O  O     O  O  O  O  O     O  O  O     O     O     O  O  O 
- O           O                 O                 O                             O     O     O     O     O           O 
- O  O  O     O     O  O  O  O  O     O  O  O     O  O  O     O  O  O  O  O  O  O  O  O     O  O  O     O  O  O  O  O 
- O           O     O           O     O     O           O     O                                         O             
- O  O  O     O     O     O  O  O     O     O  O  O     O     O  O  O     O  O  O  O  O     O  O  O  O  O  O  O  O  O 
- O     O     O     O                 O           O     O           O     O           O                             O 
- O     O  O  O     O  O  O  O  O  O  O     O  O  O     O  O  O  O  O     O     O     O     O  O  O  O  O  O  O     O 
- O                                         O     O                       O     O     O     O                 O       
- O     O  O  O     O  O  O  O  O  O  O  O  O     O     O  O  O  O  O  O  O     O  O  O     O     O  O  O     O  O  O 
- O           O     O                 O                 O                       O           O     O                 O 
- O  O  O  O  O     O     O     O  O  O     O  O  O     O     O  O  O  O  O     O  O  O  O  O     O     O  O  O     O 
-                   O     O     O           O     O     O     O           O                       O     O     O     O 
- O  O  O  O  O     O     O  O  O  O  O     O     O     O     O     O     O  O  O     O     O  O  O  O  O     O     O 
- O           O     O     O                 O     O           O     O           O     O     O                 O     O 
- O  O  O     O  O  O     O     O  O  O  O  O     O  O  O  O  O     O  O  O  O  O  O  O     O  O  O  O  O     O     O 
- O     O                 O     O                 O                                                     O     O     O 
- O     O     O  O  O     O     O  O  O  O  O     O     O  O  O  O  O  O  O  O  O  O  O  O  O     O  O  O     O  O  O 
- O     O     O     O                       O     O     O                             O     O     O                   
- O     O  O  O     O  O  O  O  O     O  O  O     O  O  O                             O     O     O  O  O             
- O                 O     O           O                                               O                 O             
- O     O  O  O     O     O  O  O     O  O  O  O  O                                   O  O  O  O  O     O             
-       O     O                 O                 O                                               O     O             
- O  O  O     O  O  O  O  O  O  O     O  O  O  O  O                                               O     O             
- O                             O     O                                                           O     O             
- O  O  O  O  O     O  O  O     O     O  O  O  O  O                                               O  O  O             
- O           O     O           O                 O                                                                   
- O  O  O     O     O  O  O  O  O  O  O  O  O     O                             O  O  O     O  O  O  O  O             
-       O     O                             O     O                             O     O     O           O             
- O     O     O     O  O  O  O  O     O  O  O     O                 O  O  O  O  O     O     O           O  O  O  O  O 
- O     O     O     O           O                 O                 O                 O     O     O                 O 
+ O  O  O  O  O  O  O     O  O  O  O  O  O  O  O  O  O  O     O  O  O     O  O  O  O  O  O  O  O  O  O  O  O  O  O  O
+             O     O                             O     O     O           O                                   O     O
+ O  O  O  O  O     O  O  O  O  O  O  O  O  O  O  O     O     O  O  O  O  O     O     O  O  O     O  O  O  O  O     O
+ O                                                     O     O                 O     O     O     O
+ O     O  O  O  O  O  O  O  O  O     O  O  O  O  O     O     O  O  O  O  O     O  O  O     O     O  O  O  O  O  O  O
+ O     O                       O     O     O           O                 O                 O                       O
+ O     O     O     O  O  O  O  O     O     O  O  O     O     O  O  O     O  O  O  O  O  O  O     O  O  O  O  O     O
+ O     O     O     O                 O           O     O     O     O                             O           O     O
+ O     O  O  O     O  O  O  O  O     O  O  O     O     O  O  O     O  O  O  O  O     O  O  O     O     O     O  O  O
+ O           O                 O                 O                             O     O     O     O     O           O
+ O  O  O     O     O  O  O  O  O     O  O  O     O  O  O     O  O  O  O  O  O  O  O  O     O  O  O     O  O  O  O  O
+ O           O     O           O     O     O           O     O                                         O
+ O  O  O     O     O     O  O  O     O     O  O  O     O     O  O  O     O  O  O  O  O     O  O  O  O  O  O  O  O  O
+ O     O     O     O                 O           O     O           O     O           O                             O
+ O     O  O  O     O  O  O  O  O  O  O     O  O  O     O  O  O  O  O     O     O     O     O  O  O  O  O  O  O     O
+ O                                         O     O                       O     O     O     O                 O
+ O     O  O  O     O  O  O  O  O  O  O  O  O     O     O  O  O  O  O  O  O     O  O  O     O     O  O  O     O  O  O
+ O           O     O                 O                 O                       O           O     O                 O
+ O  O  O  O  O     O     O     O  O  O     O  O  O     O     O  O  O  O  O     O  O  O  O  O     O     O  O  O     O
+                   O     O     O           O     O     O     O           O                       O     O     O     O
+ O  O  O  O  O     O     O  O  O  O  O     O     O     O     O     O     O  O  O     O     O  O  O  O  O     O     O
+ O           O     O     O                 O     O           O     O           O     O     O                 O     O
+ O  O  O     O  O  O     O     O  O  O  O  O     O  O  O  O  O     O  O  O  O  O  O  O     O  O  O  O  O     O     O
+ O     O                 O     O                 O                                                     O     O     O
+ O     O     O  O  O     O     O  O  O  O  O     O     O  O  O  O  O  O  O  O  O  O  O  O  O     O  O  O     O  O  O
+ O     O     O     O                       O     O     O                             O     O     O
+ O     O  O  O     O  O  O  O  O     O  O  O     O  O  O     O     O  O  O  O  O     O     O     O  O  O     O  O  O
+ O                 O     O           O                       O     O           O     O                 O           O
+ O     O  O  O     O     O  O  O     O  O  O  O  O     O  O  O     O  O  O     O     O  O  O  O  O     O     O  O  O
+       O     O                 O                 O     O                 O     O                 O     O     O
+ O  O  O     O  O  O  O  O  O  O     O  O  O  O  O     O  O  O  O  O     O     O  O  O  O  O     O     O     O  O  O
+ O                             O     O                 O           O     O                 O     O     O           O
+ O  O  O  O  O     O  O  O     O     O  O  O  O  O     O  O  O     O     O  O  O  O  O     O     O  O  O     O  O  O
+ O           O     O           O                 O           O     O     O                 O                 O
+ O  O  O     O     O  O  O  O  O  O  O  O  O     O     O  O  O     O  O  O     O  O  O     O  O  O  O  O     O  O  O
+       O     O                             O     O     O                       O     O     O           O           O
+ O     O     O     O  O  O  O  O     O  O  O     O     O  O  O     O  O  O  O  O     O     O     O     O  O  O  O  O
+ O     O     O     O           O                 O                 O                 O     O     O                 O
  O  O  O     O  O  O  O  O     O  O  O  O  O  O  O  O  O  O  O  O  O     O  O  O  O  O  O  O     O  O  O  O  O  O  O

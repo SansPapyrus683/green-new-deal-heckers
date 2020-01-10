@@ -1,9 +1,7 @@
 from itertools import permutations
-from justStupidIntcode import intCode
+from iHateIntcode.justStupidIntcode import intCode
 
-with open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/swanLake.txt"
-) as data:
+with open("swanLake.txt") as data:
     for line in data.readlines():
         Data = [int(x) for x in line.rstrip().split(sep=",")]
 
@@ -13,7 +11,7 @@ class Amplifier(intCode):
     i seriously need to see a therapist"""
 
     def __init__(self, code, setting):
-        self.data = code
+        super().__init__(code)
         self.setting = setting
         self.returnIndex = 0
         self.stopped = False
@@ -27,20 +25,18 @@ class Amplifier(intCode):
             if str(self.i)[-2:] == "99":  # way too simple so i just included it in here
                 self.stopped = True
                 break
-            if self.i in [3, 4, 104]:
-                if self.i == 3:
-                    self.opThreeAmps(self.data[self.v + 1])
-                    if self.count == 3:
+            if str(self.i)[-1] in ['3', '4']:
+                self.translator(self.i)
+                if str(self.i)[-1] == '3':
+                    if self.count == 3:  # if it hit another input
                         break
                     continue
-                elif self.i % 10 == 4:
-                    self.opFourAmps(self.data[self.data[self.v + 1]])
+                else:
                     continue
             self.translator(self.i)
         self.count = 0
-        # we dont change it back
 
-    def opThreeAmps(self, arg1):
+    def opThree(self, arg1):
         self.count += 1
         if self.count == 1:
             self.data[arg1] = self.setting
@@ -53,7 +49,7 @@ class Amplifier(intCode):
             self.returnIndex = self.v
             # this shows that the amplifier needs another input, so i stop it
 
-    def opFourAmps(self, arg1):
+    def opFour(self, arg1):
         if str(self.i)[0] == 1:
             arg1 = self.data[self.v + 1]
         self.output = arg1
@@ -62,9 +58,9 @@ class Amplifier(intCode):
 
 # PART 1
 print(Data)
-possibilites = permutations([0, 1, 2, 3, 4])
+possibilities = permutations([0, 1, 2, 3, 4])
 outputs = []
-for a, b, c, d, e in possibilites:
+for a, b, c, d, e in possibilities:
     ampList = [
         Amplifier(Data[:], a),
         Amplifier(Data[:], b),
@@ -81,9 +77,9 @@ for a, b, c, d, e in possibilites:
 print("answer to pt 1:", max(outputs))
 
 # PART 2
-possibilites = permutations([5, 6, 7, 8, 9])
+possibilities = permutations([5, 6, 7, 8, 9])
 outputs = []
-for a, b, c, d, e in possibilites:
+for a, b, c, d, e in possibilities:
     ampList = [
         Amplifier(Data[:], a),
         Amplifier(Data[:], b),
@@ -102,13 +98,12 @@ for a, b, c, d, e in possibilites:
         # print(output)
         outputs.append(output)
     while True:
-        for amp in ampList:
-            # print('NOT FIRST TIME for timee for setting', amp.setting)
+        for amp in ampList:  # after that there's no setting input
             amp.output = output
             amp.count = 1
             amp.interpret()
             output = amp.output
-            # print('')
+
         if ampList[-1].stopped:
             outputs.append(output)
             break

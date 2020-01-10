@@ -3,9 +3,8 @@ WHO LIVES IN A PINEAPPLE UNDER THE SEA
 maybe numpy would be good but heck that"""
 from heapq import heappush, heappop
 from collections import deque
-
 from itertools import combinations
-import iHateMazes
+import dumbMazes.iHateMazes as iHateMazes
 
 # STUPID GOSH OOF PART 2 AAAAAAAA
 ptsWithDoors = set()
@@ -15,11 +14,7 @@ allKeys = set()
 robotStartPos = []
 startPosCount = 0
 
-inFan = open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/poPoPoseidon"
-)
-
-with inFan as stuff:
+with open('poPoPoseidon.txt') as stuff:
     yVal = 0
     for lin in reversed(stuff.readlines()):
         xVal = 0
@@ -101,7 +96,7 @@ for v, l in enumerate(totalRoomKeys):  # calculates distances for keys (room spe
     for pair in combinations(l, 2):
         keyDistances[tuple(sorted(pair))] = iHateMazes.justDistance(keyLoc[pair[0]], ptsWithDoors, keyLoc[pair[1]])
 
-for key in allKeys:
+for key in allKeys:  # calculates requirements to get to each key
     neededKeys = []
     for setOfKeys in totalRoomKeys:
         if key in setOfKeys:
@@ -113,11 +108,6 @@ for key in allKeys:
                     neededKeys.append(d.lower())
     requirements[key] = neededKeys
 
-
-# print(requirements)
-# print(totalRoomKeys)
-# print(canGetKeys)
-# print(doorLoc)
 
 # ACTUALLY MAKING THE GRAPH AND EXPLORING IT
 def makeFinal(initial, keyToGet):
@@ -148,9 +138,6 @@ while toBeProcessed:
         if resultingStatus not in statusGraphs:
             statusGraphs.add(resultingStatus)
             toBeProcessed.append(resultingStatus)
-
-print(statusGraphs)
-
 
 costs = {start: 0}
 statusQueue = [(0, start)]

@@ -1,25 +1,22 @@
-from justStupidIntcode import *
-from sys import exit
-from .mazeFuncForFifteen import *
+from iHateIntcode.justStupidIntcode import *
+from mazeFuncForFifteen import *
 
 
 # north south east west 1 2 3 4 -> x + 1, x - 1, y+ 1, y - 1
 # wall 0 (position hasn't changed), 1 empty, 2 oxygen
 # right up left down or 3 1 2 4
 class Droid(intCode):
-    def __init__(self, code):
-        super().__init__(code)
+    def __init__(self, codeIn):
+        super().__init__(codeIn)
         self.reference = self.data.copy()
         self.currSetting = 0
         self.v = 0
         self.coordinates = [(0, 0)]  # good coordinates
         self.currPos = [0, 0]
         self.foundOx = False
-        self.orientation = 1  # i kno this is the right hand rule but whatevs
+        self.orientation = 1  # i kno this is the right hand rule but whatever
         self.doneMoving = True
-        self.moveCheck = (
-            0  # but relly tho the above just goes through each of the moves
-        )
+        self.moveCheck = 0
         self.foundAll = False
 
     def interpret(self):
@@ -50,7 +47,6 @@ class Droid(intCode):
             self.doneMoving = False
         self.data[arg1] = self.moveList[self.moveCheck]
         self.moveCheck += 1
-        # self.data[arg1] = int(input('hippity hoppity where do i go-ity '))
         self.orientation = self.data[arg1]
         self.v += 2
 
@@ -66,8 +62,6 @@ class Droid(intCode):
                 print("i think we explored all of it?")
                 self.complete = self.coordinates
                 self.foundAll = True
-            # print(self.currPos)
-            # self.showMaze()
             self.doneMoving = True
             self.moveCheck = 0
         elif arg1 == 2:  # HALLELUJAH
@@ -77,7 +71,6 @@ class Droid(intCode):
             self.foundOx = True
             self.oxSys = tuple(self.currPos[:])
             print("FOUND AT %s HALLELUJAH BABY" % self.currPos)
-        # print(self.coordinates[-1])
         self.v += 2
 
     def move(self):
@@ -94,19 +87,16 @@ class Droid(intCode):
         xVals = list({a[0] for a in self.coordinates})
         yVals = list({a[1] for a in self.coordinates})
         canvas = [
-            [x, y, False]
-            for y in range(min(yVals), max(yVals) + 1)  # making a raw canvas
-            for x in range(
-                min(xVals), max(xVals) + 1
-            )  # just consists of all the points
+            (x, y, False)
+            for y in range(min(yVals), max(yVals) + 1)
+            for x in range(min(xVals), max(xVals) + 1)
         ]
         for p in code.coordinates:
             for pt in canvas:
                 if pt[:2] == p[:2]:
-                    canvas[canvas.index(pt)] = p + [True]
-        goodCanvas = list(chunks(canvas, max(xVals) - min(xVals) + 1))
-        # print(goodCanvas)
-        for chungus in reversed(goodCanvas):
+                    canvas[canvas.index(pt)] = p + (True,)
+
+        for chungus in reversed(list(chunks(canvas, max(xVals) - min(xVals) + 1))):
             temp = ""
             for c in chungus:
                 if c[-1]:
@@ -116,9 +106,7 @@ class Droid(intCode):
             print(temp)
 
 
-with open(
-        "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/amazonElves.txt"
-) as stuff:
+with open("amazonElves.txt") as stuff:
     Data = [int(x) for x in stuff.readline().rstrip().split(sep=",")]
 
 # PART 1
@@ -126,15 +114,13 @@ code = Droid(Data)
 code.interpret()
 goodCoordinates = code.coordinates[:]
 oxSys = code.oxSys[:]
-print("itll take %i moves to do this" % justDistance((0, 0), goodCoordinates, oxSys))
+print("it'll take %i moves to do this" % justDistance((0, 0), goodCoordinates, oxSys))
 
 # PART 2
 goodCoordinates = code.coordinates[:]
 oxSys = code.oxSys[:]
 moveCount = 0
 goodCoordinates.remove(oxSys)
-# ya know what if you look at the maze there's only a little
-# it wont really matter nao
 processedNowDie = [oxSys[:]]
 while goodCoordinates:
     inLine = []

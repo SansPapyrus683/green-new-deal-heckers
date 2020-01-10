@@ -1,4 +1,4 @@
-from justStupidIntcode import intCode, chunks
+from iHateIntcode.justStupidIntcode import intCode, chunks
 from sys import exit
 
 
@@ -27,20 +27,16 @@ class Beam(intCode):
         self.v += 2
 
 
-with open(
-        "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/finallySomeGoodFood"
-) as stuff:
+with open("finallySomeGoodFood.txt") as stuff:
     Data = [int(x) for x in stuff.readline().split(sep=",")]
     code = Beam(Data)
 
 # PART 1
 attracted = 0
-partOneRun = False
-if partOneRun:
-    coordinates = [[x, y, 0] for y in range(50) for x in range(50)]
-    for coo in coordinates:
-        code.interpret()
-    print("we be attracting %s things? idk" % attracted)
+coordinates = [[x, y, 0] for y in range(50) for x in range(50)]
+for coo in coordinates:
+    code.interpret()
+print("we be attracting %s things? idk" % attracted)
 
 
 # PART 2
@@ -56,7 +52,7 @@ def showBeam():
         print(line)
 
 
-seeReading = False
+seeReading = int(input('put 1 if you wanna see the beam and 0 if you don\'t'))
 if seeReading:
     coordinates = [[x, y, 0] for y in range(100) for x in range(100)]
     for coo in coordinates:

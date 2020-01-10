@@ -1,6 +1,6 @@
 # dont ask what happened to day sixteen
 # we all miss it
-from justStupidIntcode import intCode, ascii
+from iHateIntcode.justStupidIntcode import intCode
 
 
 class Scaffold(intCode):
@@ -43,9 +43,7 @@ class Scaffold(intCode):
         self.v += 2
 
 
-with open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/memlord.txt"
-) as stuff:
+with open("memlord.txt") as stuff:
     code = Scaffold([int(x) for x in stuff.readline().rstrip().split(sep=",")])
 
 # PART 1
@@ -63,28 +61,7 @@ print("The sum of the alignment parameters is %s" % alignParaSum)
 
 # PART 2
 code.data[0] = 2
-mainFunc = [
-    65,
-    44,
-    66,
-    44,
-    65,
-    44,
-    66,
-    44,
-    67,
-    44,
-    67,
-    44,
-    66,
-    44,
-    65,
-    44,
-    66,
-    44,
-    67,
-    10,
-]
+mainFunc = [65, 44, 66, 44, 65, 44, 66, 44, 67, 44, 67, 44, 66, 44, 65, 44, 66, 44, 67, 10, ]
 funcA = [76, 44, 49, 48, 44, 82, 44, 49, 48, 44, 76, 44, 49, 48, 44, 76, 44, 49, 48, 10]
 funcB = [82, 44, 49, 48, 44, 82, 44, 49, 50, 44, 76, 44, 49, 50, 10]
 funcC = [82, 44, 49, 50, 44, 76, 44, 49, 50, 44, 82, 44, 54, 10]

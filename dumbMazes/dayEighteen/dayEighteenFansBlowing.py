@@ -1,24 +1,19 @@
 """neptune just reminds me of spongebob
 WHO LIVES IN A PINEAPPLE UNDER THE SEA
 maybe numpy would be good but heck that
-but anyways this isn't a really 'good' solution
-better(well, more readable) one is in dayEighteenFansBlowingBetter.py"""
+but anyways this isn't a really 'good' solution"""
 from heapq import heappush, heappop
 from collections import deque
 from itertools import combinations
-import iHateMazes
+import dumbMazes.iHateMazes as iHateMazes
 
-openPts = set()  # itll be a set of tuples
+openPts = set()  # it'll be a set of tuples
 ptsWithDoors = set()
 keyLoc = {}
 DoorLoc = {}
 allKeys = []
 
-inFan = open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/poPoseidon"
-)
-
-with inFan as stuff:
+with open('poPoSeidon.txt') as stuff:
     yVal = 0
     for l in reversed(stuff.readlines()):
         xVal = 0
@@ -76,12 +71,8 @@ for pair in combinations(keyLoc, 2):
 for k in available:
     keyDistances[("start", k[-1])] = iHateMazes.justDistance(currPos, ptsWithDoors, keyLoc[k[-1]])
 
-# print("distance from each key (including the start): %s" % keyDistances)
-# print("these are the keys you need for each other key: %s" % neededKeys)
-
 
 # PART 1 OMG THIS IS WAY TOO LONG
-# NOW PART 2 IS IN A SEPARATE FILE OOF
 def keyNeighbors(status, allPossibles):
     possibleKeys = iHateMazes.findKeys(status[0], neededKeys)
     possibleKeys.sort()
@@ -113,8 +104,6 @@ while toBeProcessed:
             statusGraphs.add((gotKeys, ke))
             toBeProcessed.append(gotKeys)
 
-#print(statusGraphs)
-
 toBeProcessedKeys = [(0, ((), "start"))]
 costs = {((), "start"): 0}
 while toBeProcessedKeys:  # this explores the graph
@@ -134,7 +123,6 @@ while toBeProcessedKeys:  # this explores the graph
             costs[curProcess] = newCost
             priority = newCost
             heappush(toBeProcessedKeys, (priority, curProcess))
-
 
 print(
     "OMG YOU COULD'VE JUST WANDERED THE MAZE BUT NO YOU HAD TO DO IT A NERDY-BUTT WAY BUT HERE: %i"

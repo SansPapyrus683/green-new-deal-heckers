@@ -1,25 +1,16 @@
-from justStupidIntcode import *
-from collections import defaultdict
-
-# this one is cold and calculating
-# for the fun one go to dayThirteenCodersPlaying
+from iHateIntcode.justStupidIntcode import *
 
 
 class Arcade(intCode):
-    def __init__(self, code):
-        self.data = code
-        self.data = defaultdict(int)
-        for v, i in enumerate(code):
-            self.data[v] = i
-        self.relBase = 0
+    def __init__(self, codeIn):
+        super().__init__(codeIn)
         self.outputs = []
         self.scoreCount = 0
         self.calcScore = False
 
     def opThree(self, arg1):
         x = showBoard()
-        # self.data[arg1] = int(input("*atari intensifies* "))
-        print(x)
+        self.data[arg1] = int(input("*atari intensifies* "))
         self.ballPos, self.boardPos = x[1][:2], x[2][:2]
         self.score = x[-1]
         self.v += 2
@@ -31,11 +22,11 @@ class Arcade(intCode):
 
 
 def showBoard():
-    procsessed = []
+    processed = []
     for chungus in chunks(code.outputs, 3):
-        procsessed.append(chungus)
-    xVals = list({a[0] for a in procsessed})
-    yVals = list({a[1] for a in procsessed})
+        processed.append(chungus)
+    xVals = list({a[0] for a in processed})
+    yVals = list({a[1] for a in processed})
     xVals.sort()
     yVals.sort(reverse=True)
     canvas = [
@@ -43,13 +34,13 @@ def showBoard():
         for y in range(max(yVals) + 1)  # making a raw canvas
         for x in range(max(xVals) + 1)  # just consists of all the points
     ]
-    for p in procsessed:
+    for p in processed:
         for pt in canvas:  # compares it with the outputs
             if p[:2] == pt[:2]:  # to see if it should be anything else
                 canvas[canvas.index(pt)] = p
     result = []
-    procsessed.reverse()
-    for l in procsessed:
+    processed.reverse()
+    for l in processed:
         if l[:2] == [-1, 0]:
             result.append(l[-1])
             print("Score: %s" % l[-1])
@@ -76,15 +67,13 @@ def showBoard():
 
 
 # PART 1
-with open(
-    "C:/Users/kevin/Documents/GitHub/green-new-deal-heckers/data stuff/javaBad.txt"
-) as stuff:
+with open("javaBad.txt") as stuff:
     Data = [int(x) for x in stuff.read().rstrip().split(sep=",")]
     code = Arcade(Data)
     code.interpret()
     blockCount = 0
-    for chungus in chunks(code.outputs, 3):
-        if chungus[-1] == 2:
+    for chunk in chunks(code.outputs, 3):
+        if chunk[-1] == 2:
             blockCount += 1
     print("Block count: %s" % blockCount)
 

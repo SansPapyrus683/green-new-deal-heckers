@@ -99,6 +99,7 @@ def partOneWormholes(startPt: tuple, ptList: list, goal: tuple) -> int:  # TODO:
 
 print('why did we even land on this accursed place: %i' % partOneWormholes(start, validPlaces, end))
 
+
 # PART 2
 def partTwoNeighbors(pt, ptList):
     possibleNeighbors = {
@@ -115,7 +116,7 @@ def partTwoNeighbors(pt, ptList):
             if outOrIn:
                 resultingLevel = pt[1] - 1
             else:
-                resultingLevel = pt[1] +1
+                resultingLevel = pt[1] + 1
             goodNeighbors.add((justPoints[not justPoints.index(pt[0])], resultingLevel))
     return goodNeighbors
 
@@ -127,14 +128,17 @@ def partTwoWormholes(start: tuple, ptList: list, goal: tuple) -> int:
     while frontier:
         inLine = set()
         for pt in frontier:
-            for p in partOneNeighbors(pt, ptList):
+            for p in partTwoNeighbors(pt, ptList):
                 if p not in visited:
                     inLine.add(p)
                 visited.add(p)
 
         moveCount += 1
         frontier = inLine
+        print(visited)
         if goal in frontier:
             return moveCount
 
 
+print('THE PLUTONIANS ARE ALL DEAD? GOOD.')
+print('but actually why u having this maze %i' % partTwoWormholes(start, validPlaces, (end, 0)))

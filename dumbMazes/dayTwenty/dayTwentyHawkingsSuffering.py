@@ -10,7 +10,7 @@ with open('plutoIsntAPlanet.txt') as data:
     yVal = 0
     mazeList = []
     for line in data:
-        mazeList.append(list(line.rstrip()))
+        mazeList.append(list(line))
         xVal = 0
         wormHoleCount = 0
         nextPtIsWormhole = False

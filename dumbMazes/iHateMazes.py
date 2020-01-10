@@ -97,7 +97,7 @@ def wormholeNeighbors(pt, ptList, linkedPts: dict):
     return goodNeighbors
 
 
-def wormholeDistance(start, ptList, goal, wormholePts) -> int:
+def wormholeDistance(start, ptList, goal, wormholePts: dict) -> int:
     frontier = {start}
     visited = {start}
     moveCount = 0

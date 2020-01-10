@@ -1,5 +1,5 @@
 from iHateIntcode.justStupidIntcode import *
-from mazeFuncForFifteen import *
+from iHateIntcode.dayFifteen.mazeFuncForFifteen import *
 
 
 # north south east west 1 2 3 4 -> x + 1, x - 1, y+ 1, y - 1

@@ -1,6 +1,6 @@
 """ok so im going to assume that
 there are no two consecutive wormholes"""
-from dumbMazes.iHateMazes import *
+from sys import exit
 
 validPlaces = []  # list of tuples, and empty places are in the coordinate system
 ptsAndWormholes = {}  # each point is which wormhole?
@@ -23,9 +23,9 @@ with open('plutoIsntAPlanet.txt') as maze:
 
                 if wormholeDetected:
                     if wormholeId not in ptsAndWormholes:  # True is outside, False is inside
-                        ptsAndWormholes[wormholeId] = [(xVal, yVal, xVal == 2 or xVal == len(mazeList) - 1 - 2)]
+                        ptsAndWormholes[wormholeId] = [(xVal, yVal, xVal == 2 or xVal == len(row.rstrip()) - 1 - 2)]
                     else:
-                        ptsAndWormholes[wormholeId].append((xVal, yVal, xVal == 2 or xVal == len(mazeList) - 1 - 2))
+                        ptsAndWormholes[wormholeId].append((xVal, yVal, xVal == 2 or xVal == len(row.rstrip()) - 1 - 2))
                     wormholeDetected = False
                 validPlaces.append((xVal, yVal))
             xVal += 1
@@ -50,11 +50,10 @@ with open('plutoIsntAPlanet.txt') as maze:
 
                 if wormholeDetected:
                     if wormholeId not in ptsAndWormholes:
-                        ptsAndWormholes[wormholeId] = [(xVal, yVal, xVal == 2 or xVal == len(mazeList) - 1 - 2)]
+                        ptsAndWormholes[wormholeId] = [(xVal, yVal, yVal == 2 or yVal == len(column) - 1 - 2)]
                     else:
-                        ptsAndWormholes[wormholeId].append((xVal, yVal, xVal == 2 or xVal == len(mazeList) - 1 - 2))
+                        ptsAndWormholes[wormholeId].append((xVal, yVal, yVal == 2 or yVal == len(column) - 1 - 2))
                     wormholeDetected = False
-                validPlaces.append((xVal, yVal))
             yVal += 1
         xVal += 1
 
@@ -99,8 +98,9 @@ def partOneWormholes(startPt: tuple, ptList: list, goal: tuple) -> int:  # TODO:
 
 print('why did we even land on this accursed place: %i' % partOneWormholes(start, validPlaces, end))
 
-
 # PART 2
+
+
 def partTwoNeighbors(pt, ptList):
     possibleNeighbors = {
         (pt[0][0] - 1, pt[0][1]),
@@ -114,6 +114,8 @@ def partTwoNeighbors(pt, ptList):
         if pt[0] in justPoints:  # False is in, True is out
             outOrIn = value[justPoints.index(pt[0])][-1]
             if outOrIn:
+                if pt[-1] == 0:
+                    continue
                 resultingLevel = pt[1] - 1
             else:
                 resultingLevel = pt[1] + 1
@@ -140,4 +142,4 @@ def partTwoWormholes(start: tuple, ptList: list, goal: tuple) -> int:
 
 
 print('THE PLUTONIANS ARE ALL DEAD? GOOD.')
-print('but actually why u having this maze %i' % partTwoWormholes(start, validPlaces, (end, 0)))
+print('but actually why u doing this maze %i' % partTwoWormholes(start, validPlaces, (end, 0)))

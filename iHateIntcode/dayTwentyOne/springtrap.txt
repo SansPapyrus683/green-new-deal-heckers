@@ -1,0 +1,4 @@
+ok so my springscript will be here, as doing this by hand is clearly the superior way
+https://nbviewer.jupyter.org/github/mjpieters/adventofcode/blob/master/2019/Day%2021.ipynb
+when u try ur best
+but u dont succeed

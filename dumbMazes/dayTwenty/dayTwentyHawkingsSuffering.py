@@ -143,3 +143,4 @@ def partTwoWormholes(start: tuple, ptList: list, goal: tuple) -> int:
 
 print('THE PLUTONIANS ARE ALL DEAD? GOOD.')
 print('but actually why u doing this maze %i' % partTwoWormholes(start, validPlaces, (end, 0)))
+# TODO: legit this thing isnt optimized someone help

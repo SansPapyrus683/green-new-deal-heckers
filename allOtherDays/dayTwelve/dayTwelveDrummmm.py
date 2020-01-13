@@ -28,9 +28,6 @@ while stepCount < 1000:
     for v, p in enumerate(deathMoons):
         for k in p:
             p[k] += asoVelocities[v][k]
-    # print('positions:',deathMoons)
-    # print('velocities:', asoVelocities)
-    # print('-' * 20)
     stepCount += 1
 
 energySum = 0

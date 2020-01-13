@@ -25,20 +25,8 @@ deckLength = 119315717514047
 def composeFunc(firstCo, secondCo, cardModulo=deckLength):
     return (firstCo[0] * secondCo[0]) % cardModulo, (firstCo[1] * secondCo[0] + secondCo[1]) % cardModulo
 
-N = 10**10000000000000000
-def exponentiation(bas, exp):
-    t = 1
-    while exp > 0:
-        if exp % 2 != 0:
-            t = (t * bas) % N
-
-        bas = (bas * bas) % N
-        exp = int(exp / 2)
-    return t % N
-
-print(exponentiation(10*12, 10*12))
-
-initialCo = (1, 0)
+initialCo = (1, 0)  # all the shuffles can be categorized as: f(x) = initialCo[0] * x * initialCoo[1], where x is the
+# position of the card (it tells what position the card ends up at)
 for trick in trickList:
     if trick.startswith('deal into'):
         initialCo = composeFunc(initialCo, (-1, -1))
@@ -51,4 +39,5 @@ for trick in trickList:
 
 print(initialCo)
 print((initialCo[0] * 2020 + initialCo[1]) % deckLength)
-print(exponentiation(10001234, 1000000000))
+finalCo = (initialCo[0] ** deckLength, (initialCo[1] * (1 - initialCo[0] ** deckLength))/(1 - initialCo[0]))
+print(finalCo)

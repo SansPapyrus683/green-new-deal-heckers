@@ -60,9 +60,12 @@ with open('plutoIsntAPlanet.txt') as maze:
 start, end = ptsAndWormholes['AA'][0][:-1], ptsAndWormholes['ZZ'][0][:-1]
 del ptsAndWormholes['AA']
 del ptsAndWormholes['ZZ']
+linkedPts = {}
+for pair in ptsAndWormholes.values():
+    linkedPts[pair[0][:-1]] = (pair[1][:-1], pair[0][-1])
+    linkedPts[pair[1][:-1]] = (pair[0][:-1], pair[1][-1])
 
-
-def partOneNeighbors(pt, ptList):
+def partOneNeighbors(pt, ptList):  # this one still uses ptsAndWormholes
     possibleNeighbors = {
         (pt[0] - 1, pt[1]),
         (pt[0] + 1, pt[1]),
@@ -109,17 +112,12 @@ def partTwoNeighbors(pt, ptList):
         (pt[0][0], pt[0][1] + 1),
     }
     goodNeighbors = {(p, pt[-1]) for p in possibleNeighbors.intersection(ptList)}
-    for value in ptsAndWormholes.values():
-        justPoints = [p[:-1] for p in value]
-        if pt[0] in justPoints:  # False is in, True is out
-            outOrIn = value[justPoints.index(pt[0])][-1]
-            if outOrIn:
-                if pt[-1] == 0:
-                    continue
-                resultingLevel = pt[1] - 1
-            else:
-                resultingLevel = pt[1] + 1
-            goodNeighbors.add((justPoints[not justPoints.index(pt[0])], resultingLevel))
+    try:
+        resultingPt = linkedPts[pt[0]]
+    except KeyError:
+        return goodNeighbors
+    if not (resultingPt[1] and pt[1] == 0):
+        goodNeighbors.add((resultingPt[0], pt[1] - 1 if resultingPt[1] else pt[1] + 1))
     return goodNeighbors
 
 

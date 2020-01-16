@@ -1,5 +1,6 @@
 from iHateIntcode.justStupidIntcode import *
 from queue import Queue
+from sys import exit
 
 class CategorySix(intCode):
     def __init__(self, codeIn, address):
@@ -8,6 +9,8 @@ class CategorySix(intCode):
         self.networkAddress = address
         self.firstRun = True
         self.outputs = []
+        self.outputCount = 0
+        self.inputCount = 0
 
     def opThree(self, arg1):
         if self.firstRun:
@@ -15,6 +18,9 @@ class CategorySix(intCode):
         self.v += 2
 
     def opFour(self, arg1):
+        self.outputCount += 1
+        if self.outputCount == 3:
+            totalOutputs.append(self.outputs)
         self.v += 2
 
     def __str__(self):
@@ -27,3 +33,12 @@ with open('test.txt') as code:
 totalOutputs = []
 for comp in computerList:
     print(comp)
+
+while True:
+    for output in totalOutputs:
+        if output[0] == 255:
+            print(output)
+            exit()
+
+    for nic in computerList:
+        nic.interpret()

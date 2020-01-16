@@ -15,9 +15,9 @@ class CategorySix(intCode):
         self.v += 2
 
     def __str__(self):
-        print('computer at address %i' % self.networkAddress)
+        return f'computer at address %i' % self.networkAddress
 
-with open('animeIsTrash.txt') as code:
+with open('animeIsTrash.txt.txt') as code:
     data = [int(i) for i in code.read().rstrip().split(sep=',')]
     computerList = [CategorySix(data, x) for x in range(50)]
 

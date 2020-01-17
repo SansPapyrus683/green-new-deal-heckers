@@ -11,10 +11,24 @@ class CategorySix(intCode):
         self.outputs = []
         self.outputCount = 0
         self.inputCount = 0
+        self.inputtedPacket = False
 
     def opThree(self, arg1):
         if self.firstRun:
             self.data[arg1] = self.networkAddress
+            self.firstRun = False
+        else:
+            if self.inputQueue.empty():
+                self.data[arg1] = -1
+                self.inputCount = 2
+            else:
+                self.receivePacket = self.inputQueue.get()
+                self.data[arg1] = self.receivePacket[self.inputCount]
+                self.inputCount += 1
+                if self.inputCount == 2:
+                    pass
+            if self.inputCount == 2:
+                pass
         self.v += 2
 
     def opFour(self, arg1):

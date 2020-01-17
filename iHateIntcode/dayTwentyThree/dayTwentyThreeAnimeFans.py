@@ -38,6 +38,7 @@ class CategorySix(intCode):
 
 with open('test.txt') as code:
     data = [int(i) for i in code.read().rstrip().split(sep=',')]
+    computerList = [CategorySix(data, i) for i in range(2)]
 
 totalOutputs = []
 for comp in computerList:

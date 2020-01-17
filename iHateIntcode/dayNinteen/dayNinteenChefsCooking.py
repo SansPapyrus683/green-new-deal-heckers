@@ -1,6 +1,6 @@
 from iHateIntcode.justStupidIntcode import intCode, chunks
 from sys import exit
-
+# ok so i don't frickin care if you wanna see the beam
 
 class Beam(intCode):
     def __init__(self, code):
@@ -53,17 +53,9 @@ def showBeam():
                 line += " . "
         print(line)
 
-
-seeReading = int(input('put 1 if you wanna see the beam and 0 if you don\'t '))
-if seeReading:
-    coordinates = [[x, y, 0] for y in range(100) for x in range(100)]
-    for coo in coordinates:
-        code.interpret()
-    showBeam()
-
-currYValCheck = 5  # ill go row by row
+currYValCheck = 5
 xCheckRange = range(6 - 2, 6 + 2 + 1)  # also there's this gap between the first and the rest
-shipDimension = 2
+shipDimension = 100
 attractedRecords = [None] * shipDimension
 
 while True:  # TODO: maybe optimize this somehow?
@@ -100,5 +92,6 @@ while True:  # TODO: maybe optimize this somehow?
                 break
         else:
             print('aosidfpoasijdf', ptsToBeChecked)
+            exit()
         snapshotIndex += 1
     currYValCheck += 1

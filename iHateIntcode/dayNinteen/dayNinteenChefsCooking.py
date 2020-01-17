@@ -32,11 +32,13 @@ with open("finallySomeGoodFood.txt") as stuff:
     code = Beam(Data)
 
 # PART 1
+partOneRun = False
 attracted = 0
-coordinates = [[x, y, 0] for y in range(50) for x in range(50)]
-for coo in coordinates:
-    code.interpret()
-print("we be attracting %s things? idk" % attracted)
+if partOneRun:
+    coordinates = [[x, y, 0] for y in range(50) for x in range(50)]
+    for coo in coordinates:
+        code.interpret()
+    print("we be attracting %s things? idk" % attracted)
 
 
 # PART 2
@@ -52,7 +54,7 @@ def showBeam():
         print(line)
 
 
-seeReading = int(input('put 1 if you wanna see the beam and 0 if you don\'t'))
+seeReading = int(input('put 1 if you wanna see the beam and 0 if you don\'t '))
 if seeReading:
     coordinates = [[x, y, 0] for y in range(100) for x in range(100)]
     for coo in coordinates:
@@ -61,13 +63,13 @@ if seeReading:
 
 currYValCheck = 5  # ill go row by row
 xCheckRange = range(6 - 2, 6 + 2 + 1)  # also there's this gap between the first and the rest
-shipDimension = 100
+shipDimension = 2
 attractedRecords = [None] * shipDimension
 
 while True:  # TODO: maybe optimize this somehow?
     started = False
     record = []  # start and end (inclusive)
-    for checked in xCheckRange:
+    for checked in xCheckRange:  # makes the line for the current y value
         coo = [checked, currYValCheck, 0]
         code.interpret()
         if coo[-1] and not started:
@@ -80,24 +82,23 @@ while True:  # TODO: maybe optimize this somehow?
         record.append(checked)
 
     xCheckRange = range((record[0] - 2), (record[1] + 2 + 1))
-    attractedRecords.append(record)
-    attractedRecords.pop(0)
-    # print('a potential square coulde be in this: %s' % attractedRecords)
-    if None in attractedRecords or attractedRecords[0][1] - attractedRecords[0][0] + 1 < shipDimension:
-        currYValCheck += 1
-        continue  # not even gonna deal with this
-
-    startRange = list(range(attractedRecords[0][0], attractedRecords[0][1] + 1))
+    startRange = list(range(record[0], record[1] + 1))
     snapshotIndex = 0
-
+    print(startRange)
     for i in range(len(startRange) + 1 - shipDimension):
         snapshot = startRange[snapshotIndex: snapshotIndex + shipDimension]
-        for inOrNot in attractedRecords[1:]:
-            if not (snapshot[0] >= inOrNot[0] and snapshot[1] <= inOrNot[1]):
+        print(snapshot, currYValCheck)
+        ptsToBeChecked = [[snapshot[0], currYValCheck, False],   # generates corners of the square
+                          [snapshot[-1], currYValCheck, False],
+                          [snapshot[0], currYValCheck + shipDimension - 1, False],
+                          [snapshot[-1], currYValCheck + shipDimension - 1, False]]
+        print(ptsToBeChecked)
+        for pt in ptsToBeChecked:
+            coo = pt[:]
+            code.interpret()
+            if not coo[-1]:
                 break
         else:
-            print(snapshot)
-            print('why do we even need this: %s' % [snapshot[0], currYValCheck - shipDimension + 1])
-            exit()
+            print('aosidfpoasijdf', ptsToBeChecked)
         snapshotIndex += 1
     currYValCheck += 1

@@ -92,10 +92,7 @@ for a, b, c, d, e in possibilities:
         amp.output = output
         amp.interpret()
         output = amp.output
-        # print(ampList[-1].stopped)
-        # print('')
     if ampList[-1].stopped:
-        # print(output)
         outputs.append(output)
     while True:
         for amp in ampList:  # after that there's no setting input

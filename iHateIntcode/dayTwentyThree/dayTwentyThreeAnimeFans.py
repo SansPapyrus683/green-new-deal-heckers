@@ -8,6 +8,7 @@ class CategorySix(intCode):
         self.networkAddress = address
         self.firstRun = True
         self.outputs = []
+        self.outputCount = 0
 
     def opThree(self, arg1):
         if self.firstRun:
@@ -15,12 +16,14 @@ class CategorySix(intCode):
         self.v += 2
 
     def opFour(self, arg1):
+        self.outputCount += 1
+        self.outputs.append(arg1)
         self.v += 2
 
     def __str__(self):
         return f'computer at address %i' % self.networkAddress
 
-with open('animeIsTrash.txt.txt') as code:
+with open('test.txt') as code:
     data = [int(i) for i in code.read().rstrip().split(sep=',')]
     computerList = [CategorySix(data, x) for x in range(2)]
 

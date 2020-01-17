@@ -7,9 +7,6 @@ with open("swanLake.txt") as data:
 
 # PART 2
 class Amplifier(intCode):
-    """an entirely seperate class just for the amplifier
-    i seriously need to see a therapist"""
-
     def __init__(self, code, setting):
         super().__init__(code)
         self.setting = setting
@@ -77,16 +74,8 @@ for a, b, c, d, e in possibilities:
 print("answer to pt 1:", max(outputs))
 
 # PART 2
-possibilities = permutations([5, 6, 7, 8, 9])
-outputs = []
-for a, b, c, d, e in possibilities:
-    ampList = [
-        Amplifier(Data[:], a),
-        Amplifier(Data[:], b),
-        Amplifier(Data[:], c),
-        Amplifier(Data[:], d),
-        Amplifier(Data[:], e),
-    ]
+for poss in permutations([5, 6, 7, 8, 9]):
+    ampList = [Amplifier(Data[:], poss[i]) for i in range(5)]
     output = 0
     for amp in ampList:
         amp.output = output
@@ -97,7 +86,7 @@ for a, b, c, d, e in possibilities:
     while True:
         for amp in ampList:  # after that there's no setting input
             amp.output = output
-            amp.count = 1
+            amp.count = 1  # for setting input
             amp.interpret()
             output = amp.output
 

@@ -41,24 +41,8 @@ if partOneRun:
     print("we be attracting %s things? idk" % attracted)
 
 # PART 2
-<<<<<<< HEAD
-def showBeam():
-    xVals = list(set([x[0] for x in coordinates]))
-    for l in chunks(coordinates, max(xVals) - min(xVals) + 1):
-        line = ""
-        for c in l:
-            if c[-1]:
-                line += " # "
-            else:
-                line += " . "
-        print(line)
-
 currYValCheck = 5
 xCheckRange = range(6 - 2, 6 + 2 + 1)  # also there's this gap between the first and the rest
-=======
-currYValCheck = 5  # ill go row by row
-xCheckRange = [6 - 2, 6 + 2 + 1]  # also there's this gap between the first and the rest
->>>>>>> 2f0072f4d32f3389fcdc797079824dc3b49ef6ef
 shipDimension = 100
 attractedRecords = [None] * shipDimension
 
@@ -98,11 +82,7 @@ while True:  # TODO: maybe optimize this somehow? maybe get the startrange bette
             if not coo[-1]:
                 break
         else:
-<<<<<<< HEAD
-            print('aosidfpoasijdf', ptsToBeChecked)
-=======
             print('santa you capitalist pig: %s' % ptsToBeChecked[0][:-1])
->>>>>>> 2f0072f4d32f3389fcdc797079824dc3b49ef6ef
             exit()
         snapshotIndex += 1
     currYValCheck += 1

@@ -47,7 +47,7 @@ class CategorySix(intCode):
             if self.inputCount == 0:
                 self.receivedPacket = self.inputQueue.get()  # only get one when we restart
             self.data[arg1] = self.receivedPacket[self.inputCount]
-            # print('inputted %i for computer %i' % (self.data[arg1], self.networkAddress))
+            print('inputted %i for computer %i' % (self.data[arg1], self.networkAddress))
             self.inputCount += 1
             self.inputtingPacket = True
         self.v += 2
@@ -58,6 +58,7 @@ class CategorySix(intCode):
         self.outputs.append(arg1)
         if self.outputCount == 3:
             totalOutputs.append(self.outputs)
+            print('spat out %s' % self.outputs)
             if self.outputs[0] == 255:
                 print('ha- who\'s the god now, google? %s (oh by the way it\'s part 1 ans)' % self.outputs)
                 natThing = self.outputs[1:]
@@ -69,26 +70,36 @@ class CategorySix(intCode):
         self.v += 2
 
 
-with open('test.txt') as code:
-    computerNumber = 2
+with open('animeIsTrash.txt') as code:
+    computerNumber = 50
     data = [int(i) for i in code.read().rstrip().split(sep=',')]
     computerList = [CategorySix(data, i) for i in range(computerNumber)]
 
 totalOutputs = []
 natThing = []
 natZeroCount = 0  # keeps track of how many times nat has sent stuff to 0 (in a row)
+idleCount = 0
+firstCycle = True
 while True:
+    if not firstCycle:
+        for comp in computerList:
+            if not comp.inputQueue.empty():
+                idleCount = 0
+                natZeroCount = 0
+                break
+        else:  # ok, so all the input queues are empty, so nat will have to take action
+            idleCount += 1
+            if idleCount == 3:
+                print('declared idle', natThing)
+                computerList[0].inputQueue.put(natThing)
+                natZeroCount += 1
+                if natZeroCount == 2:
+                    print(natThing, 'aaaa')
+                    exit()
+                idleCount = 0
+
+    print('')
     for nic in computerList:
         nic.interpret()
 
-    for comp in computerList:
-        if not comp.inputQueue.empty():
-            natZeroCount = 0
-            break
-    else:  # ok, so all the input queues are empty, so nat will have to take action
-        print('declared idle', natThing)
-        computerList[0].inputQueue.put(natThing)
-        natZeroCount += 1
-        if natZeroCount == 2:
-            print(natThing)
-            exit()
+    firstCycle = False

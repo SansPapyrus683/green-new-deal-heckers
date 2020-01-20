@@ -31,9 +31,9 @@ class intCode:
         self.data = self.reference.copy()  # to change it back to the original
 
     def translator(self, opCode):
-        """tanslates opcode with args into good stuff
+        """translates opcode with args into good stuff
         im just putting all opcodes with their arguments into this lol"""
-        if str(opCode)[-1] in ["1", "2", "7", "8"]:  # these have 4 arguments
+        if opCode % 10 in [1, 2, 7, 8]:  # these have 4 arguments
             opCode = str(opCode).zfill(5)
             argList = []
             opCodeArgs = list(opCode[:3])
@@ -65,10 +65,7 @@ class intCode:
             elif read == 8:
                 self.opEight(argList[0], argList[1], argList[2])
 
-        elif str(opCode)[-1] in [
-            "5",
-            "6",
-        ]:  # stupid 5 and 6, which only have 2 arguments
+        elif opCode % 10 in [5, 6]:  # stupid 5 and 6, which only have 2 arguments
             opCode = str(opCode).zfill(4)
             argList = []  # the arg to test, the immediate value to jump to
             opCodeArgs = list(opCode[:2])
@@ -88,7 +85,7 @@ class intCode:
             elif read == 6:
                 self.opSix(argList[0], argList[1])
 
-        elif str(opCode)[-1] in ["4", "3", "9"]:  # opcode 4 and 9 only has 1 argument
+        elif opCode % 10 in [3, 4, 9]:  # opcode 4 and 9 only has 1 argument
             opCode = str(opCode).zfill(3)
             opCodeArg = int(str(opCode)[0])
             read = int(opCode[-1])
@@ -178,12 +175,12 @@ def sign(n):
         return 0
 
 
-def ascii(before: str) -> list:
+def rawAscii(before: str) -> list:
     return list(map(ord, before))
 
 
 if __name__ == "__main__":
-    with open("dayNine/gardenTool.txt") as data:
+    with open("dayTwentyThree/test.txt") as data:
         Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
         code = intCode(Data)
         code.interpret()
@@ -192,9 +189,9 @@ if __name__ == "__main__":
     for chungus in chunks([1, 2, 3, 4, 5, 6], 3):
         print(chungus)
 
-    print('sing function test')
+    print('sign function test')
     print(sign(8), sign(-9), sign(0))
 
-    print('ascii test')
-    print(ascii("8,9"))
-    print(ascii('what the heck'))
+    print('rawAscii test')
+    print(rawAscii("8,9"))
+    print(rawAscii('what the heck'))

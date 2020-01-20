@@ -17,20 +17,14 @@ class Amplifier(intCode):
     def interpret(self):
         self.v = self.returnIndex
         while self.v <= len(self.data):
-            # print(self.v, self.data[self.v], self.count)
-            self.i = self.data[self.v]
-            if str(self.i)[-2:] == "99":  # way too simple so i just included it in here
+            self.i = self.data[self.v]  # i is simply the opcode
+            if self.i == 99:  # way too simple so i just included it in here
                 self.stopped = True
                 break
-            if str(self.i)[-1] in ['3', '4']:
-                self.translator(self.i)
-                if str(self.i)[-1] == '3':
-                    if self.count == 3:  # if it hit another input
-                        break
-                    continue
-                else:
-                    continue
             self.translator(self.i)
+            if str(self.i)[-1] == '3':
+                if self.count == 3:
+                    break
         self.count = 0
 
     def opThree(self, arg1):
@@ -40,11 +34,9 @@ class Amplifier(intCode):
             self.v += 2
         elif self.count == 2:
             self.data[arg1] = self.output
-            self.v += 2
-            # kinda misleading, but its the output is the medium of exchange between two vars
+            self.v += 2  # kinda misleading, but its the output is the medium of exchange between two vars
         elif self.count == 3:
-            self.returnIndex = self.v
-            # this shows that the amplifier needs another input, so i stop it
+            self.returnIndex = self.v  # this shows that the amplifier needs another input, so i stop it
 
     def opFour(self, arg1):
         if str(self.i)[0] == 1:
@@ -54,17 +46,9 @@ class Amplifier(intCode):
 
 
 # PART 1
-print(Data)
-possibilities = permutations([0, 1, 2, 3, 4])
 outputs = []
-for a, b, c, d, e in possibilities:
-    ampList = [
-        Amplifier(Data[:], a),
-        Amplifier(Data[:], b),
-        Amplifier(Data[:], c),
-        Amplifier(Data[:], d),
-        Amplifier(Data[:], e),
-    ]
+for poss in permutations([0, 1, 2, 3, 4]):
+    ampList = [Amplifier(Data, poss[i]) for i in range(5)]
     output = 0
     for amp in ampList:
         amp.output = output

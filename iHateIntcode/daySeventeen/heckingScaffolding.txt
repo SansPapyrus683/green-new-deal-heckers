@@ -1,5 +1,5 @@
 this is my scaffolding
-movment pattern (of course its ascii-ed):
+movment pattern (of course its rawAscii-ed):
 A: L,10,R,10,L,10,L,10
 B: R,10,R,12,L,12
 C: R,12,L,12,R,6

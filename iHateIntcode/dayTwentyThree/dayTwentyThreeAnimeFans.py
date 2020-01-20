@@ -23,17 +23,9 @@ class CategorySix(intCode):
                 self.inputCount = 0
                 self.indexToReturnTo = self.v
                 self.makeException = False
+                self.inputtingPacket = False
                 break
             self.translator(self.i)
-            if self.i % 10 == 4:  # a separate case for when it spits out a buncha outputs
-                if self.outputCount == 3:  # the computer has finished its outputting
-                    self.indexToReturnTo = self.v
-                    self.inputCount = 0
-                    self.makeException = False
-                    self.outputCount = 0
-                    if goodPacketFound:
-                        break
-                    break
 
     def opThree(self, arg1):
         if self.inputCount == 2:  # it has hit another input and must be stopped
@@ -42,51 +34,61 @@ class CategorySix(intCode):
 
         if self.firstTime:  # this makes a special exception for the computer running the first time
             self.data[arg1] = self.networkAddress
-            print('first inputted this thing', self.networkAddress)
-            self.inputCount = 2  # we've finished inputting for this cycle
+            self.inputCount = 2  # we've finished inputting for this cycle, see above for exception-making
             self.firstTime = False
             self.v += 2
             return
 
         if self.inputQueue.empty() and not self.inputtingPacket:
-            print('ok we have nothing rn for computer %i' % self.networkAddress)
             self.data[arg1] = -1
             self.makeException = True
             self.inputCount = 2
         else:
             if self.inputCount == 0:
-                self.receivePacket = self.inputQueue.get()  # only get one when we restart
-                print('for computer %i, we have %s' % (self.networkAddress, self.receivePacket))
-            self.data[arg1] = self.receivePacket[self.inputCount]
-            print('inputted %i for computer %i' % (self.data[arg1], self.networkAddress))
+                self.receivedPacket = self.inputQueue.get()  # only get one when we restart
+            self.data[arg1] = self.receivedPacket[self.inputCount]
+            # print('inputted %i for computer %i' % (self.data[arg1], self.networkAddress))
             self.inputCount += 1
             self.inputtingPacket = True
         self.v += 2
 
     def opFour(self, arg1):
-        global goodPacketFound
+        global natThing
         self.outputCount += 1
         self.outputs.append(arg1)
         if self.outputCount == 3:
             totalOutputs.append(self.outputs)
-            print('ok so this computer spit out %s into the pool of %s' % (self.outputs, totalOutputs))
             if self.outputs[0] == 255:
-                print('HALLELUJAH', self.outputs)
-                goodPacketFound = True
+                print('ha- who\'s the god now, google? %s (oh by the way it\'s part 1 ans)' % self.outputs)
+                natThing = self.outputs[1:]
                 self.v += 2
                 return
             computerList[self.outputs[0]].inputQueue.put(self.outputs[1:])
             self.outputs = []
+            self.outputCount = 0
         self.v += 2
 
 
 with open('test.txt') as code:
+    computerNumber = 2
     data = [int(i) for i in code.read().rstrip().split(sep=',')]
-    computerList = [CategorySix(data, i) for i in range(2)]
+    computerList = [CategorySix(data, i) for i in range(computerNumber)]
 
 totalOutputs = []
-goodPacketFound = False
-while not goodPacketFound:
+natThing = []
+natZeroCount = 0  # keeps track of how many times nat has sent stuff to 0 (in a row)
+while True:
     for nic in computerList:
-        print('continuing for computer %i' % nic.networkAddress)
         nic.interpret()
+
+    for comp in computerList:
+        if not comp.inputQueue.empty():
+            natZeroCount = 0
+            break
+    else:  # ok, so all the input queues are empty, so nat will have to take action
+        print('declared idle', natThing)
+        computerList[0].inputQueue.put(natThing)
+        natZeroCount += 1
+        if natZeroCount == 2:
+            print(natThing)
+            exit()

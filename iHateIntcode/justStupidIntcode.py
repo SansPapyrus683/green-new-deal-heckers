@@ -180,7 +180,7 @@ def rawAscii(before: str) -> list:
 
 
 if __name__ == "__main__":
-    with open("dayTwentyThree/test.txt") as data:
+    with open("dayNine/gardenTool.txt") as data:
         Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
         code = intCode(Data)
         code.interpret()

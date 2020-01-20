@@ -40,6 +40,7 @@ class CategorySix(intCode):
             return
 
         if self.inputQueue.empty() and not self.inputtingPacket:
+            print('nothing rn for %s' % self.networkAddress)
             self.data[arg1] = -1
             self.makeException = True
             self.inputCount = 2
@@ -87,7 +88,7 @@ while True:
                 idleCount = 0
                 natZeroCount = 0
                 break
-        else:  # ok, so all the input queues are empty, so nat will have to take action
+        else:  # ok, so all the input queues are empty, so it half-considers it idle
             idleCount += 1
             if idleCount == 3:
                 print('declared idle', natThing)

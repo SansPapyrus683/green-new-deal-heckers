@@ -1,5 +1,3 @@
-"""ill be putting all my bfs & find neighbors stuff here
-ill update d15 later, because im that lazy"""
 from heapq import heappush, heappop
 
 
@@ -14,8 +12,6 @@ def findNeighbors(pt: tuple, ptList: "list of good points") -> set:
 
 
 def manhattan(a, b) -> int:
-    """shameless copied from some place other than stackoverflow
-    they called me a madman"""
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 

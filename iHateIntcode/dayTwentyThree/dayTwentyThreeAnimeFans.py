@@ -53,12 +53,13 @@ class CategorySix(intCode):
         self.v += 2
 
     def opFour(self, arg1):
-        global natThing
+        global natThing, idleCount
         self.outputCount += 1
         self.outputs.append(arg1)
         if self.outputCount == 3:
             totalOutputs.append(self.outputs)
             print('spat out %s' % self.outputs)
+            idleCount = 0
             if self.outputs[0] == 255:
                 print('ha- who\'s the god now, google? %s (oh by the way it\'s part 1 ans)' % self.outputs)
                 natThing = self.outputs[1:]

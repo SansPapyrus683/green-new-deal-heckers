@@ -17,7 +17,6 @@ class Amplifier(intCode):
     def interpret(self):
         self.v = self.returnIndex
         while self.v <= len(self.data):
-            # print(self.v, self.data[self.v], self.count)
             self.i = self.data[self.v]
             if str(self.i)[-2:] == "99":  # way too simple so i just included it in here
                 self.stopped = True

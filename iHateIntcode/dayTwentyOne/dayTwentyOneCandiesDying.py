@@ -13,7 +13,7 @@ class Springdroid(intCode):
 
     def opThree(self, arg1):
         if self.inputIndex == len(self.command):
-            self.command = ascii(input('you heard\'im '))
+            self.command = rawAscii(input('you heard\'im '))
             self.command.append(10)
             self.inputIndex = 0
         self.data[arg1] = self.command[self.inputIndex]

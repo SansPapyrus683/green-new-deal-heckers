@@ -1,5 +1,6 @@
 from iHateIntcode.justStupidIntcode import *
 from queue import Queue
+from time import sleep
 
 
 class CategorySix(intCode):
@@ -40,7 +41,6 @@ class CategorySix(intCode):
             return
 
         if self.inputQueue.empty() and not self.inputtingPacket:
-            print('nothing rn for %s' % self.networkAddress)
             self.data[arg1] = -1
             self.makeException = True
             self.inputCount = 2
@@ -48,22 +48,27 @@ class CategorySix(intCode):
             if self.inputCount == 0:
                 self.receivedPacket = self.inputQueue.get()  # only get one when we restart
             self.data[arg1] = self.receivedPacket[self.inputCount]
-            print('inputted %i for computer %i' % (self.data[arg1], self.networkAddress))
+            # print('inputted %i for computer %i' % (self.data[arg1], self.networkAddress))
             self.inputCount += 1
             self.inputtingPacket = True
         self.v += 2
 
     def opFour(self, arg1):
-        global natThing, idleCount
+        global natThing, idleCount, firstAnswer
         self.outputCount += 1
         self.outputs.append(arg1)
         if self.outputCount == 3:
             totalOutputs.append(self.outputs)
-            print('spat out %s' % self.outputs)
+            print('computer %i spat out %s' % (self.networkAddress, self.outputs))
             idleCount = 0
             if self.outputs[0] == 255:
-                print('ha- who\'s the god now, google? %s (oh by the way it\'s part 1 ans)' % self.outputs)
+                if firstAnswer:
+                    print('ha- who\'s the god now, google? %s (oh by the way it\'s part 1 ans)' % self.outputs)
+                    firstAnswer = False
+                    sleep(0.9)
                 natThing = self.outputs[1:]
+                self.outputs = []
+                self.outputCount = 0
                 self.v += 2
                 return
             computerList[self.outputs[0]].inputQueue.put(self.outputs[1:])
@@ -82,6 +87,7 @@ natThing = []
 natZeroCount = 0  # keeps track of how many times nat has sent stuff to 0 (in a row)
 idleCount = 0
 firstCycle = True
+firstAnswer = True
 while True:
     if not firstCycle:
         for comp in computerList:
@@ -91,17 +97,15 @@ while True:
                 break
         else:  # ok, so all the input queues are empty, so it half-considers it idle
             idleCount += 1
-            if idleCount == 3:
-                print('declared idle', natThing)
+            if idleCount >= 3:
+                print('declared idle, so we put this thing in: %s' % natThing)
                 computerList[0].inputQueue.put(natThing)
                 natZeroCount += 1
                 if natZeroCount == 2:
-                    print(natThing, 'aaaa')
+                    print('wait hold up waht: %s' % natThing)
                     exit()
-                idleCount = 0
 
-    print('')
+    print('------------')
     for nic in computerList:
         nic.interpret()
-
     firstCycle = False

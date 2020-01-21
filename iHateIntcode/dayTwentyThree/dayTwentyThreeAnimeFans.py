@@ -47,8 +47,7 @@ class CategorySix(intCode):
         else:
             if self.inputCount == 0:
                 self.receivedPacket = self.inputQueue.get()  # only get one when we restart
-            self.data[arg1] = self.receivedPacket[self.inputCount]
-            # print('inputted %i for computer %i' % (self.data[arg1], self.networkAddress))
+            self.data[arg1] = self.receivedPacket[self.inputCount]  # input the packet one at a time
             self.inputCount += 1
             self.inputtingPacket = True
         self.v += 2
@@ -58,8 +57,6 @@ class CategorySix(intCode):
         self.outputCount += 1
         self.outputs.append(arg1)
         if self.outputCount == 3:
-            totalOutputs.append(self.outputs)
-            print('computer %i spat out %s' % (self.networkAddress, self.outputs))
             idleCount = 0
             if self.outputs[0] == 255:
                 if firstAnswer:
@@ -82,7 +79,6 @@ with open('animeIsTrash.txt') as code:
     data = [int(i) for i in code.read().rstrip().split(sep=',')]
     computerList = [CategorySix(data, i) for i in range(computerNumber)]
 
-totalOutputs = []
 natThing = []
 natZeroCount = 0  # keeps track of how many times nat has sent stuff to 0 (in a row)
 idleCount = 0
@@ -98,14 +94,11 @@ while True:
         else:  # ok, so all the input queues are empty, so it half-considers it idle
             idleCount += 1
             if idleCount >= 3:
-                print('declared idle, so we put this thing in: %s' % natThing)
                 computerList[0].inputQueue.put(natThing)
                 natZeroCount += 1
                 if natZeroCount == 2:
                     print('wait hold up waht: %s' % natThing)
                     exit()
-
-    print('------------')
     for nic in computerList:
         nic.interpret()
     firstCycle = False

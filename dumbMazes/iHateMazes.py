@@ -1,7 +1,7 @@
 from heapq import heappush, heappop
 
 
-def findNeighbors(pt: tuple, ptList: "list of good points") -> set:
+def findNeighbors(pt: tuple, ptList: set) -> set:
     possibleNeighbors = {
         (pt[0] - 1, pt[1]),
         (pt[0] + 1, pt[1]),

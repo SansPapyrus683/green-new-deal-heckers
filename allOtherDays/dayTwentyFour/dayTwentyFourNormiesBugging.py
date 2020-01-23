@@ -1,5 +1,7 @@
 from dumbMazes.iHateMazes import findNeighbors
-from sys import exit
+
+# part 1, part 2 in separate file
+# idk why it just seems to make it more organized
 
 totalCoo = {}
 borderPts = set()
@@ -23,7 +25,7 @@ for pt in borderPts:
 
 records = set()
 while tuple(totalCoo.items()) not in records:
-    records.add(tuple(totalCoo.items()))
+    records.add(tuple(totalCoo.items()))  # dicts aren't hashable so here
     newGrid = {}
     for coo in totalCoo:
         if coo in borderPts:

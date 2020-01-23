@@ -1,6 +1,5 @@
 from iHateIntcode.justStupidIntcode import *
 from queue import Queue
-from time import sleep
 
 
 class CategorySix(intCode):
@@ -62,7 +61,6 @@ class CategorySix(intCode):
                 if firstAnswer:
                     print('ha- who\'s the god now, google? %s (oh by the way it\'s part 1 ans)' % self.outputs)
                     firstAnswer = False
-                    sleep(0.9)
                 natThing = self.outputs[1:]
                 self.outputs = []
                 self.outputCount = 0
@@ -97,7 +95,7 @@ while True:
                 computerList[0].inputQueue.put(natThing)
                 natZeroCount += 1
                 if natZeroCount == 2:
-                    print('wait hold up waht: %s' % natThing)
+                    print('wait hold up waht(p2 ans): %s' % natThing)
                     exit()
     for nic in computerList:
         nic.interpret()

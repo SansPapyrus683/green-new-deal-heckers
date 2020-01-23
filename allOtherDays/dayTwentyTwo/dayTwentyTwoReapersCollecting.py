@@ -3,6 +3,7 @@
 with open('grimReaper.txt') as shuffles:
     trickList = [l.rstrip() for l in shuffles.readlines()]
 
+
 # PART 1
 def cheapShuffle(targetCardPos, cardNumber):
     for localTrick in trickList:
@@ -16,17 +17,22 @@ def cheapShuffle(targetCardPos, cardNumber):
             targetCardPos = (targetCardPos - cut_amt) % cardNumber
     return targetCardPos
 
+
 print('who is this \'you\' and why is he THIS bored: %s' % cheapShuffle(2019, 10007))
 
 # PART 2 CAN GO DIE IN A HOLE
 # so i followed this tutorial: https://codeforces.com/blog/entry/72593 its kinda complicated
 deckLength = 119315717514047
 shuffleTimes = 101741582076661
+
+
 def composeFunc(firstCo, secondCo, cardModulo=deckLength):
     return (firstCo[0] * secondCo[0]) % cardModulo, (firstCo[1] * secondCo[0] + secondCo[1]) % cardModulo
 
-def inv(a, n):
-    return pow(a, n-2, n)
+
+def inv(a, n):  # copying code is a wonderful thing
+    return pow(a, n - 2, n)
+
 
 initialCo = (1, 0)  # all the shuffles can be categorized as: f(x) = initialCo[0] * x * initialCoo[1], where x is the
 # position of the card (it tells what position the card ends up at)
@@ -42,7 +48,7 @@ for trick in trickList:
 
 print('so this is the coefficients that when plugged in, equate to one shuffle: %s, %s' % initialCo)
 bigA = pow(initialCo[0], shuffleTimes, deckLength)
-bigB = (initialCo[1] * (bigA - 1) * inv(initialCo[0]-1, deckLength)) % deckLength
+bigB = (initialCo[1] * (bigA - 1) * inv(initialCo[0] - 1, deckLength)) % deckLength
 print('so this coefficient equate to the pos of a card after a huge amt of shuffles: %s, %s' % (bigA, bigB))
 
 print('if you ENJOYED this day then you should check in at the mental ward: %i'

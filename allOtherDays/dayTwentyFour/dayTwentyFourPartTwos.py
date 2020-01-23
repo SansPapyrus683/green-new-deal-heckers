@@ -37,7 +37,8 @@ def erisNeighbors(cell: tuple):
         if cell[0] == 0:  # all separate to account for corners
             neighbors.update({(1, 2, cell[-1] - 1)})
         if cell[0] == 4:
-            neighbors.update({(3, 2, cell[-1] - 1)})w
+            neighbors.update({(3, 2, cell[-1] - 1)})
+        if cell[1] == 0:
             neighbors.update({(2, 1, cell[-1] - 1)})
         if cell[1] == 4:
             neighbors.update({(2, 3, cell[-1] - 1)})

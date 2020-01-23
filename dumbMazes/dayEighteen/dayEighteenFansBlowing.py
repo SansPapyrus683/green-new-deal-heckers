@@ -106,10 +106,9 @@ while toBeProcessed:
 
 toBeProcessedKeys = [(0, ((), "start"))]
 costs = {((), "start"): 0}
-while toBeProcessedKeys:  # this explores the graph
+while toBeProcessedKeys:  # this explores the graph dijkstra-style
     moves, current = heappop(toBeProcessedKeys)
     if len(current[0]) == len(allKeys):
-        # this is basically dijkstra's algorithm, so the first path found is the shortest
         lowestMovement = moves
         break
     for curProcess in keyNeighbors(current, statusGraphs):
@@ -124,7 +123,4 @@ while toBeProcessedKeys:  # this explores the graph
             priority = newCost
             heappush(toBeProcessedKeys, (priority, curProcess))
 
-print(
-    "OMG YOU COULD'VE JUST WANDERED THE MAZE BUT NO YOU HAD TO DO IT A NERDY-BUTT WAY BUT HERE: %i"
-    % lowestMovement
-)
+print("JUST WANDER THE MAZE HECK IT: %i" % lowestMovement)

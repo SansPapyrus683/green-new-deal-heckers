@@ -42,9 +42,8 @@ while tuple(totalCoo.items()) not in records:
                 newGrid[coo] = True
     totalCoo.update(newGrid)
 
-print(totalCoo)
 bioRating = 0
 for pt in totalCoo:
     if totalCoo[pt]:
         bioRating += pow(2, 5 * pt[1] + pt[0])
-print(bioRating)
+print('i don\'t think this is how biology works but here\'s the rating anyways: %i' % bioRating)

@@ -110,7 +110,7 @@ for key in allKeys:  # calculates requirements to get to each key
 
 
 # ACTUALLY MAKING THE GRAPH AND EXPLORING IT
-def makeFinal(initial, keyToGet):
+def makeFinal(initial, keyToGet):  # just makes the format for the graph down below
     resultingKeys = initial[0] + (keyToGet,)
     for v, keyList in enumerate(totalRoomKeys):
         if keyToGet in keyList:
@@ -118,7 +118,7 @@ def makeFinal(initial, keyToGet):
     return tuple(sorted(resultingKeys)), resultingPos
 
 
-def statusNeighbors(status, allStatuses):
+def statusNeighbors(status, allStatuses):  # same as keyNeighbors for p1
     canSeeKeys = iHateMazes.findKeys(status[0], requirements)
     goodNeighbors = []
     for testKey in canSeeKeys:
@@ -141,7 +141,7 @@ while toBeProcessed:
 
 costs = {start: 0}
 statusQueue = [(0, start)]
-while statusQueue:  # dora the exploraaaa
+while statusQueue:
     moves, current = heappop(statusQueue)
     if len(current[0]) == len(allKeys):
         robotCost = moves
@@ -158,5 +158,3 @@ while statusQueue:  # dora the exploraaaa
             heappush(statusQueue, (newCost, nextStatus))
 
 print('beepity boopity the robots will take a minimum of %i steps' % robotCost)
-print('but you kno you could just enslave some elves and throw them in there')
-print('living things are usually smarter than robots')

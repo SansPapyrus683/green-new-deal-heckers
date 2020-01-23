@@ -22,7 +22,7 @@ class SantaDroid(intCode):
         try:
             print(chr(arg1), end='')
         except ValueError:
-            print('SANTA BABY YOU BE TRASH: %i' % arg1)
+            print(arg1)
         self.v += 2
 
 

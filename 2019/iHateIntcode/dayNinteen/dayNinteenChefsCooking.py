@@ -1,4 +1,4 @@
-from iHateIntcode.justStupidIntcode import intCode, chunks
+from iHateIntcode.justStupidIntcode import intCode
 from sys import exit
 # ok so i don't frickin care if you wanna see the beam
 

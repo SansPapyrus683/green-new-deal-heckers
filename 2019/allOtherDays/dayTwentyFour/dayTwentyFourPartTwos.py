@@ -1,5 +1,4 @@
 from dumbMazes.iHateMazes import findNeighbors
-from sys import exit
 
 # this is the part 2 file
 

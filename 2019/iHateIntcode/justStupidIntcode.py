@@ -119,7 +119,6 @@ class intCode:
         self.v += 4
 
     def opThree(self, arg1):
-        # print('setting data at %s index' % arg1)
         self.data[arg1] = int(input("idk just put something "))
         self.v += 2
 
@@ -180,7 +179,7 @@ def rawAscii(before: str) -> list:
 
 
 if __name__ == "__main__":
-    with open("dayNine/gardenTool.txt") as data:
+    with open("day9/gardenTool.txt") as data:
         Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
         code = intCode(Data)
         code.interpret()

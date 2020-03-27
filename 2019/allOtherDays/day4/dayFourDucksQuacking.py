@@ -29,7 +29,6 @@ def testValid(value):
         if not y >= previousVal:
             return False
         previousVal = y
-    guaranteedTrue = False
     for x in range(5):
         if x == 0:
             if i[x] == i[x + 1]:

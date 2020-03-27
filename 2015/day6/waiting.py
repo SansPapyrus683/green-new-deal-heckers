@@ -20,14 +20,14 @@ def turnOff(currB):
 
 with open('santaBetterHurry.txt') as read:
     for instruction in read.readlines():
-        instruction = instruction.replace(' through ', ',')
-        if instruction[6] == 'n':  # turn on all lights in this range
+        instruction = instruction.replace(' through ', ',')  # makes the instructions easier to process
+        if 'turn on' in instruction:  # turn on all lights in this range
             instruction = [int(i) for i in instruction[8:].split(sep=',')]
             instruction = [sorted([instruction[0], instruction[2]]), sorted([instruction[1], instruction[3]])]
             onOffOp(instruction[0], instruction[1], lambda b: True)
             brightnessOp(instruction[0], instruction[1], lambda b: b + 1)
-        elif instruction[1] == 'o':  # toggle
-            instruction = [int(i) for i in instruction[7:].split(sep=',')]
+        elif 'toggle' in instruction:
+            instruction = [int(i) for i in instruction[7:].split(sep=',')]  # sorted() bc some are out of order
             instruction = [sorted([instruction[0], instruction[2]]), sorted([instruction[1], instruction[3]])]
             onOffOp(instruction[0], instruction[1], lambda b: not b)
             brightnessOp(instruction[0], instruction[1], lambda b: b + 2)

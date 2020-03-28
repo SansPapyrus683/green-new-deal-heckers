@@ -48,7 +48,7 @@ for k in keyLoc:
     try:
         iHateMazes.goToPos(currPos, openPts, keyLoc[k])
         available.append(k)
-    except KeyError:  # it gives me this it it cant find the key with the points
+    except KeyError:  # it gives me this it it cant find the key with the lightStates
         pass
 
 neededKeys = {}  # for each key of the dictionary, you need the values(empty if none)

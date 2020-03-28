@@ -2,7 +2,7 @@
 because it technically counts as an intcode challenge"""
 
 
-def findNeighbors(pt: "point", ptList: "list of good points") -> set:
+def findNeighbors(pt: "point", ptList: "list of good lightStates") -> set:
     possibleNeighbors = {
         (pt[0] - 1, pt[1]),
         (pt[0] + 1, pt[1]),

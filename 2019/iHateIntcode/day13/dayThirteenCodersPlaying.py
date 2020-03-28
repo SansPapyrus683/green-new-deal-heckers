@@ -34,7 +34,7 @@ def showBoard():
     canvas = [
         [x, y, False]
         for y in range(max(yVals) + 1)  # making a raw canvas
-        for x in range(max(xVals) + 1)  # just consists of all the points
+        for x in range(max(xVals) + 1)  # just consists of all the lightStates
     ]
     for p in processed:
         for pt in canvas:  # compares it with the outputs

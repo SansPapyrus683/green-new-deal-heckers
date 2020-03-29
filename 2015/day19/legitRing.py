@@ -18,8 +18,9 @@ def splitAtoms(molecule):
         composition.append(''.join(buildUp))
     return composition
 
+
 conversion = defaultdict(lambda: [])
-convBack = defaultdict(lambda: [])
+convBack = []
 with open('notPhone.txt') as read:
     detectingConversions = True
     for line in read.readlines():
@@ -28,7 +29,7 @@ with open('notPhone.txt') as read:
         if detectingConversions:
             line = line.rstrip().replace(' => ', ' ').split()
             conversion[line[0]].append(splitAtoms(line[1]))
-            convBack[line[1]].append(splitAtoms(line[0]))  # for part 2
+            convBack.append([line[1], splitAtoms(line[0])])  # for part 2
         else:
             medMol = splitAtoms(line.rstrip())
 
@@ -38,9 +39,10 @@ for v, a in enumerate(medMol):
         if ''.join(medMol[:v] + replacement + medMol[v + 1:]) not in possible:
             possible.add(''.join(medMol[:v] + replacement + medMol[v + 1:]))
 
-print('but what if i don\'t want to save rudolph :%i' % len(possible))
+print('but what if i don\'t want to save rudolph: %i' % len(possible))
 
-product = medMol
-convCount = 0
-while product != 'e':
-    pass
+print("i would just leave rudolph for dead but here: %i"
+      % (len(medMol) - (medMol.count('Rn') + medMol.count('Ar')) - 2 * (medMol.count('Y')) - 1))
+
+# followed u/askalski's sol on Reddit: https://www.reddit.com/r/adventofcode/comments/3xflz8/day_19_solutions/
+# TODO: actually understand this crap

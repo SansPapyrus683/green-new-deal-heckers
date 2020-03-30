@@ -3,7 +3,7 @@ I JUST COPIED MY SOLUTION FROM SOMEWHERE
 ITS THE PROGRAMMEER WAY"""
 
 import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-new-deal-heckers\\2019\\iHateIntcode')
+sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
 from justStupidIntcode import *
 
 

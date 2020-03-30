@@ -29,7 +29,7 @@ def incrementPass(password):
 santaPass = 'vzbxkghb'
 while not testValid(santaPass):
     santaPass = incrementPass(santaPass)
-print('maybe santa could just choose a new password at random: %s' % santaPass)
+print('maybe santa could just choose a newGame password at random: %s' % santaPass)
 
 santaPass = incrementPass(santaPass)
 while not testValid(santaPass):

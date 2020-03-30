@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-new-deal-heckers\\2019\\iHateIntcode')
+sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
 from justStupidIntcode import *
 from mazeFuncForFifteen import *
 
@@ -37,7 +37,7 @@ class Droid(intCode):
 
     def opThree(self, arg1):
         if self.doneMoving:
-            # were done moving- now lets see the new thing
+            # were done moving- now lets see the newGame thing
             if self.orientation == 1:
                 self.moveList = [3, 1, 4, 2]
             elif self.orientation == 2:

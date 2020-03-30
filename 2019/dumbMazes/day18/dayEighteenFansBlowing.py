@@ -6,7 +6,7 @@ from heapq import heappush, heappop
 from collections import deque
 from itertools import combinations
 import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-new-deal-heckers\\2019\\dumbMazes')
+sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\dumbMazes')
 import iHateMazes
 
 openPts = set()  # it'll be a set of tuples

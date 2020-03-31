@@ -30,7 +30,7 @@ def composeFunc(firstCo, secondCo, cardModulo=deckLength):
     return (firstCo[0] * secondCo[0]) % cardModulo, (firstCo[1] * secondCo[0] + secondCo[1]) % cardModulo
 
 
-def inv(a, n):  # copying code is a wonderful thing
+def modInverse(a, n):  # copying code is a wonderful thing
     return pow(a, n - 2, n)
 
 
@@ -48,8 +48,8 @@ for trick in trickList:
 
 print('so this is the coefficients that when plugged in, equate to one shuffle: %s, %s' % initialCo)
 bigA = pow(initialCo[0], shuffleTimes, deckLength)
-bigB = (initialCo[1] * (bigA - 1) * inv(initialCo[0] - 1, deckLength)) % deckLength
+bigB = (initialCo[1] * (bigA - 1) * modInverse(initialCo[0] - 1, deckLength)) % deckLength
 print('so this coefficient equate to the pos of a card after a huge amt of shuffles: %s, %s' % (bigA, bigB))
 
 print('if you ENJOYED this day then you should check in at the mental ward: %i'
-      % (((2020 - bigB) * inv(bigA, deckLength)) % deckLength))
+      % (((2020 - bigB) * modInverse(bigA, deckLength)) % deckLength))

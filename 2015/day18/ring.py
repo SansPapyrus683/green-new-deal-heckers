@@ -16,7 +16,7 @@ def lightNeighbors(pt):
     return possibleNeighbors.intersection(justPoints)
 
 partOneLights = deepcopy(lightStates)
-for _ in range(100):
+for _ in range(100):  # part 1
     newSetup = {}
     for l in partOneLights:
         neighborsOn = 0
@@ -33,12 +33,12 @@ print("again, the heck's my electric bill gonna be after this:%i" % len([p for p
 
 partTwoLights = deepcopy(lightStates)
 endPX = max([x[0] for x in lightStates])
-endPY = max([x[1] for x in lightStates])  # makes the program a bit more flexible
+endPY = max([x[1] for x in lightStates])  # makes the prog a bit more flexible
 for l in lightStates:  # set all corners to on
     if l in [(0, 0), (0, endPY), (endPX, 0), (endPX, endPY)]:
         partTwoLights[l] = True
 
-for _ in range(100):
+for _ in range(100):  # part 2
     newSetup = {}
     for l in partTwoLights:
         if l in [(0, 0), (0, endPY), (endPX, 0), (endPX, endPY)]:

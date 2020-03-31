@@ -15,7 +15,7 @@ def testValid(value):
             return True
 
 
-for i in range(data[0], data[1] + 1):  # actuall runs the program
+for i in range(data[0], data[1] + 1):  # actuall runs the prog
     if testValid(i):
         count += 1
 print(count)

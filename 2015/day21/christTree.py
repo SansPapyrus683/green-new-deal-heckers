@@ -67,12 +67,12 @@ for comb in gearComb:
 
 
 statComb.sort()
-for s in statComb:
+for s in statComb:  # part 1
     if bossFight(s[1:]):
         print('this is a HORRIBLE game. zero stars. : %i' % s[0])
         break
 
-for s in reversed(statComb):
+for s in reversed(statComb):  # part 2
     if not bossFight(s[1:]):
         print("how come henry is so easily appeased by these trivial games: %i" % s[0])
         break

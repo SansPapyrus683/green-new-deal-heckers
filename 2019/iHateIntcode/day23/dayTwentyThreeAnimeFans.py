@@ -12,7 +12,7 @@ class CategorySix(intCode):
         self.outputs = []
         self.outputCount = 0
         self.inputCount = 0
-        self.makeException = False  # this tells the program just stop right now even if there's no output
+        self.makeException = False  # this tells the prog just stop right now even if there's no output
         self.indexToReturnTo = 0
         self.inputtingPacket = False
         self.firstTime = True

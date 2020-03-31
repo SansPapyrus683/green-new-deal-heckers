@@ -13,7 +13,7 @@ def cheapShuffle(targetCardPos, cardNumber):
             dealAmt = int(localTrick[20:])
             targetCardPos = (dealAmt * targetCardPos) % cardNumber
         elif localTrick.startswith('c'):
-            cut_amt = int(localTrick[4:])  # the black sheep out of all the other vars
+            cut_amt = int(localTrick[4:])  # the black sheep out of all the other Vars
             targetCardPos = (targetCardPos - cut_amt) % cardNumber
     return targetCardPos
 

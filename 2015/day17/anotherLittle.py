@@ -14,6 +14,6 @@ for i in range(1, len(containers) + 1):
             allArrangements.append(cups)
             combCount += 1
 
-print("how much did that amt of eggnog cost anyways: %i" % combCount)
-print("and santa should've fired the elves that bought the eggnog imo: %i"
+print("how much did that amt of eggnog cost anyways: %i" % combCount)  # part 1
+print("and santa should've fired the elves that bought the eggnog imo: %i"  # part 2
       % len([c for c in allArrangements if len(c) == min([len(co) for co in allArrangements])]))

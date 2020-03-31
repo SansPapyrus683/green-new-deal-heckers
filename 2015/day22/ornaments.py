@@ -103,6 +103,6 @@ def simulate(hardCore):  # takes in a game and returns all possible outcomes
         allGames = newGames
     return loScore
 
-print('FINALLY THIS TOOK ME SO FRICKIN LONG: %i' % simulate(False))
-print('but at least part two wasnt that hard to implement: %i' % simulate(True))
+print('FINALLY THIS TOOK ME SO FRICKIN LONG: %i' % simulate(False))  # part 1
+print('but at least part two wasnt that hard to implement: %i' % simulate(True))  # part 2
 print('and its slow but whatever')

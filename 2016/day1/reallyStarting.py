@@ -1,3 +1,5 @@
+import os
+
 with open('doLookLikeChristmas.txt') as read:
     directions = read.read().rstrip().split(sep=', ')
 

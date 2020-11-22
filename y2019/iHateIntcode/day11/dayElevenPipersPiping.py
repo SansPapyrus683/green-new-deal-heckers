@@ -1,9 +1,7 @@
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import *
+from y2019.iHateIntcode.forStupidIntcode import *
 
 
-class Robot(intCode):
+class Robot(IntCode):
     def __init__(self, code):
         super().__init__(code)
         self.currPos = [0, 0]
@@ -92,7 +90,7 @@ for smallChunk in chunks(canvas, max(xVals) - min(xVals) + 1):
     smallChunk.reverse()
     for c in smallChunk:
         if c[-1]:
-            print(" # ", end="")
+            print("█", end="")
         else:
-            print("   ", end="")
-    print("")
+            print(" ", end="")
+    print()

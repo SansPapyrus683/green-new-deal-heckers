@@ -1,13 +1,13 @@
-"""YA KNOW WHAT FRICK THIS
+"""
+YA KNOW WHAT FRICK THIS
 I JUST COPIED MY SOLUTION FROM SOMEWHERE
-ITS THE PROGRAMMEER WAY"""
+ITS THE PROGRAMMEER WAY
+"""
 
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import *
+from y2019.iHateIntcode.forStupidIntcode import *
 
 
-class Springdroid(intCode):
+class Springdroid(IntCode):
     def __init__(self, codeIn):
         super().__init__(codeIn)
         self.inputIndex = 0

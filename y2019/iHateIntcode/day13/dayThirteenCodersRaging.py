@@ -1,13 +1,11 @@
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import *
+from y2019.iHateIntcode.forStupidIntcode import *
 
 
 # this one is cold and calculating
 # for the fun one go to dayThirteenCodersPlaying
 
 
-class Arcade(intCode):
+class Arcade(IntCode):
     def __init__(self, code):
         super().__init__(code)
         self.outputs = []
@@ -65,6 +63,6 @@ with open("javaBad.txt") as stuff:
 # PART 2
 code = Arcade(Data)
 code.data[0] = 2
-code.interpret()
+code.interpret()  # oh my god this was slower than i remembered - 11/21/2020
 code.score = processOutputs()[0]  # just process the outputs one more time
 print("Total score: %s" % code.score)

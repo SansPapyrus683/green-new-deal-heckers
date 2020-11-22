@@ -1,17 +1,18 @@
 import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import intCode
+from y2019.iHateIntcode.forStupidIntcode import IntCode
 # ok so i don't frickin care if you wanna see the beam
 
-class Beam(intCode):
+class Beam(IntCode):
     def __init__(self, code):
         super().__init__(code)
         self.count = 0
 
     def opThree(self, arg1):
-        """this uses a global variable coo (declared later)
+        """
+        this uses a global variable coo (declared later)
         to put in the inputs because otherwise i have
-        no idea at all how to implement it"""
+        no idea at all how to implement it
+        """
         self.count += 1
         self.v += 2
         if self.count == 1:

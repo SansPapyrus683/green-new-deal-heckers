@@ -1,9 +1,7 @@
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import intCode
+from y2019.iHateIntcode.forStupidIntcode import IntCode
 
 
-class Scaffold(intCode):
+class Scaffold(IntCode):
     def __init__(self, code):
         super().__init__(code)
         self.xVal = 0

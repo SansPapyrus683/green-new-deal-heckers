@@ -3,7 +3,7 @@ from collections import defaultdict
 """just a bunch of functions that i might use later on"""
 
 
-class intCode:
+class IntCode:
     """if you wanna kno what the frick this does,
     just go on advent of code 2019 im too lazy to explain it myself
     im gonna have nightmares about 203
@@ -181,7 +181,7 @@ def rawAscii(before: str) -> list:
 if __name__ == "__main__":
     with open("day9/gardenTool.txt") as data:
         Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
-        code = intCode(Data)
+        code = IntCode(Data)
         code.interpret()
 
     print('chunks test')

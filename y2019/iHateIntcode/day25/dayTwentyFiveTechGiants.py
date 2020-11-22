@@ -1,9 +1,7 @@
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import intCode, rawAscii
+from y2019.iHateIntcode.forStupidIntcode import IntCode, rawAscii
 
 
-class SantaDroid(intCode):
+class SantaDroid(IntCode):
     """just pretty much a copy of the springdroid class"""
 
     def __init__(self, codeIn):

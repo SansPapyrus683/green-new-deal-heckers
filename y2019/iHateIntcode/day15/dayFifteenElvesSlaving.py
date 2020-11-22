@@ -1,13 +1,11 @@
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import *
-from mazeFuncForFifteen import *
+from y2019.iHateIntcode.forStupidIntcode import *
+from y2019.iHateIntcode.day15.mazeFuncForFifteen import *
 
 
 # north south east west 1 2 3 4 -> x + 1, x - 1, y+ 1, y - 1
 # wall 0 (position hasn't changed), 1 empty, 2 oxygen
 # right up left down or 3 1 2 4
-class Droid(intCode):
+class Droid(IntCode):
     def __init__(self, codeIn):
         super().__init__(codeIn)
         self.reference = self.data.copy()

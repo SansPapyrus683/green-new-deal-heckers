@@ -1,9 +1,7 @@
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import *
+from y2019.iHateIntcode.forStupidIntcode import *
 
 
-class Arcade(intCode):
+class Arcade(IntCode):
     def __init__(self, codeIn):
         super().__init__(codeIn)
         self.outputs = []

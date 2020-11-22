@@ -1,14 +1,12 @@
 from itertools import permutations
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import intCode
+from y2019.iHateIntcode.forStupidIntcode import IntCode
 
 with open("swanLake.txt") as data:
     for line in data.readlines():
         Data = [int(x) for x in line.rstrip().split(sep=",")]
 
-# PART 2
-class Amplifier(intCode):
+
+class Amplifier(IntCode):
     def __init__(self, code, setting):
         super().__init__(code)
         self.setting = setting

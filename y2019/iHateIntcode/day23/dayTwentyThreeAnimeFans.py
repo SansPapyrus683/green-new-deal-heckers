@@ -1,10 +1,8 @@
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\iHateIntcode')
-from justStupidIntcode import intCode
+from y2019.iHateIntcode.forStupidIntcode import IntCode
 from queue import Queue
 
 
-class CategorySix(intCode):
+class CategorySix(IntCode):
     def __init__(self, codeIn, address):
         super().__init__(codeIn)
         self.inputQueue = Queue()

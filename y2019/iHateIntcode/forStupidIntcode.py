@@ -1,6 +1,8 @@
+"""
+consists of my intcode implementation
+and at the bottom there's some utility functions
+"""
 from collections import defaultdict
-
-"""just a bunch of functions that i might use later on"""
 
 
 class IntCode:

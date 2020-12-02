@@ -4,10 +4,12 @@ from collections import defaultdict
 
 
 class IntCode:
-    """if you wanna kno what the frick this does,
+    """
+    if you wanna kno what the frick this does,
     just go on advent of code 2019 im too lazy to explain it myself
     im gonna have nightmares about 203
-    but it just interprets intcode thats all ill tall you"""
+    but it just interprets intcode thats all ill tell you
+    """
 
     def __init__(self, code):
         self.data = code
@@ -21,7 +23,6 @@ class IntCode:
         self.reference = self.data.copy()
         self.currSetting = 0
         while self.v <= len(self.data):
-            # print(self.v, self.data[self.v])
             self.i = self.data[self.v]
             if str(self.i)[-2:] == "99":  # way too simple so i just included it in here
                 break
@@ -31,8 +32,10 @@ class IntCode:
         self.data = self.reference.copy()  # to change it back to the original
 
     def translator(self, opCode):
-        """translates opcode with args into good stuff
-        im just putting all opcodes with their arguments into this lol"""
+        """
+        translates opcode with args into good stuff
+        im just putting all opcodes with their arguments into this lol
+        """
         if opCode % 10 in [1, 2, 7, 8]:  # these have 4 arguments
             opCode = str(opCode).zfill(5)
             argList = []
@@ -157,15 +160,17 @@ class IntCode:
         self.v += 2
 
 
+# some random utility functions that i found useful
 def chunks(lst, n):
-    """Yield successive n-sized chunks from lst. shamless copied from
-    stack overflow lol"""
+    """
+    Yield successive n-sized chunks from lst. 
+    shamelessly copied from stack overflow lol
+    """
     for i in range(0, len(lst), n):
         yield lst[i: i + n]
 
 
 def sign(n):
-    """need i say more?"""
     if n < 0:
         return -1
     elif n > 0:
@@ -176,21 +181,3 @@ def sign(n):
 
 def rawAscii(before: str) -> list:
     return list(map(ord, before))
-
-
-if __name__ == "__main__":
-    with open("day9/gardenTool.txt") as data:
-        Data = [int(x) for x in list(data.readline().rstrip().split(sep=","))]
-        code = IntCode(Data)
-        code.interpret()
-
-    print('chunks test')
-    for chungus in chunks([1, 2, 3, 4, 5, 6], 3):
-        print(chungus)
-
-    print('sign function test')
-    print(sign(8), sign(-9), sign(0))
-
-    print('rawAscii test')
-    print(rawAscii("8,9"))
-    print(rawAscii('what the heck'))

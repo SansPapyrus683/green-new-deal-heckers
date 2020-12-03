@@ -54,7 +54,7 @@ def run(providedCircuit):
     return thisVals
 
 # PART 1
-print('well, the signal for circuit a is %s, but what kind of gift is BOBBY\'S???' % run(circuit)['a'])
+print('well, the signal for circuit a is %s, but WHAT KIND OF GIFT IS BOBBY\'S???' % run(circuit)['a'])
 
 # PART 2
 otherCircuit = circuit.copy()

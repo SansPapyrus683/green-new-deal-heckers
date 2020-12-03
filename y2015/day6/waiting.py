@@ -1,11 +1,13 @@
 lightGrid = {(x, y): False for x in range(1000) for y in range(1000)}
 brightnessGrid = lightGrid.copy()  # don't worry, False is pretty much the same as 0
 
+
 def onOffOp(xRange, yRange, operation):  # unlike python ranges, these ranges are inclusive
     global lightGrid
     for x in range(xRange[0], xRange[1] + 1):
         for y in range(yRange[0], yRange[1] + 1):
             lightGrid[(x, y)] = operation(lightGrid[(x, y)])
+
 
 def brightnessOp(xRange, yRange, operation):
     global brightnessGrid
@@ -13,10 +15,12 @@ def brightnessOp(xRange, yRange, operation):
         for y in range(yRange[0], yRange[1] + 1):
             brightnessGrid[(x, y)] = operation(brightnessGrid[(x, y)])
 
+
 def turnOff(currB):
     if currB == 0:
         return 0
     return currB - 1
+
 
 with open('santaBetterHurry.txt') as read:
     for instruction in read.readlines():

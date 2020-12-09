@@ -21,7 +21,7 @@ with open('ofChildren.txt') as read:
         line = line.split()  # string parsing was pretty ez for this day
         lines.append([line[0], int(line[1])])
 
-print(simulate(lines)[0])
+print("i thought goto statements were like a bad practice lol: %i" % simulate(lines)[0])
 
 for v, i in enumerate(lines):
     if lines[v][0] not in ['nop', 'jmp']:  # don't touch any acc instructions
@@ -30,6 +30,6 @@ for v, i in enumerate(lines):
     lines[v][0] = 'nop' if lines[v][0] == 'jmp' else 'nop'
     result = simulate(lines)
     if result[1]:  # if it terminated correctly, print result and break
-        print(result[0])
+        print("please don't make this a recurring thing eric: %i" % result[0])
         break
     lines[v] = initial  # reset the simulation

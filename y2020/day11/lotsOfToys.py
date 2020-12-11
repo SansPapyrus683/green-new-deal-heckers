@@ -1,3 +1,7 @@
+from functools import lru_cache
+
+
+@lru_cache(None)  # this thing is fricking WONDERFUL
 def p1Neighbors(row, col, rMax, cMax):
     return [p for p in [
         [row + 1, col], [row - 1, col], 
@@ -7,6 +11,7 @@ def p1Neighbors(row, col, rMax, cMax):
         ] if 0 <= p[0] < rMax and 0 <= p[1] < cMax]
 
 
+@lru_cache(None)
 def p2Neighbors(row, col, rMax, cMax, seats):
     neighborFuncs = [
         lambda x, y: [x + 1, y],
@@ -38,12 +43,15 @@ with open('onSleigh.txt') as read:
     seats = [line.rstrip() for line in read.readlines()]
 backupSeats = seats.copy()
 
+maxR = len(seats)
+maxC = len(seats[0])
+
 while True:
     newSeats = []
-    for r in range(len(seats)):
+    for r in range(maxR):
         newRow = ''
-        for c in range(len(seats[0])):
-            neighbors = p1Neighbors(r, c, len(seats), len(seats[0]))
+        for c in range(maxC):
+            neighbors = p1Neighbors(r, c, maxR, maxC)
             if seats[r][c] == 'L' and \
                 all(seats[i][j] != '#' for i, j in neighbors):
                 newRow += '#'
@@ -60,12 +68,13 @@ while True:
 print("this ran slower than expected, oof: %i" % sum(r.count('#') for r in seats))
 
 seats = backupSeats  # reset for part 2
+tupledSeats = tuple(seats)
 while True:
     newSeats = []
-    for r in range(len(seats)):
+    for r in range(maxR):
         newRow = ''
-        for c in range(len(seats[0])):
-            neighbors = p2Neighbors(r, c, len(seats), len(seats[0]), seats)
+        for c in range(maxC):
+            neighbors = p2Neighbors(r, c, maxR, maxC, tupledSeats)
             if seats[r][c] == 'L' and \
                 all(seats[i][j] != '#' for i, j in neighbors):
                 newRow += '#'

@@ -19,15 +19,15 @@ with data as Data:
         conversion[product[1]] = reac
     elements = list(set(elements))
     leftovers = {s: 0 for s in elements}
-    # print(conversion)
-    # print(elements)
 
 
 def findRawReactants(reactionList=conversion, element="FUEL", amt=1):
-    """break everything down into ore components
+    """
+    break everything down into ore components
     amt is the amt that we want produced
     oh and primitive elements are ones that can be directly
-    made from just ore"""
+    made from just ore
+    """
     oreCount = 0
     increment = reactionList[element][0]
     alreadyHave = leftovers[element]
@@ -58,22 +58,18 @@ def findRawReactants(reactionList=conversion, element="FUEL", amt=1):
 print('wow- ONE UNIT OF FUEL costs this %i ore' % findRawReactants(conversion, element="FUEL", amt=1))
 
 # PART 2
-leftoverCopies = []
-oreNum = 10 ** 12
-currNum = oreNum // 2
-searchRange = [1, oreNum]
-while searchRange[1] - searchRange[0] > 1:
-    leftovers = {s: 0 for s in elements}
-    reference = findRawReactants(amt=currNum)
-    if reference < oreNum:  # GIMME MORE
-        searchRange[0] = currNum
-    elif reference > oreNum:  # ooh thats a diddly darn too much
-        searchRange[1] = currNum
-    else:
-        print("ok we can make this much ore %s" % currNum)
-        exit()
-    currNum = searchRange[0] + ((searchRange[1] - searchRange[0]) // 2)
-    # print(searchRange, currNum)
-    # print(currNum - searchRange[0], searchRange[1] - currNum)
+ORE_NUM = 10 ** 12
 
-print("well we can make %s fuel - idk if thats enough" % searchRange[0])
+lowerBound = 0
+upperBound = ORE_NUM
+validSoFar = -1
+while lowerBound <= upperBound:
+    toSearch = (lowerBound + upperBound) // 2
+    leftovers = {e: 0 for e in elements}
+    if findRawReactants(amt=toSearch) < ORE_NUM:
+        validSoFar = toSearch
+        lowerBound = toSearch + 1
+    else:
+        upperBound = toSearch - 1
+
+print("well we can make %s fuel - idk if thats enough" % validSoFar)

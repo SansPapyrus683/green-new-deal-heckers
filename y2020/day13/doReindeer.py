@@ -30,12 +30,12 @@ def findMinX(divisors, remainders):
     """
     assert len(divisors) == len(remainders), 'you know what you did wrong buddy'
     prod = 1
-    for i in range(0, len(divisors)):
-        prod = prod * divisors[i]
+    for i in range(len(divisors)):
+        prod *= divisors[i]
     result = 0
-    for i in range(0, len(divisors)):
+    for i in range(len(divisors)):
         pp = prod // divisors[i]  # haha can't believe they used pp as a variable name
-        result = result + remainders[i] * inv(pp, divisors[i]) * pp
+        result += remainders[i] * inv(pp, divisors[i]) * pp
     return result % prod
 
 

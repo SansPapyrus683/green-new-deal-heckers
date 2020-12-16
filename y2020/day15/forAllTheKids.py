@@ -21,5 +21,7 @@ def allSaidNumbers(numbers: List[int], simUntil: int):
     return numbers
 
 
-print("this is the most boring game of All Time: %i" % allSaidNumbers(said, 2020)[-1])
-print("who has patience to recite till the THIRTY MILLIONTH NUM: %i" % allSaidNumbers(said, 30000000)[-1])
+PART1 = 2020
+PART2 = 30000000
+print("this is the most boring game of All Time: %i" % allSaidNumbers(said, PART1)[-1])
+print("who has patience to recite till the THIRTY MILLIONTH NUM: %i" % allSaidNumbers(said, PART2)[-1])

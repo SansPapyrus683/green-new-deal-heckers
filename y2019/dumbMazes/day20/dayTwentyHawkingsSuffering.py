@@ -1,5 +1,7 @@
-"""ok so im going to assume that
-there are no two consecutive wormholes"""
+"""
+ok so im going to assume that
+there are no two consecutive wormholes
+"""
 validPlaces = []  # list of tuples, and empty places are in the coordinate system
 ptsAndWormholes = {}  # each point is which wormhole?
 
@@ -137,6 +139,5 @@ def partTwoWormholes(start: tuple, ptList: list, goal: tuple) -> int:
             return moveCount
 
 
-print('THE PLUTONIANS ARE ALL DEAD? GOOD.')
-print('but actually why u doing this maze %i' % partTwoWormholes(start, validPlaces, (end, 0)))
 # TODO: legit this thing isnt optimized someone help
+print('actually why in blue blazes are u doing this maze: %i' % partTwoWormholes(start, validPlaces, (end, 0)))

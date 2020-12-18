@@ -1,4 +1,4 @@
-from y2019.iHateIntcode.forStupidIntcode import IntCode
+from y2019.iHateIntcode.intcodeUtils import IntCode
 from queue import Queue
 
 

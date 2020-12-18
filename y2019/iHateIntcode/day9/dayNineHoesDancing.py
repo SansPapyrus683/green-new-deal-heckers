@@ -1,5 +1,5 @@
 """dont question the name"""
-from y2019.iHateIntcode.forStupidIntcode import IntCode
+from y2019.iHateIntcode.intcodeUtils import IntCode
 
 with open("gardenTool.txt") as data:
     Data = [int(x) for x in data.readline().rstrip().split(sep=",")]

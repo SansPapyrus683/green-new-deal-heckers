@@ -63,8 +63,10 @@ def justDistance(start, ptList, goal) -> int:
 
 
 def findKeys(alreadyHave, keyRequirement):
-    """takes a bunch of keys and returns the keys you can get
-    in case you couldn't tell, this was just for d18"""
+    """
+    takes a bunch of keys and returns the keys you can get
+    in case you couldn't tell, this was just for d18
+    """
     canGet = []
     alreadyHave = set(alreadyHave)  # better do this once, rather than in a loop
     for required in keyRequirement:

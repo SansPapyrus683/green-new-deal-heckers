@@ -1,5 +1,5 @@
 import sys
-from y2019.iHateIntcode.forStupidIntcode import IntCode
+from y2019.iHateIntcode.intcodeUtils import IntCode
 # ok so i don't frickin care if you wanna see the beam
 
 class Beam(IntCode):

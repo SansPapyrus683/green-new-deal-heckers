@@ -1,4 +1,4 @@
-from y2019.iHateIntcode.forStupidIntcode import *
+from y2019.iHateIntcode.intcodeUtils import *
 from y2019.iHateIntcode.day15.mazeFuncForFifteen import *
 
 

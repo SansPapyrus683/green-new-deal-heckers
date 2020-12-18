@@ -1,4 +1,4 @@
-from y2019.iHateIntcode.forStupidIntcode import IntCode
+from y2019.iHateIntcode.intcodeUtils import IntCode
 
 with open("goldenRings.txt") as data:
     for v, s in enumerate(data):

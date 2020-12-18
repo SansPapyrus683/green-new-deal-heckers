@@ -1,12 +1,7 @@
-"""neptune just reminds me of spongebob
-WHO LIVES IN A PINEAPPLE UNDER THE SEA
-maybe numpy would be good but heck that"""
 from heapq import heappush, heappop
 from collections import deque
 from itertools import combinations
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\dumbMazes')
-import iHateMazes
+import y2019.dumbMazes.iHateMazes as iHateMazes
 
 # STUPID GOSH OOF PART 2 AAAAAAAA
 ptsWithDoors = set()

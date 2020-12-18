@@ -1,18 +1,18 @@
-"""neptune just reminds me of spongebob
+"""
+neptune just reminds me of spongebob
 WHO LIVES IN A PINEAPPLE UNDER THE SEA
 maybe numpy would be good but heck that
-but anyways this isn't a really 'good' solution"""
+but anyways this isn't a really 'good' solution
+"""
 from heapq import heappush, heappop
 from collections import deque
 from itertools import combinations
-import sys
-sys.path.insert(1, 'C:\\Users\\kevin\\OneDrive\\Documents\\GitHub\\green-newGame-deal-heckers\\2019\\dumbMazes')
-import iHateMazes
+import y2019.dumbMazes.iHateMazes as iHateMazes
 
 openPts = set()  # it'll be a set of tuples
 ptsWithDoors = set()
 keyLoc = {}
-DoorLoc = {}
+doorLoc = {}
 allKeys = []
 
 with open('poPoSeidon.txt') as stuff:
@@ -32,7 +32,7 @@ with open('poPoSeidon.txt') as stuff:
                 currPos = (xVal, yVal)
             else:
                 if c.upper() == c:  # door found
-                    DoorLoc[c] = (xVal, yVal)
+                    doorLoc[c] = (xVal, yVal)
                     ptsWithDoors.add((xVal, yVal))
                 else:  # key instead
                     keyLoc[c] = (xVal, yVal)
@@ -54,11 +54,10 @@ for k in keyLoc:
 neededKeys = {}  # for each key of the dictionary, you need the values(empty if none)
 
 for k in keyLoc:
-    # print("processing key %s" % k)
     keyPath = iHateMazes.goToPos(currPos, ptsWithDoors, keyLoc[k])[1]
     keyList = []
-    for d in DoorLoc:
-        if DoorLoc[d] in keyPath:
+    for d in doorLoc:
+        if doorLoc[d] in keyPath:
             keyList.append(d.lower())
 
     neededKeys[k] = keyList

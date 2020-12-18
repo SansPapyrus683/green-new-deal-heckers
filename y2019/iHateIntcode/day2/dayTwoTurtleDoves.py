@@ -1,5 +1,5 @@
 from itertools import permutations
-from y2019.iHateIntcode.forStupidIntcode import IntCode
+from y2019.iHateIntcode.intcodeUtils import IntCode
 
 with open('mineTurtle.txt') as code:
     data = [int(x) for x in code.read().rstrip().split(sep=',')]

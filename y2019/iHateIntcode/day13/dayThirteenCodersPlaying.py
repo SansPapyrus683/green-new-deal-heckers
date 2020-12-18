@@ -1,4 +1,4 @@
-from y2019.iHateIntcode.forStupidIntcode import *
+from y2019.iHateIntcode.intcodeUtils import *
 
 
 class Arcade(IntCode):

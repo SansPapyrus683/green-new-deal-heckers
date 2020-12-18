@@ -1,4 +1,4 @@
-from y2019.iHateIntcode.forStupidIntcode import IntCode, rawAscii
+from y2019.iHateIntcode.intcodeUtils import IntCode, rawAscii
 
 
 class SantaDroid(IntCode):

@@ -4,7 +4,7 @@ I JUST COPIED MY SOLUTION FROM SOMEWHERE
 ITS THE PROGRAMMEER WAY
 """
 
-from y2019.iHateIntcode.forStupidIntcode import *
+from y2019.iHateIntcode.intcodeUtils import *
 
 
 class Springdroid(IntCode):

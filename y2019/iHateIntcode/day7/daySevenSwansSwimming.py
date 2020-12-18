@@ -1,5 +1,5 @@
 from itertools import permutations
-from y2019.iHateIntcode.forStupidIntcode import IntCode
+from y2019.iHateIntcode.intcodeUtils import IntCode
 
 with open("swanLake.txt") as data:
     for line in data.readlines():

@@ -47,4 +47,4 @@ for _ in range(SIM_AMT):
                         newArr[w, z, y, x] = 1
     arr = newArr
 
-print("bro the protag has goddamn ascended to a new level of existence: %i" % int(np.sum(arr)))
+print("bro the protag has goddamn ascended to a new level of existence: %i" % np.sum(arr))

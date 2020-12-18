@@ -47,4 +47,4 @@ for _ in range(SIM_AMT):
                     newArr[z, y, x] = 1
     arr = newArr
 
-print("goddamn i thought christmas would go on without me lol: %i" % int(np.sum(arr)))
+print("the heck? i thought christmas would go on without me lol: %i" % np.sum(arr))

@@ -40,23 +40,23 @@ def neighbors(side: int, r: int, c: int) -> List[List[int]]:
     return verticalNeighbors(side, r, c) + horizontalNeighbors(side, r, c)
 
 
-def orientations(tile: List[str]) -> List[List[str]]:
+def orientations(grid: List[str]) -> List[List[str]]:
     """
     gives all possible ways a tile can be in
     copied from https://stackoverflow.com/questions/8421337/rotating-a-two-dimensional-array-in-python
     """
     possible = []
-    rotated = tile.copy()
+    rotated = grid.copy()
     for _ in range(4):
         possible.append(rotated)
         rotated = list(''.join(r) for r in zip(*rotated[::-1]))
 
-    rotated = [r for r in reversed(tile)]
+    rotated = [r for r in reversed(grid)]
     for _ in range(4):
         possible.append(rotated)
         rotated = list(''.join(r) for r in zip(*rotated[::-1]))
 
-    rotated = [r[::-1] for r in tile]
+    rotated = [r[::-1] for r in grid]
     for _ in range(4):
         possible.append(rotated)
         rotated = list(''.join(r) for r in zip(*rotated[::-1]))
